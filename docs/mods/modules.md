@@ -98,6 +98,7 @@ public class HealMeModule implements GameModule
 | `hello-world` | `Enabled = False` | `.hello` | The minimum: manifest, config, one voiced command |
 | `custom-item` | `Enabled = False` | `.token` | Ship an item (id 60000, `displayId` 4037) through a `resources` folder, and reserve an id range |
 | `alt-companion` | **`Enabled = True`** | `.alt <name>` | Bring one of your own characters into your party as an AI member; uses `companions()` |
+| `quest-navigator` | **`Enabled = True`** | `.questnav go\|clear\|export` | The server half of the Alt+U Quest Navigator: answers `_bbs_questnav` bypasses from the patched quest window, and registers its board handler with `CommunityBoardHandler` directly |
 
 Each has a `MODULE.md` and `TESTING.md` worth reading before writing your own. Their docs mention a
 `docs\MODULE_FRAMEWORK.md` with a reserved-range registry. That file isn't in this pack, so

@@ -10,6 +10,20 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-29 — Docs brought up to date with l2mod
+
+### Changed
+- **`docs/README.md`:** the "where do I change X" table now has rows for client names, UI behaviour and UI
+  layout through l2mod patches, and points the Quest Navigator row at its `.l2patch`.
+- **`docs/client.md`:**
+  - it now says l2mod has its own compiler (the old text said there was none);
+  - the tools table points `interface.u`, `interface.xdat` and the six name tables at l2mod, and notes that
+    this client's `.dat` files use the l2encdec key;
+  - adding a name for a new id now reads as a `clone` plus `set`.
+- **`docs/modules.md`:** the `quest-navigator` module is added to the module list.
+
+**Apply:** nothing. This is docs only.
+
 ## 2026-09-28 — l2mod stage 5: .dat game data
 
 ### Added

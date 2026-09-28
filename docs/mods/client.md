@@ -58,7 +58,9 @@ L2 package encryption.
 - **Skills:** there's no `displayId` for skills. A new skill id works on the server but shows with no name or icon
   until you add client rows.
 
-**A real client entry (own name and icon):** add rows with the **same id** as the server:
+**A real client entry (own name and icon):** add rows with the **same id** as the server. l2mod handles the name
+tables (`itemname`, `npcname`, `skillname`, `systemmsg`, `sysstring`, `questname`): `clone` an existing row
+under the new id, then `set` its fields. The `*grp.dat` tables (icons, models) still need an external tool:
 
 | New… | Files |
 |---|---|
@@ -89,22 +91,26 @@ L2ClientDat are no longer needed for these tables.
 - a 20-byte footer that holds a CRC32.
 
 Each class's original UnrealScript is embedded in the package as its `ScriptText`, so the source can be read without
-a decompiler. There's no compiler for this client, so changes are made as bytecode patches.
+a decompiler. No `ucc` compiler exists for this client, so l2mod has its own. It is proven to reproduce every stock
+`interface.u` function byte for byte. Patches are ordinary UnrealScript in `tools/l2mod/patches/*.l2patch`.
 
-The only patch so far is the Quest Navigator. Clicking a quest in Alt+U opens a window of the quest's NPCs and mobs,
-each of which can be marked on the radar. Apply it with `python tools\questnav\patch_questtreewnd.py`, and undo it
-with `--restore`. [tools/questnav/README.md](../tools/questnav/README.md) has the details.
+The only installed patch so far is the Quest Navigator (`tools/l2mod/patches/quest-navigator.l2patch`). Clicking a
+quest in Alt+U opens a window of the quest's NPCs and mobs, each of which can be marked on the radar.
+- **Install:** close the client, then run `python tools\l2mod install tools\l2mod\patches\quest-navigator.l2patch`.
+- **Undo:** `python tools\l2mod restore interface.u`.
+
+[tools/questnav/README.md](../tools/questnav/README.md) has the details.
 
 ## Tools
 
 | Job | Tool |
 |---|---|
-| Decrypt, edit and re-encrypt `.dat` / `.ini` | **L2FileEdit** or **L2ClientDat** (use the Interlude/C6 structure); `l2encdec` for raw decrypt and encrypt |
+| UI scripts (`interface.u`), UI layout (`interface.xdat`), and the name tables (`itemname`, `npcname`, `skillname`, `questname`, `systemmsg`, `sysstring`) | **l2mod** (`tools/l2mod`): verified against stock, installs and restores |
+| Other `.dat` / `.ini` (the `*grp.dat` icon and model tables) | **L2FileEdit** or **L2ClientDat** (use the Interlude/C6 structure). This client's files use the **l2encdec** key. |
 | View and export textures and meshes | **umodel** (UE Viewer) |
 | Repack `.utx` / `.usx` / `.ukx` | L2-patched UnrealEd or L2Tool |
-| UI layout | XdatEditor (Interlude) |
 
-**Workflow:**
+**Workflow for files l2mod doesn't cover:**
 1. Copy the file you're editing to a backup.
 2. Decrypt it, edit it, and re-encrypt it as Ver413.
 3. Start the client.
