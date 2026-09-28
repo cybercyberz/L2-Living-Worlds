@@ -10,6 +10,21 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-28 — l2mod stage 5: .dat game data
+
+### Added
+- **`.dat` decryption and encryption** (`tools/l2mod/l2mod/crypto/ver41x.py`). This client's tables use the public
+  l2encdec key, which its `L2.bin` carries. Re-encrypting a stock table rebuilds it byte for byte, so edited
+  tables load without patching the client.
+- **Table schemas** (`tools/l2mod/l2mod/dat.py`) for sysstring, npcname, itemname, questname, skillname and
+  systemmsg. Each round-trips exactly.
+- **Row patches** (`package itemname-e.dat`, with `set`, `clone` and `remove`), and a `dat` command to look up
+  or search rows.
+- **An example patch,** `tools/l2mod/patches/examples/rename-adena.l2patch`. It isn't installed; use it to
+  check in game that edited tables load.
+
+**Apply:** nothing is installed.
+
 ## 2026-09-28 — l2mod stage 4: window layout (interface.xdat)
 
 ### Added

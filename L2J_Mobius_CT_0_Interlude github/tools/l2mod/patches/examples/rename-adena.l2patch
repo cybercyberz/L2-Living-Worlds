@@ -1,0 +1,6 @@
+; Example (not installed): renames Adena in the client, to check .dat patches work in game.
+; Install: python tools/l2mod install tools/l2mod/patches/examples/rename-adena.l2patch
+; Undo:    python tools/l2mod restore itemname-e.dat
+package itemname-e.dat
+
+set 57 name = "Adena (l2mod)"

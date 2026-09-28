@@ -75,6 +75,19 @@ remove QuestTreeWnd.txt324                      ; delete a control
 To see a window's controls and fields, run `python tools/l2mod xdat QuestTreeWnd`. A new control that should do
 something needs a script patch too. For example, add a `case "btnQuestNav":` to that window's `OnClickButton`.
 
+**Game data** patches edit `.dat` tables by row. The tables are sysstring, npcname, itemname, questname,
+skillname and systemmsg. Rows are picked by id, or by `id/level` for quests and skills:
+
+```
+package itemname-e.dat
+set 57 name = "Gold"
+clone 57 as 60000                    ; a client row for a custom item id
+set 60000 description = "A token."
+```
+
+`python tools/l2mod dat itemname-e.dat 57` shows a row. `python tools/l2mod dat npcname-e.dat Gremlin` searches the
+text fields.
+
 The compiler matches the original UE2 compiler exactly for everything in `interface.u` (every stock function
 compiles to its stock bytes). The rules it follows, and what it doesn't support yet, are in [NOTES.md](NOTES.md).
 
@@ -104,5 +117,6 @@ Each stage ships only when its gate passes; see the plan in NOTES.md.
 3. The UnrealScript compiler for function bodies, patch files, and install/restore. **Done:** every stock
    `interface.u` function compiles to its stock bytes, and the Quest Navigator is now a source patch.
 4. `interface.xdat` window layout: exact read and write, plus `set`/`clone`/`remove` patches. **Done.**
-5. `.dat` game data (Ver413).
+5. `.dat` game data: decrypt, six table schemas, row patches, re-encryption with this client's key. **Done**
+   (in-game check pending).
 6. A full class compiler.

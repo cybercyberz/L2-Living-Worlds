@@ -77,6 +77,11 @@ L2 package encryption.
 
 Use it instead of UE Explorer and hand edits. See [tools/l2mod/README.md](../tools/l2mod/README.md).
 
+l2mod also edits the `.dat` tables: sysstring, npcname, itemname, questname, skillname and systemmsg. For example, it
+can give a custom item or NPC id its own client name with `clone` and `set`. This client's `.dat` files use the
+public l2encdec key (its `L2.bin` has that modulus), so re-encrypted files need no client patch. L2FileEdit and
+L2ClientDat are no longer needed for these tables.
+
 ## Patched `interface.u`: the Quest Navigator
 `interface.u` is encrypted with the `Lineage2Ver111` header, a different scheme from the `.dat` files:
 - a 28-byte header;

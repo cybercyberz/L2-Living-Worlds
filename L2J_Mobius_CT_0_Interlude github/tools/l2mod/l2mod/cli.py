@@ -4,6 +4,7 @@
     disasm <package> <Class.Function> one listing to stdout
     info <package>                    object counts
     xdat [Window]                     list windows, or one window's controls and fields
+    dat <table.dat> [key | text]      show a .dat row by id (57, or 3/2 for id/level), or search a text
     build <patch.l2patch>...          compile and verify patches, show the result, write nothing
     install <patch.l2patch>...        build, verify and install into the client (client must be closed)
     restore [package...]              put the stock packages back (all patched ones by default)
@@ -75,6 +76,25 @@ def cmd_xdat(args):
     return 0
 
 
+def cmd_dat(args):
+    from . import dat
+    t = dat.Table.read(args[0], dat.decrypt(stock.stock_bytes(args[0])))
+    if len(args) < 2:
+        print("%s: %d rows, key %s, fields: %s" % (args[0], len(t.rows), "/".join(t.key),
+                                                   ", ".join(f for f, _ in t.fields)))
+        return 0
+    q = args[1]
+    if all(p.isdigit() for p in q.split("/")):
+        rows = [t.find(*[int(p) for p in q.split("/")])]
+    else:
+        rows = [r for r in t.rows if any(isinstance(v, str) and q.lower() in v.lower() for v in r.values())][:20]
+    for r in rows:
+        print("-- " + "/".join(str(r[k]) for k in t.key))
+        for k, v in r.items():
+            print("    %s = %r" % (k, dat.float_of(v)))
+    return 0
+
+
 def cmd_info(args):
     pkg = load.package(args[0])
     kinds = collections.Counter(pkg.class_name(i + 1) for i in range(len(pkg.exports)))
@@ -113,6 +133,8 @@ def cmd_build(args):
     if rc == 0:
         for p in args:
             pf = patch.PatchFile(p)
+            if not pf.package.lower().endswith(".u"):
+                continue  # layout and table patches were reported above
             data, _ = patch.build(pf.package, [pf])
             from .crypto import ver111
             from .upk.package import Package
@@ -141,7 +163,7 @@ def cmd_status(args):
     return _run_patch(patch.status)
 
 
-COMMANDS = {"decompile": cmd_decompile, "disasm": cmd_disasm, "info": cmd_info, "xdat": cmd_xdat,
+COMMANDS = {"decompile": cmd_decompile, "disasm": cmd_disasm, "info": cmd_info, "xdat": cmd_xdat, "dat": cmd_dat,
             "selftest": cmd_selftest,
             "build": cmd_build, "install": cmd_install, "restore": cmd_restore, "status": cmd_status}
 

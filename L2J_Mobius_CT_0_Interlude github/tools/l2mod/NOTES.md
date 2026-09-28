@@ -157,3 +157,40 @@ Each stock function was compiled from its own embedded source and compared byte 
   controls, 8 shortcuts and 56 default positions. Layout patches check that untouched windows are byte-identical.
 - **Button labels** are `buttonName` sysstring ids, and text boxes use `sysstring`. Reading their text needs
   `sysstring-e.dat` (stage 5).
+
+## .dat tables (stage 5)
+- **Format.** Every `.dat` (and `l2.ini`, `user.ini`) is `Lineage2Ver413`:
+  - a 28-byte header;
+  - 128-byte RSA blocks, textbook RSA with no padding. Each decrypted block holds up to 124 data bytes: byte 3 is
+    the count, and the data ends at a 4-byte boundary;
+  - a 20-byte footer: 12 zero bytes, the CRC32 of everything before the footer, and 4 zero bytes.
+
+  The joined data is a 4-byte uncompressed size and a zlib stream.
+- **The key.** This client uses the community **l2encdec** key, not the official 413 key:
+  - every stock `.dat` decrypts with the l2encdec modulus (exponent 0x1D);
+  - `L2.bin` carries the l2encdec modulus (`Engine.dll` and `Core.dll` still have the official one).
+
+  The l2encdec encryption exponent is public. **Re-encrypting a stock file's own data stream rebuilds the stock
+  file byte for byte**, footer included. So we can write `.dat` files this client reads, without patching any
+  binary.
+- **Compression.** Python's zlib doesn't reproduce the stock compressed streams byte for byte (a different
+  deflate implementation). An edited table therefore differs inside the compressed stream, which is still valid
+  zlib. An unedited table is written back as the original file.
+- **Tables.** Each is a uint32 row count, then the rows, then the FString `"SafePackage"`.
+  - Field layouts follow the L2ClientDat Interlude/SoD definitions (format only).
+  - The `CNTR` count type is a compact index.
+  - `UNICODE` is an int32 byte length plus UTF-16LE with no terminator. `ASCF` is an FString.
+- **Gate (2026-09-28).** Six tables round-trip byte for byte:
+
+  | Table | Rows |
+  |---|---|
+  | sysstring | 2,083 |
+  | npcname | 6,519 |
+  | itemname | 9,208 |
+  | questname | 2,050 |
+  | skillname | 29,812 |
+  | systemmsg | 2,083 |
+
+  Patches check that untouched rows are unchanged.
+- **Not yet confirmed in game:** that the client loads a table we re-compressed. Test it with
+  `patches/examples/rename-adena.l2patch`.

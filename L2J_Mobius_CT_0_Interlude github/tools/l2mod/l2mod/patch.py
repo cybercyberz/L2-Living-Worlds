@@ -27,6 +27,15 @@ For the window layout, use `package interface.xdat` and these lines:
     set QuestTreeWnd.btnNav.anchor_x = 170
     remove QuestTreeWnd.txt324                        ; delete a control
 
+For a .dat table (sysstring, npcname, itemname, questname, skillname, systemmsg), rows are picked by their key:
+the id, or id/level for questname and skillname.
+
+    package itemname-e.dat
+    set 57 name = "Gold"                              ; change a field
+    clone 57 as 60000                                 ; copy a row under a new id, then set its fields
+    set 60000 description = "A token from the module."
+    remove 60001
+
 Patches always apply to the stock file, never to an already-patched one, so building is repeatable.
 """
 import json
@@ -95,6 +104,10 @@ class PatchFile:
                 self.package = m.group(1)
                 i += 1
                 continue
+            if self.package and self.package.lower().endswith(".dat"):
+                self.xdat_ops.append(self._parse_dat_line(s.split(";", 1)[0].strip(), i + 1))
+                i += 1
+                continue
             if self.package and self.package.lower().endswith(".xdat"):
                 self.xdat_ops.append(self._parse_xdat_line(s.split(";", 1)[0].strip(), i + 1))
                 i += 1
@@ -127,6 +140,23 @@ class PatchFile:
             i = j + 1
         if self.package is None:
             raise PatchError("%s: no `package` line" % self.path)
+
+    def _parse_dat_line(self, s, line):
+        m = re.fullmatch(r"set\s+([\d/]+)\s+(\w+)\s*=\s*(.+)", s)
+        if m:
+            key, field, raw = m.groups()
+            try:
+                value = json.loads(raw.strip())
+            except ValueError:
+                raise PatchError("%s:%d: can't read the value %s (use 12, 1.5 or \"text\")" % (self.path, line, raw))
+            return XdatOp("set", (key, field), value, line)
+        m = re.fullmatch(r"clone\s+([\d/]+)\s+as\s+([\d/]+)", s)
+        if m:
+            return XdatOp("clone", m.group(1), m.group(2), line)
+        m = re.fullmatch(r"remove\s+([\d/]+)", s)
+        if m:
+            return XdatOp("remove", m.group(1), None, line)
+        raise PatchError("%s:%d: expected set, clone or remove, got %r" % (self.path, line, s))
 
     def _parse_xdat_line(self, s, line):
         m = re.fullmatch(r"set\s+([\w.]+)\s*=\s*(.+)", s)
@@ -224,11 +254,94 @@ def build_xdat(package_name, patches):
     return out, report
 
 
+def build_dat(package_name, patches):
+    """Apply row edits to a stock .dat table. Returns (encrypted bytes, report lines)."""
+    import copy
+    from . import dat
+    raw = stock.stock_bytes(package_name)
+    plain = dat.decrypt(raw)
+    try:
+        t = dat.Table.read(package_name, plain)
+    except dat.DatError as x:
+        raise PatchError(str(x))
+    report = []
+
+    def key_of(text, where):
+        parts = [int(p) for p in text.split("/")]
+        if len(parts) != len(t.key):
+            raise PatchError("%s: %s rows are keyed by %s" % (where, t.name, "/".join(t.key)))
+        return tuple(parts)
+
+    def find(key, where):
+        try:
+            return t.find(*key)
+        except KeyError:
+            raise PatchError("%s: no %s row %s" % (where, t.name, "/".join(map(str, key))))
+
+    touched = set()
+    for pf in patches:
+        if pf.package.lower() != package_name.lower():
+            continue
+        for op in pf.xdat_ops:
+            where = "%s:%d" % (pf.path, op.line)
+            if op.op == "set":
+                key = key_of(op.path[0], where)
+                field = op.path[1]
+                row = find(key, where)
+                if field not in row or field in t.key:
+                    raise PatchError("%s: %s has no editable field %s (fields: %s)" % (
+                        where, t.name, field, ", ".join(f for f, _ in t.fields if f not in t.key)))
+                kind = t.kind_of(field)
+                v = op.value
+                if kind in ("ascf", "unicode") and not isinstance(v, str) or \
+                        kind in ("u32", "i32", "u8", "rgba") and not isinstance(v, int) or \
+                        kind == "f32" and not isinstance(v, (int, float)) or isinstance(kind, tuple) and \
+                        not isinstance(v, list):
+                    raise PatchError("%s: %s.%s needs a %s value" % (where, t.name, field, kind))
+                old = row[field]
+                row[field] = float(v) if kind == "f32" else v
+                touched.add(key)
+                report.append("%s: %s %s.%s = %r (was %r)" % (pf.name, t.name, "/".join(map(str, key)), field, v,
+                                                              dat.float_of(old)))
+            elif op.op == "clone":
+                src = find(key_of(op.path, where), where)
+                new_key = key_of(op.value, where)
+                try:
+                    t.find(*new_key)
+                    raise PatchError("%s: %s row %s already exists" % (where, t.name, op.value))
+                except KeyError:
+                    pass
+                row = copy.deepcopy(src)
+                for k, v in zip(t.key, new_key):
+                    row[k] = v
+                t.rows.append(row)
+                touched.add(new_key)
+                report.append("%s: %s cloned %s as %s" % (pf.name, t.name, op.path, op.value))
+            elif op.op == "remove":
+                key = key_of(op.path, where)
+                t.rows.remove(find(key, where))
+                touched.add(key)
+                report.append("%s: %s removed %s" % (pf.name, t.name, op.path))
+    new_plain = t.to_bytes()
+    out = dat.encrypt(new_plain, raw)
+    # Verify: decrypts, parses, and every row we didn't touch is unchanged.
+    check = dat.Table.read(package_name, dat.decrypt(out))
+    before = {tuple(r[k] for k in t.key): r for r in dat.Table.read(package_name, plain).rows}
+    for r in check.rows:
+        key = tuple(r[k] for k in t.key)
+        if key not in touched and before.get(key) != r:
+            raise PatchError("verification failed: %s row %s changed" % (t.name, key))
+    report.append("%s: built and verified, %d rows" % (package_name, len(check.rows)))
+    return out, report
+
+
 def build(package_name, patches, table=None):
     """Apply every edit in `patches` (PatchFile list, in order) to the stock package. Returns (encrypted bytes,
     report lines). Raises PatchError on any problem, before anything is written."""
     if package_name.lower().endswith(".xdat"):
         return build_xdat(package_name, patches)
+    if package_name.lower().endswith(".dat"):
+        return build_dat(package_name, patches)
     from .compiler.codegen import CompileError, FunctionCompiler
     from .compiler.lexer import lex
 

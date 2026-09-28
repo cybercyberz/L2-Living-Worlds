@@ -38,6 +38,12 @@ STOCK_SHA256 = {
     "nwindow.u": "6f3171147d83e447f2427e249c2ad73428e2b385d1557b86c53effa1062ea791",
     "udebugmenu.u": "80ce780ae87300cded6af855e83b071fbb423ace22902b12490e1bc9e10cc543",
     "interface.xdat": "ee755d9865e548398d822493b9536a40b3f7483108b582723d89b03eeb803c55",
+    "sysstring-e.dat": "33053b17ca8e1d157aec8fb40b4ef8542626338858ce6c7b4d799c7609554135",
+    "npcname-e.dat": "84c79b73a97e489b455f44f21d8c8cba0f4df401ccb1d56887a1eacc62285b9a",
+    "itemname-e.dat": "f1f3ebf9ae486f44128af668a9fa4a656275044d7fb9270e015529b3f33880b6",
+    "questname-e.dat": "1fcbd370a1b9515410cb680630636f4bd1bc9a23c24c31e1d11155306e156561",
+    "skillname-e.dat": "84745297ef0add25d2291b568382ff9c76f2d58a438bedbf11841dba82dd972b",
+    "systemmsg-e.dat": "74c8424d9e6007719a3bf7934bc8708d0405ba03684ccf89a1c9fd70d21f65ee",
 }
 # Packages that are Ver111-encrypted Unreal packages (the rest have their own formats).
 UNREAL_PACKAGES = {n for n in STOCK_SHA256 if n.endswith(".u")}
