@@ -41,5 +41,8 @@ The user mods it for their own play.
   `multisell\custom\6001NN.xml`.
 - **New ids have no client look.** A new item or NPC id shows nothing in the client without `displayId` (items and
   NPCs) or encrypted client `.dat` rows (`docs/client.md`).
+- **Client `.u` packages.** Read and patch them only through `tools/l2mod`, and run
+  `python tools/l2mod selftest` first. Its format notes and gate results are in `tools/l2mod/NOTES.md`; add to
+  them as you learn.
 - **Admin commands.** They're listed in `AdminCommands.xml` with a `description` attribute. `/loc` is a player
   command. There's no `//multisell`.

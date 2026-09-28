@@ -10,6 +10,28 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-28 — l2mod client toolkit, stages 1-2 (read, decompile, assemble)
+
+### Added
+- **`tools/l2mod/`**, a pure-Python toolkit for the client's UnrealScript packages. There's no `ucc` compiler for
+  this client, so we built our own tools and prove each one against the stock files.
+  - **`decompile`** writes every class's embedded original source (`.uc`) and a bytecode listing (`.asm`).
+    **`disasm`** prints one function. **`selftest`** runs the safety gates.
+  - **The package reader and writer** round-trips all 22 client `.u` files byte for byte. When an object is
+    edited, it relocates only that object, so everything else keeps its bytes and offset.
+  - **The bytecode decoder, listing and assembler** handle all 9,362 scripts in the client: no unknown tokens,
+    exact sizes, and listings that reassemble to identical bytes.
+  - **The tools read stock packages only.** Each is checked by SHA-256, and a stock copy is kept in
+    `backup/client/`.
+  - **Notes and gate results** are in `tools/l2mod/NOTES.md`. The next stages are a subset compiler, then
+    `interface.xdat`, then `.dat` data.
+
+### Fixed
+- **The Quest Navigator's startup export listed 0 spawns for every NPC,** because spawns load after modules. It
+  now runs two minutes after startup. The in-game window was never affected: it counts spawns when you click.
+
+**Apply:** nothing for the toolkit. Restart the server to pick up the export fix.
+
 ## 2026-09-28 — Quest Navigator (clickable quests in Alt+U)
 
 ### Added

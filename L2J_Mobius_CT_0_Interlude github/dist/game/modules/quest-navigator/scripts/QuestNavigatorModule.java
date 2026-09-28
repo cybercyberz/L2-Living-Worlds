@@ -88,10 +88,10 @@ public class QuestNavigatorModule implements GameModule
 		CommunityBoardHandler.getInstance().registerHandler(new QuestNavBoard());
 		context.handlers().registerVoicedCommand(new QuestNavVoicedCommand());
 
-		// Modules load after the quest scripts, so every quest is registered by now.
+		// Quests are registered before modules load, but spawns load after, so wait until the server is up.
 		if (context.config().getBoolean("ExportOnStartup", true))
 		{
-			export();
+			ThreadPool.schedule(this::export, 120000);
 		}
 
 		_log.info("Quest Navigator module enabled, registered " + BOARD_COMMAND + " and .questnav");

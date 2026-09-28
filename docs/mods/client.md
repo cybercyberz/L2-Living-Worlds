@@ -68,6 +68,13 @@ L2 package encryption.
 | System message | `systemmsg-e.dat` |
 | New art | A new or edited `.utx` (textures, icons) or `.usx`/`.ukx` (meshes) package |
 
+## l2mod: decompile and patch the UI packages
+`tools/l2mod/` reads every client `.u` package:
+- `python tools/l2mod decompile interface.u` writes each class's original source and a bytecode listing;
+- `python tools/l2mod selftest` proves the tools still reproduce the stock client byte for byte.
+
+Use it instead of UE Explorer and hand edits. See [tools/l2mod/README.md](../tools/l2mod/README.md).
+
 ## Patched `interface.u`: the Quest Navigator
 `interface.u` is encrypted with the `Lineage2Ver111` header, a different scheme from the `.dat` files:
 - a 28-byte header;
