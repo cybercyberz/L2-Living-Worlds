@@ -63,3 +63,71 @@ last. Add to it whenever a tool learns something new.
   - `asm(disasm(f)) == f` for 9,362 of 9,362.
   - **Fixed along the way:** names containing spaces are now written as `#"Bip01 L Hand"`, and a `;` inside a
     string is no longer taken for a comment.
+
+## Compiler rules (stage 3)
+These are what the UE2 compiler that built this client does. Each one was found from a mismatch in the gate and
+confirmed by the gate going green.
+- **Required types.** A literal compiled with a required type converts at compile time:
+  - an int literal becomes `FloatConst` for a float, or `ByteConst` for a byte **when 0 <= value < 255** (255
+    itself stays an int and gets a cast);
+  - a float literal becomes an int (truncated) for an int.
+
+  Otherwise a conversion is a `PrimitiveCast`. Casts are never folded.
+- **Where the required type flows.** It flows into assignment right-hand sides, arguments (the parameter type),
+  return values and case labels. In a binary operator it flows into the **left operand only**.
+- **Parentheses.** A parenthesised expression is compiled on its own against the required type: its result is
+  converted straight away when the conversion is implicit (byte, int, float). So `(a % 12) + 1` into an int
+  becomes `FloatToInt(a % 12) + 1`, but `f * g + 1` doesn't convert `f * g`.
+- **Overloads.** Operators are chosen by the cost of converting the operands; the result type plays no part.
+  Costs used: exact 0, byte→int 1, int→byte 2 (3 if not a constant), byte or int→float 3, float→int or byte 4;
+  a coerce parameter accepts any cast at cost 10. The byte `==` has no overload of its own: both sides go through
+  `ByteToInt`.
+- **Bools.** Every read of a bool variable is wrapped in `BoolVariable`, and every assignment to one is
+  `LetBool(BoolVariable(var), value)`.
+- **`&&` and `||`.** The second operand is `Skip(size + 1, expr)`. The +1 covers the operator's closing
+  `EndFunctionParms`, which the short-circuit also jumps over.
+- **Calls.**
+  - Final natives with an index become the native token. Other final functions are `Final(ref)`; everything
+    else is `Virtual(#name)`.
+  - `class'X'.static.F()` becomes `ClassContext(ObjectConst X, skip, size, call)`, and `obj.F()` becomes
+    `Context(obj, skip, size, call)`.
+  - `size` is the result's in-memory size times its array dimension, capped at 255. Strings, dynamic arrays and
+    void use 0.
+  - A skipped optional argument in the middle is `Nothing`; trailing ones are dropped.
+  - A string result used as a statement is wrapped in `EatString`.
+- **Structs.** A struct's size aligns every field to 4 bytes except bytes. **Adjacent bools share one 32-bit
+  word.**
+- **Constants.** A `const` is inlined from its source text. `obj.CONST` and `obj.EnumValue` keep the object:
+  `Context(obj, skip, size, ByteConst/IntConst)`. `Enum.Value` is a `ByteConst`, and `EnumName(x)` is an explicit
+  `IntToByte` cast.
+- **Control flow.**
+  - `if`: `JumpIfNot(else)`, then the then-branch, then `Jump(end)` (only when there's an else).
+  - `while`: `continue` jumps to the loop's back-jump, not to the top.
+  - `switch` without a `default:` still gets a `Case(default)` at the end.
+  - Every function ends with an implicit `Return(Nothing)`.
+  - `foreach` is `Iterator(call, @end)`, the body, `IteratorNext`, then `@end: IteratorPop`. A `return` inside
+    it pops the iterator first.
+- **`super` in a state** resolves to the same state in the parent class first.
+
+## Gate results, stage 3 (2026-09-28)
+Each stock function was compiled from its own embedded source and compared byte for byte:
+
+| Package | Match | Notes |
+|---|---|---|
+| interface.u | **1,641 / 1,641** | The UI package, and the target for mods. Enforced by `selftest`. |
+| UWindow.u | 670 / 699 | Remaining gaps are listed below. |
+| Engine.u | 1,288 / 1,441 | Remaining gaps are listed below. |
+| Core.u | 4 / 4 | |
+| nwindow.u | none to compile | All native. |
+
+- **The Quest Navigator,** written as source (`patches/quest-navigator.l2patch`), builds to exactly the file
+  that was hand-patched and tested in game (sha256 `144a2f5d…8638`).
+- **Not yet supported** (engine code only; the UI package doesn't use any of it). This is stage 6's list:
+  - casts to engine-intrinsic classes (`Viewport(x)`, `Class(x)`, `vector(x)`, `rotator(x)`);
+  - object literals for a package's own exported textures;
+  - `obj.default.Var`;
+  - struct `==` / `!=` (`StructCmpEq`/`Ne`);
+  - enums reached through an object inside an argument (`C.DE_Created`);
+  - empty name literals `''`;
+  - variables of intrinsic classes (`Viewport.Actor`);
+  - one `foreach` + `break` pattern.

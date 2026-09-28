@@ -71,7 +71,9 @@ L2 package encryption.
 ## l2mod: decompile and patch the UI packages
 `tools/l2mod/` reads every client `.u` package:
 - `python tools/l2mod decompile interface.u` writes each class's original source and a bytecode listing;
-- `python tools/l2mod selftest` proves the tools still reproduce the stock client byte for byte.
+- `python tools/l2mod selftest` proves the tools still reproduce the stock client byte for byte;
+- `python tools/l2mod install tools/l2mod/patches/<name>.l2patch` compiles an UnrealScript patch and installs it.
+  Close the client first; `restore` undoes it.
 
 Use it instead of UE Explorer and hand edits. See [tools/l2mod/README.md](../tools/l2mod/README.md).
 

@@ -159,12 +159,16 @@ class Package:
         return ".".join(reversed(parts))
 
     def find(self, path, class_name=None):
-        """The export reference (1-based) whose path is `path`."""
-        for i, e in enumerate(self.exports):
-            ref = i + 1
-            if self.names[e.name] == path.rsplit(".", 1)[-1] and self.path(ref) == path:
-                if class_name is None or self.class_name(ref) == class_name:
-                    return ref
+        """The export reference (1-based) whose path is `path` (case-insensitive, like the engine)."""
+        index = getattr(self, "_path_index", None)
+        if index is None or index[0] != len(self.exports):
+            by_path = {}
+            for i in range(len(self.exports)):
+                by_path.setdefault(self.path(i + 1).lower(), []).append(i + 1)
+            index = self._path_index = (len(self.exports), by_path)
+        for ref in index[1].get(path.lower(), []):
+            if class_name is None or self.class_name(ref) == class_name:
+                return ref
         raise KeyError(path)
 
     def find_import(self, path):

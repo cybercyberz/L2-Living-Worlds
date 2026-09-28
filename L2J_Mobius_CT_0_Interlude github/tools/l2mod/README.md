@@ -17,10 +17,54 @@ Run these from the pack root.
 | `python tools/l2mod decompile interface.u` | For every class, writes its original source (`Class.uc`, embedded in the package) and a bytecode listing (`Class.asm`) to `tools/l2mod/out/interface/`. |
 | `python tools/l2mod disasm interface.u QuestTreeWnd.OnClickButton` | Prints one function's listing. |
 | `python tools/l2mod info interface.u` | Prints object counts. |
+| `python tools/l2mod build patches/x.l2patch` | Compiles and verifies a patch, and shows the resulting bytecode. Writes nothing. |
+| `python tools/l2mod install patches/x.l2patch ...` | Builds, verifies and installs patches into the client. Refuses while the game runs. |
+| `python tools/l2mod restore [interface.u]` | Puts the stock package back. |
+| `python tools/l2mod status` | Shows which packages are stock, patched by l2mod, or changed by something else. |
 | `python tools/l2mod selftest [--quick]` | Runs every safety gate. `--quick` checks `interface.u` only. |
 
 The tools only ever read **stock** packages. They're checked by SHA-256 (`l2mod/stock.py`), and the stock copy is
 kept in `backup\client\<name>.orig`. A package that isn't stock is refused unless its stock backup exists.
+
+## Writing a patch
+A patch is a `.l2patch` file in `tools/l2mod/patches/`. It holds UnrealScript that replaces whole function bodies.
+The function keeps its existing parameters and locals.
+
+```
+; Quest Navigator: clicking a quest in Alt+U asks the server for its NPCs.
+package interface.u
+
+replace QuestTreeWnd.OnClickButton
+{
+	switch( strID )
+	{
+	case "btnClose":
+		HandleQuestCancel();
+		break;
+	}
+	if (Left(strID, 4) == "root")
+	{
+		UpdateTargetInfo();
+		RequestBypassToServer("_bbs_questnav step " $ strID);
+	}
+}
+```
+
+To make one:
+1. **Start from the stock body.** Run `python tools/l2mod decompile interface.u`, open
+   `out/interface/<Class>.uc`, and copy the function you want.
+2. **Edit it** and save it as a `.l2patch`.
+3. **Check it.** Run `python tools/l2mod build patches/<name>.l2patch` and read the listing.
+4. **Install it.** Close the client, then run `python tools/l2mod install patches/<name>.l2patch`.
+
+Several patches can be installed at once, as long as each function is changed by only one of them.
+
+Patches build from the stock package every time. The result is re-read and every object you didn't change is
+checked to be byte-identical. `asm Class.Function { ... }` blocks take a bytecode listing instead of source, for
+anything the compiler doesn't cover.
+
+The compiler matches the original UE2 compiler exactly for everything in `interface.u` (every stock function
+compiles to its stock bytes). The rules it follows, and what it doesn't support yet, are in [NOTES.md](NOTES.md).
 
 ## Reading a listing
 ```
@@ -45,8 +89,8 @@ function QuestTreeWnd.OnClickButton    ; export 4262, ScriptSize 60, ...
 Each stage ships only when its gate passes; see the plan in NOTES.md.
 1. Package reader and writer. **Done.**
 2. Decompiler, disassembler and assembler. **Done.**
-3. A subset UnrealScript compiler for function bodies, with a gate: compile stock functions and get the stock bytes.
-   The Quest Navigator patch will be rebuilt with it.
+3. The UnrealScript compiler for function bodies, patch files, and install/restore. **Done:** every stock
+   `interface.u` function compiles to its stock bytes, and the Quest Navigator is now a source patch.
 4. `interface.xdat` window layout.
 5. `.dat` game data (Ver413).
 6. A full class compiler.

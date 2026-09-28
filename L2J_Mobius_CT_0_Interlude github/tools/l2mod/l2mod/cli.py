@@ -3,6 +3,10 @@
     decompile <package> [outdir]      each class's source (.uc) and bytecode listing (.asm)
     disasm <package> <Class.Function> one listing to stdout
     info <package>                    object counts
+    build <patch.l2patch>...          compile and verify patches, show the result, write nothing
+    install <patch.l2patch>...        build, verify and install into the client (client must be closed)
+    restore [package...]              put the stock packages back (all patched ones by default)
+    status                            which client packages are stock or patched
     selftest [--quick]                run the safety gates (--quick: interface.u only)
 """
 import collections
@@ -74,7 +78,53 @@ def cmd_selftest(args):
     return 0 if result.wasSuccessful() else 1
 
 
-COMMANDS = {"decompile": cmd_decompile, "disasm": cmd_disasm, "info": cmd_info, "selftest": cmd_selftest}
+def _run_patch(fn, *args):
+    from .patch import PatchError
+    try:
+        for line in fn(*args):
+            print(line)
+    except PatchError as x:
+        print("ERROR: %s" % x)
+        return 1
+    return 0
+
+
+def cmd_build(args):
+    from . import patch
+    rc = _run_patch(patch.install, args, True)
+    if rc == 0:
+        for p in args:
+            pf = patch.PatchFile(p)
+            data, _ = patch.build(pf.package, [pf])
+            from .crypto import ver111
+            from .upk.package import Package
+            pkg = Package(ver111.decrypt(data))
+            for ed in pf.edits:
+                ref = pkg.find(ed.target, "Function")
+                stmts, o = load.script(pkg, ref)
+                print(disasm.function_header(pkg, ref, o))
+                for line in disasm.Lister(pkg).listing(stmts, o["script_size"]):
+                    print("    " + line)
+    return rc
+
+
+def cmd_install(args):
+    from . import patch
+    return _run_patch(patch.install, args)
+
+
+def cmd_restore(args):
+    from . import patch
+    return _run_patch(patch.restore, args or None)
+
+
+def cmd_status(args):
+    from . import patch
+    return _run_patch(patch.status)
+
+
+COMMANDS = {"decompile": cmd_decompile, "disasm": cmd_disasm, "info": cmd_info, "selftest": cmd_selftest,
+            "build": cmd_build, "install": cmd_install, "restore": cmd_restore, "status": cmd_status}
 
 
 def main(argv=None):

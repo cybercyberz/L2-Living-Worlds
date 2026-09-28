@@ -1,0 +1,21 @@
+; Quest Navigator: clicking a quest or quest step in Alt+U asks the server (the quest-navigator module) to open a
+; window listing that quest's NPCs and mobs. Clicking a name there marks it on the radar and map.
+; Same as the stock function plus the RequestBypassToServer line.
+package interface.u
+
+replace QuestTreeWnd.OnClickButton
+{
+	switch( strID )
+	{
+	case "btnClose":
+		HandleQuestCancel();
+		break;
+	}
+
+	//TreeNode Click
+	if (Left(strID, 4) == "root")
+	{
+		UpdateTargetInfo();
+		RequestBypassToServer("_bbs_questnav step " $ strID);
+	}
+}

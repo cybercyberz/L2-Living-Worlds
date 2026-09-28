@@ -10,13 +10,15 @@ It has two halves:
 ## Files
 | File | What |
 |---|---|
-| `patch_questtreewnd.py` | Builds the patched `interface.u` from the stock backup and installs it. `--check` verifies without writing; `--restore` puts the stock file back. |
+| `patch_questtreewnd.py` | Installs the patch through l2mod. `--check` verifies without writing; `--restore` puts the stock file back. The patch itself is UnrealScript source: `tools/l2mod/patches/quest-navigator.l2patch`. |
 | `l2ver111.py` | Decrypts and encrypts `Lineage2Ver111` files: a 28-byte header, a payload XORed with `0xAC`, and a 20-byte footer whose bytes 12-15 are the CRC32 of the header plus the encrypted payload. `roundtrip` proves a file decodes and re-encodes to the same bytes. |
 | `quest_npcs.tsv` | Written by the server module at startup and by `.questnav export`. It lists every quest's start, talk and hunt NPCs, and is for debugging only. |
 
 ## What the patch changes
-There's no UnrealScript compiler for this client, so the tool edits compiled bytecode. It adds one statement to
-`QuestTreeWnd.OnClickButton`, inside its `if (Left(strID, 4) == "root")` branch:
+The patch is ordinary UnrealScript, compiled by tools/l2mod. l2mod's compiler reproduces the original compiler
+byte for byte. The first version of this patch was hand-assembled bytecode, and the source version builds to the
+exact same file. It adds one statement to `QuestTreeWnd.OnClickButton`, inside its `if (Left(strID, 4) == "root")`
+branch:
 
 ```
 RequestBypassToServer("_bbs_questnav step " $ strID);

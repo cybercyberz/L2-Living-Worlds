@@ -10,6 +10,30 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-28 — l2mod stage 3: an UnrealScript compiler for client patches
+
+### Added
+- **The l2mod compiler.** You write UnrealScript and it builds bytecode identical to what the original compiler
+  produced.
+  - **Proof:** all 1,641 functions in `interface.u`, compiled from their own embedded source, give the stock
+    bytes. Most of `UWindow.u` (670 of 699) and `Engine.u` (1,288 of 1,441) match too.
+  - **Rules:** the compiler rules we learned (literal typing, parentheses, overloads, contexts, short-circuit
+    skips) are in `tools/l2mod/NOTES.md`.
+- **Patch files** (`tools/l2mod/patches/*.l2patch`) replace whole function bodies with source (or a bytecode
+  listing), with new commands:
+  - `build` compiles and verifies a patch and shows the result;
+  - `install` installs patches, and refuses while `L2.exe` or `L2.bin` runs;
+  - `restore` puts the stock package back;
+  - `status` shows what's installed.
+
+  Every build starts from the stock package and checks that nothing outside the patched functions changed.
+
+### Changed
+- **The Quest Navigator client patch is now UnrealScript source** (`tools/l2mod/patches/quest-navigator.l2patch`).
+  It builds to the exact file that was tested in game. `tools/questnav/patch_questtreewnd.py` now calls l2mod.
+
+**Apply:** nothing. The installed `interface.u` is unchanged.
+
 ## 2026-09-28 — l2mod client toolkit, stages 1-2 (read, decompile, assemble)
 
 ### Added
