@@ -1,0 +1,10 @@
+{
+  "id": "quest-navigator",
+  "name": "Quest Navigator",
+  "version": "1.0.0",
+  "apiVersion": "1",
+  "entrypoint": "modules.questnavigator.QuestNavigatorModule",
+  "description": "Marks a quest NPC or mob's nearest spawn on the radar and map when you click it in the modded Alt+U quest window.",
+  "author": "local",
+  "priority": 100
+}

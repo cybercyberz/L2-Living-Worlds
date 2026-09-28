@@ -10,6 +10,31 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-28 — Quest Navigator (clickable quests in Alt+U)
+
+### Added
+- **Clicking a quest or quest step in Alt+U opens a "Quest Navigator" window.** It lists the quest's NPCs to talk to
+  and mobs to hunt. Clicking a name marks its nearest spawn on the radar and opens the minimap with the flag.
+  - The server can't tell which step you're on, so the window lists all of the quest's NPCs and mobs.
+  - The stock NPC-position checkbox still marks the current step's target.
+- **The `quest-navigator` module** (`game/modules/quest-navigator/`) handles `_bbs_questnav step|go|clear`. It also
+  adds `.questnav go <npcId>` and `.questnav clear` for anyone, and `.questnav export` for GMs, which writes
+  `tools/questnav/quest_npcs.tsv`.
+  - It's a board command because the server only accepts client-initiated bypasses that start with `_bbs`.
+- **`tools/questnav/`:**
+  - `l2ver111.py` handles `Lineage2Ver111` encryption, including the footer CRC.
+  - `patch_questtreewnd.py` patches the bytecode of `QuestTreeWnd.OnClickButton` in the client's `interface.u`,
+    adding `RequestBypassToServer("_bbs_questnav step " $ strID)`. The tool verifies the stock hash and the exact
+    bytes before patching, and checks that every other object is unchanged after.
+  - There's no UnrealScript compiler for this client, so the change is made to the compiled bytecode.
+- **Docs:** `tools/questnav/README.md` and a section in `docs/client.md`.
+
+**Apply:**
+1. Restart the server so the module loads.
+2. With the client closed, run `python tools\questnav\patch_questtreewnd.py`.
+   - Undo with `--restore`; the original is in `backup\client\interface.u.orig`.
+   - The patch is already installed on this machine.
+
 ## 2026-09-28 — Modding docs, changelog, git repo
 
 ### Added

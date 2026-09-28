@@ -68,6 +68,19 @@ L2 package encryption.
 | System message | `systemmsg-e.dat` |
 | New art | A new or edited `.utx` (textures, icons) or `.usx`/`.ukx` (meshes) package |
 
+## Patched `interface.u`: the Quest Navigator
+`interface.u` is encrypted with the `Lineage2Ver111` header, a different scheme from the `.dat` files:
+- a 28-byte header;
+- the payload XORed with `0xAC`;
+- a 20-byte footer that holds a CRC32.
+
+Each class's original UnrealScript is embedded in the package as its `ScriptText`, so the source can be read without
+a decompiler. There's no compiler for this client, so changes are made as bytecode patches.
+
+The only patch so far is the Quest Navigator. Clicking a quest in Alt+U opens a window of the quest's NPCs and mobs,
+each of which can be marked on the radar. Apply it with `python tools\questnav\patch_questtreewnd.py`, and undo it
+with `--restore`. [tools/questnav/README.md](../tools/questnav/README.md) has the details.
+
 ## Tools
 
 | Job | Tool |

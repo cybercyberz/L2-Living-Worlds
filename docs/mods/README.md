@@ -61,6 +61,7 @@ These pages explain how the pieces fit together and where to change what. The lo
 | Rebuild the cash shop | `python tools\cashshop\build_cashshop.py` | `//reload multisell`, `//reload html` |
 | Tune the fake players | `game\config\Custom\FakePlayers.ini`, `game\data\Phantom*.xml` | `//reload config`, `//phantom playstyle` |
 | Give an item its own client name and icon | client `.dat` files ([client.md](client.md)) | restart the client |
+| Navigate to a quest's NPCs and mobs from Alt+U | `game\modules\quest-navigator\` + `tools\questnav\` ([README](../tools/questnav/README.md)) | restart the server; patch `interface.u` with the client closed |
 
 ## Ground rules for modding
 - **Log every change.** Add an entry to [CHANGELOG.md](../CHANGELOG.md) and commit it. The pack has its own git repo
