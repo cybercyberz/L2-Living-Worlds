@@ -10,6 +10,17 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-28 — l2mod stage 4: window layout (interface.xdat)
+
+### Added
+- **`tools/l2mod/l2mod/xdat.py`** reads and writes `interface.xdat`, the layout of every UI window and control.
+  The stock file round-trips byte for byte: 140 windows and 31 control types.
+- **Layout patches.** `package interface.xdat` patch files `set` any field, `clone` a control or `remove` one.
+  They build from stock, check that untouched windows are byte-identical, and install like script patches.
+- **`python tools/l2mod xdat <Window>`** lists a window's controls and fields.
+
+**Apply:** nothing is installed. This adds tools only.
+
 ## 2026-09-28 — l2mod stage 3: an UnrealScript compiler for client patches
 
 ### Added

@@ -18,8 +18,16 @@ A patch file (`*.l2patch`) looks like this:
     }
 
 `replace` compiles UnrealScript against the function's existing parameters and locals. `asm` takes a bytecode
-listing (see disasm.py). Patches always apply to the stock package, never to an already-patched one, so building is
-repeatable.
+listing (see disasm.py).
+
+For the window layout, use `package interface.xdat` and these lines:
+
+    set QuestTreeWnd.btnClose.anchor_x = 120          ; change a field (int, float or "string")
+    clone QuestTreeWnd.btnClose as btnNav             ; copy a control inside its window, then set fields:
+    set QuestTreeWnd.btnNav.anchor_x = 170
+    remove QuestTreeWnd.txt324                        ; delete a control
+
+Patches always apply to the stock file, never to an already-patched one, so building is repeatable.
 """
 import json
 import os
@@ -50,12 +58,21 @@ class Edit:
         self.line = line
 
 
+class XdatOp:
+    def __init__(self, op, path, value, line):
+        self.op = op  # set / clone / remove
+        self.path = path
+        self.value = value  # the value for set, the new name for clone
+        self.line = line
+
+
 class PatchFile:
     def __init__(self, path):
         self.path = path
         self.name = os.path.splitext(os.path.basename(path))[0]
         self.package = None
         self.edits = []
+        self.xdat_ops = []
         self.description = []
         self._parse(open(path, encoding="utf-8").read())
 
@@ -76,6 +93,10 @@ class PatchFile:
             m = re.fullmatch(r"package\s+(\S+)", s)
             if m:
                 self.package = m.group(1)
+                i += 1
+                continue
+            if self.package and self.package.lower().endswith(".xdat"):
+                self.xdat_ops.append(self._parse_xdat_line(s.split(";", 1)[0].strip(), i + 1))
                 i += 1
                 continue
             m = re.fullmatch(r"(replace|asm)\s+([A-Za-z_][\w.]*)", s)
@@ -107,6 +128,24 @@ class PatchFile:
         if self.package is None:
             raise PatchError("%s: no `package` line" % self.path)
 
+    def _parse_xdat_line(self, s, line):
+        m = re.fullmatch(r"set\s+([\w.]+)\s*=\s*(.+)", s)
+        if m:
+            path, raw = m.groups()
+            raw = raw.strip()
+            try:
+                value = json.loads(raw)
+            except ValueError:
+                raise PatchError("%s:%d: can't read the value %s (use 12, 1.5 or \"text\")" % (self.path, line, raw))
+            return XdatOp("set", path, value, line)
+        m = re.fullmatch(r"clone\s+([\w.]+)\s+as\s+(\w+)", s)
+        if m:
+            return XdatOp("clone", m.group(1), m.group(2), line)
+        m = re.fullmatch(r"remove\s+([\w.]+)", s)
+        if m:
+            return XdatOp("remove", m.group(1), None, line)
+        raise PatchError("%s:%d: expected set, clone or remove, got %r" % (self.path, line, s))
+
 
 # ------------------------------------------------------------------------------------------------------ building
 
@@ -117,9 +156,79 @@ def _function_parts(pkg, ref):
     return data[:o["script_start"]], data[o["script_start"]:o["script_end"]], data[o["script_end"]:], o
 
 
+def build_xdat(package_name, patches):
+    """Apply layout edits to the stock interface.xdat. Returns (bytes, report lines)."""
+    import copy
+    from . import xdat
+    stock_data = stock.stock_bytes(package_name)
+    x = xdat.Xdat.read(stock_data)
+    report = []
+    touched = set()
+    for pf in patches:
+        if pf.package.lower() != package_name.lower():
+            continue
+        for op in pf.xdat_ops:
+            where = "%s:%d" % (pf.path, op.line)
+            parts = op.path.split(".")
+            touched.add(parts[0])
+            try:
+                if op.op == "set":
+                    ent = x.find(".".join(parts[:-1]))
+                    field = parts[-1]
+                    if field not in ent:
+                        raise PatchError("%s: %s has no field %s (it has: %s)" % (
+                            where, ent, field, ", ".join(k for k in ent if k != "children")))
+                    old = ent[field]
+                    if isinstance(old, list) or type(old) is not type(op.value) and not (
+                            isinstance(old, float) and isinstance(op.value, int)):
+                        raise PatchError("%s: %s.%s is %s, not %s" % (where, ent, field, type(old).__name__,
+                                                                    type(op.value).__name__))
+                    ent[field] = float(op.value) if isinstance(old, float) else op.value
+                    report.append("%s: set %s = %r (was %r)" % (pf.name, op.path, op.value, old))
+                elif op.op == "clone":
+                    ent = x.find(op.path)
+                    parent = x.find(".".join(parts[:-1])) if len(parts) > 1 else None
+                    new = copy.deepcopy(ent)
+                    new["name"] = op.value
+                    new.raw_strings.pop("name", None)
+                    if parent is None:
+                        x.windows.append(new)
+                    else:
+                        if any(c.name == op.value for c in parent["children"]):
+                            raise PatchError("%s: %s already has a %s" % (where, parent, op.value))
+                        parent["children"].append(new)
+                    report.append("%s: cloned %s as %s" % (pf.name, op.path, op.value))
+                elif op.op == "remove":
+                    parent = x.find(".".join(parts[:-1]))
+                    child = parent.get_child(parts[-1])
+                    parent["children"].remove(child)
+                    report.append("%s: removed %s" % (pf.name, op.path))
+            except KeyError as k:
+                raise PatchError("%s: no window or control %s" % (where, k))
+    out = x.to_bytes()
+    # Verify: the result reads back, and every window we didn't touch is byte-identical.
+    y = xdat.Xdat.read(out)
+    orig = xdat.Xdat.read(stock_data)
+    if len(y.windows) < len(orig.windows) - 0 and not touched:
+        raise PatchError("verification failed: windows lost")
+    for w in orig.windows:
+        if w.name in touched:
+            continue
+        a = bytearray()
+        b = bytearray()
+        xdat._write_control(a, w)
+        xdat._write_control(b, y.window(w.name))
+        if a != b:
+            raise PatchError("verification failed: untouched window %s changed" % w.name)
+    report.append("%s: built and verified, %d windows" % (package_name, len(y.windows)))
+    return out, report
+
+
 def build(package_name, patches, table=None):
     """Apply every edit in `patches` (PatchFile list, in order) to the stock package. Returns (encrypted bytes,
     report lines). Raises PatchError on any problem, before anything is written."""
+    if package_name.lower().endswith(".xdat"):
+        return build_xdat(package_name, patches)
     from .compiler.codegen import CompileError, FunctionCompiler
     from .compiler.lexer import lex
 
@@ -260,7 +369,7 @@ def restore(names=None):
 def status():
     manifest = read_manifest()
     lines = []
-    for name in stock.stock_names():
+    for name in sorted(stock.STOCK_SHA256):
         cur = stock.sha256(open(stock.client_path(name), "rb").read())
         if cur == stock.STOCK_SHA256[name]:
             state = "stock"

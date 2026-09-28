@@ -3,6 +3,7 @@
     decompile <package> [outdir]      each class's source (.uc) and bytecode listing (.asm)
     disasm <package> <Class.Function> one listing to stdout
     info <package>                    object counts
+    xdat [Window]                     list windows, or one window's controls and fields
     build <patch.l2patch>...          compile and verify patches, show the result, write nothing
     install <patch.l2patch>...        build, verify and install into the client (client must be closed)
     restore [package...]              put the stock packages back (all patched ones by default)
@@ -55,6 +56,23 @@ def cmd_disasm(args):
     print(disasm.function_header(pkg, ref, o))
     for line in disasm.Lister(pkg).listing(stmts, o["script_size"]):
         print("    " + line)
+
+
+def cmd_xdat(args):
+    from . import xdat
+    x = xdat.Xdat.read(stock.stock_bytes("interface.xdat"))
+    if not args:
+        for w in x.windows:
+            print("%-32s %3d controls" % (w.name, sum(1 for _ in w.walk()) - 1))
+        return 0
+    ent = x.find(args[0])
+    for c in ent.walk():
+        depth = 0
+        print("%s (%s)" % (c.name, c.kind))
+        for k, v in c.items():
+            if k != "children":
+                print("    %s = %r" % (k, v))
+    return 0
 
 
 def cmd_info(args):
@@ -123,7 +141,8 @@ def cmd_status(args):
     return _run_patch(patch.status)
 
 
-COMMANDS = {"decompile": cmd_decompile, "disasm": cmd_disasm, "info": cmd_info, "selftest": cmd_selftest,
+COMMANDS = {"decompile": cmd_decompile, "disasm": cmd_disasm, "info": cmd_info, "xdat": cmd_xdat,
+            "selftest": cmd_selftest,
             "build": cmd_build, "install": cmd_install, "restore": cmd_restore, "status": cmd_status}
 
 

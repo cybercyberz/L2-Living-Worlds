@@ -131,3 +131,29 @@ Each stock function was compiled from its own embedded source and compared byte 
   - empty name literals `''`;
   - variables of intrinsic classes (`Viewport.Actor`);
   - one `foreach` + `break` pattern.
+
+## interface.xdat (stage 4)
+- **Encryption.** None.
+- **Layout:**
+  1. Window count (int32), then each top-level `Window`, with no type prefix.
+  2. Shortcut count, then each shortcut.
+  3. An int32, always 1.
+  4. The default-position count, then each position.
+  5. A 20-byte tail.
+- **Every control** starts with the common DefaultProperty block:
+  - name, superName, two ints, three strings, an int;
+  - `size`, and if set: `size_absolute_values`, then (if 0) a compact 0 and two percent floats, then width and
+    height;
+  - `anchor`, and if set: parent and this alignment, the control, x and y;
+  - three ints, popupType and popupValue.
+
+  Then come the control type's own fields.
+- **Children.** A Window's (or ScrollArea's) children are a list: an int32 count, then per child its type name as
+  an FString, then the control.
+- **Types.** Bools, enums and colours are int32. Strings are FStrings.
+- **Field lists** come from acmi's MIT-licensed xdat_editor schema, `ct0` (Interlude). All 31 control types that
+  appear in the stock file are covered.
+- **Gate (2026-09-28).** The stock `interface.xdat` round-trips byte for byte: 140 windows, 2,229 windows plus
+  controls, 8 shortcuts and 56 default positions. Layout patches check that untouched windows are byte-identical.
+- **Button labels** are `buttonName` sysstring ids, and text boxes use `sysstring`. Reading their text needs
+  `sysstring-e.dat` (stage 5).

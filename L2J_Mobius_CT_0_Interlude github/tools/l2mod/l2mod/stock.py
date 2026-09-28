@@ -37,7 +37,10 @@ STOCK_SHA256 = {
     "lineagenpcev.u": "9fdf8e870e7477d6b67b1a05a401f04a76deeeabba7dca8d9a48bc01062e09fb",
     "nwindow.u": "6f3171147d83e447f2427e249c2ad73428e2b385d1557b86c53effa1062ea791",
     "udebugmenu.u": "80ce780ae87300cded6af855e83b071fbb423ace22902b12490e1bc9e10cc543",
+    "interface.xdat": "ee755d9865e548398d822493b9536a40b3f7483108b582723d89b03eeb803c55",
 }
+# Packages that are Ver111-encrypted Unreal packages (the rest have their own formats).
+UNREAL_PACKAGES = {n for n in STOCK_SHA256 if n.endswith(".u")}
 
 
 class NotStock(Exception):
@@ -76,4 +79,5 @@ def stock_bytes(name):
 
 
 def stock_names():
-    return sorted(STOCK_SHA256)
+    """The Unreal packages (.u)."""
+    return sorted(UNREAL_PACKAGES)
