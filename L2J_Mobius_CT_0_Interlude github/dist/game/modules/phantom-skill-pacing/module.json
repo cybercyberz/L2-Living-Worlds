@@ -1,0 +1,10 @@
+{
+  "id": "phantom-skill-pacing",
+  "name": "Phantom Skill Pacing",
+  "version": "1.0.0",
+  "apiVersion": "1",
+  "entrypoint": "modules.phantompacing.PhantomSkillPacingModule",
+  "description": "Makes a phantom playstyle's paceMs a per-skill cooldown, so a paced skill no longer stalls the whole rotation.",
+  "author": "local",
+  "priority": 100
+}

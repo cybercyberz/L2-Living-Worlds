@@ -48,6 +48,12 @@ Key `FakePlayers.ini` groups (values as installed):
 | `FakePlayerChatData.xml` | Canned chat lines (used when the brain is off) | `//reload fakeplayerchat` |
 | `fpc-map-images.json` | Map data for the Control Panel's population map | — |
 | `stats\npcs\custom\fpc_passive.xml` (80000), `fpc_combat.xml` (81001) | NPC templates the FPCs use | restart |
+
+**Playstyle pacing.** Each combat tick the engine casts the first listed skill whose checks pass, then waits a beat
+of about 1.6–2.5 s. On its own, the jar's engine uses an entry's `paceMs` as that beat for every skill, so a paced
+skill stalls the whole rotation. The `phantom-skill-pacing` module
+([MODULE.md](../game/modules/phantom-skill-pacing/MODULE.md)) turns `paceMs` into a per-skill cooldown instead. The
+XML header lists what each `use` and `when` actually does.
 | `spawns\Others\FakePlayers.xml` | Fixed FPC spawn (NPC 80000 "Evi" in Giran) | restart |
 
 The **Control Panel** (`LivingWorld.exe` → config editor, which is `tools\l2admin\index.html`) has editors for

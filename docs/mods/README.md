@@ -62,6 +62,7 @@ Our mods are also on a GitHub fork of upstream, [cybercyberz/L2-Living-Worlds](h
 | Change the Alt+B board | `game\data\html\CommunityBoard\Custom\` | `//reload html` |
 | Rebuild the cash shop | `python tools\cashshop\build_cashshop.py` | `//reload multisell`, `//reload html` |
 | Tune the fake players | `game\config\Custom\FakePlayers.ini`, `game\data\Phantom*.xml` | `//reload config`, `//phantom playstyle` |
+| Change how often a phantom recasts one skill | its `paceMs` in `game\data\PhantomPlaystyles.xml`, enforced per skill by `game\modules\phantom-skill-pacing\` ([MODULE.md](../game/modules/phantom-skill-pacing/MODULE.md)) | `//phantom playstyle` |
 | Give an item, NPC or skill its own client name | a `.dat` patch in `tools\l2mod\patches\` ([client.md](client.md#l2mod-decompile-and-patch-the-ui-packages)) | close the client, `python tools\l2mod install …` |
 | Give an item its own client icon or model | the `*grp.dat` tables with an external tool ([client.md](client.md)) | restart the client |
 | Change what a UI window does | an UnrealScript `.l2patch` for `interface.u` ([tools/l2mod](../tools/l2mod/README.md)) | close the client, `python tools\l2mod install …` |

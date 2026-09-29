@@ -17,7 +17,11 @@
 	  id           - skill id (level resolved from what the member learned)
 	  name         - documentation only (the id is authoritative)
 	  use          - OPENER | ROTATION | AOE | DEBUFF | CONTROL | PANIC | LIMIT | PULL
-	                 (PANIC/LIMIT target self; LIMIT additionally needs a ready healer)
+	                 PANIC and LIMIT target self and ignore the role's MP reserve; PANIC also ignores the
+	                 pacing beat. Neither gates itself: a LIMIT waits for a healer only if its `when` has
+	                 HEALER_READY, and a PANIC waits for danger only if it has SELF_HP_BELOW/UNDER_ATTACK.
+	                 OPENER fires once per target. ROTATION, AOE, DEBUFF and CONTROL behave identically -
+	                 the label is documentation; only list order and `when` decide.
 	                 PULL is special: it is the ranged opener the CAMP PULLER uses to tag a mob (so a nuker
 	                 shoots it instead of running in to body-pull) and is read ONLY by the pull hook, never by
 	                 the combat rotation. Use a cheap single-target nuke. Its `when` is ignored - the pull hook
@@ -32,7 +36,10 @@
 	  minLevel/maxLevel - the level window this entry applies in. Unlearned skills are skipped anyway, so
 	                 minLevel is rarely needed; maxLevel is what RETIRES an outgrown skill (a level 80
 	                 archer still knows Power Shot, so only an explicit cap stops it being used).
-	  paceMs       - optional per-entry pacing floor (engine default ~1.6-2.5s between casts)
+	  paceMs       - optional minimum gap between casts of THIS skill, enforced per skill by the
+	                 phantom-skill-pacing module (game\modules\phantom-skill-pacing). Other skills keep the
+	                 engine's default ~1.6-2.5s beat meanwhile. Without that module the engine instead holds
+	                 ALL non-PANIC casts for paceMs after this one.
 
 	Mechanics (cast range, MP, reuse, reagents, weapon requirements, cast-time HP gates like Frenzy's)
 	come from the skill data at runtime and are never written here. Listing a skill the member can't

@@ -10,6 +10,33 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-30 — Phantom playstyles: paceMs is per skill; header matches the engine
+
+### Fixed
+- **A paced skill stalled a phantom's whole rotation.** The engine in `GameServer.jar`
+  (`PhantomPlaystyleEngine.pick`) used an entry's `paceMs` as the gate for every next cast. So after Stun Attack
+  (`paceMs="6000"`) a Warrior cast nothing else for about 6 s, and after Lightning Strike (15000) it went silent for
+  15 s. 49 entries have a `paceMs`. The new **`phantom-skill-pacing` module** (`game/modules/phantom-skill-pacing/`)
+  makes `paceMs` a per-skill cooldown instead:
+  - it zeroes `paceMs` in the loaded playstyle data, so the engine waits only its default beat (about 1.6–2.5 s)
+    between casts;
+  - when a phantom casts a paced skill, it disables just that skill for `paceMs`, which the engine already skips;
+  - phantoms only (field hunters, party recruits, alt companions); real players keep normal reuse;
+  - it re-applies itself within 2 s of `//phantom playstyle`; `Enabled = False` restores the stock behavior.
+
+  The jar is not patched: the module uses the global `ON_CREATURE_SKILL_USE` event and reflection on
+  `PhantomPlaystyleData`.
+- **The `PhantomPlaystyles.xml` header was wrong about PANIC and LIMIT.** It said "LIMIT additionally needs a ready
+  healer", but the engine checks no conditions for either: a LIMIT waits for a healer only with `HEALER_READY` in its
+  `when`, and a PANIC waits for danger only with `SELF_HP_BELOW`/`UNDER_ATTACK`. Every entry already does this, so only
+  the text changed. The header now also says that PANIC and LIMIT ignore the MP reserve, that PANIC ignores the beat,
+  that OPENER fires once per target, and that ROTATION/AOE/DEBUFF/CONTROL behave the same. The `paceMs` line describes
+  the per-skill meaning.
+- **Files:** `game/data/PhantomPlaystyles.xml` (header comment only), `game/modules/phantom-skill-pacing/` (new),
+  `docs/living-world.md`, `docs/modules.md`, `docs/README.md`.
+
+**Apply:** restart the server. Module Java compiles only at startup.
+
 ## 2026-09-29 — Role Buffer: the pet on/off line no longer overlaps
 
 ### Fixed
