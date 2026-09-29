@@ -10,6 +10,20 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-29 — Role Buffer: the pet on/off line no longer overlaps
+
+### Fixed
+- **The "Also buff my pet/summon: On / Off" line on the Buffer page.** The client drew the On/Off links on top of the
+  text beside them, because it misplaces a link that shares a line with plain text. The line is now a small table
+  with a cell for each piece:
+  - "Buff my pet/summon:";
+  - the state, green On or red Off;
+  - a "Turn off" / "Turn on" link;
+  - on the row below, the pet's name and buff count with a "Details" link, or "No pet out now".
+- **File:** `game/modules/role-buffer/scripts/RoleBufferModule.java`.
+
+**Apply:** restart the server. Module Java compiles only at startup.
+
 ## 2026-09-29 — Role Buffer: one-click buff packages per role
 
 ### Added

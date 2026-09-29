@@ -407,8 +407,13 @@ public class RoleBufferModule implements GameModule
 		if (pet != null)
 		{
 			final Summon summon = player.getSummon();
-			sb.append("Also buff my pet/summon: ").append(petOn(player) ? color("88CC88", "On") + gray(" / ") + link("Off", "pet off") : link("On", "pet on") + gray(" / ") + color("FF6666", "Off"));
-			sb.append("<br1>").append(gray(summon == null ? "(no pet out now)" : "(" + esc(petName(summon)) + ": " + counts(pet) + ", " + link("details", "role " + PET_KEY) + ")"));
+			// The client misplaces a link that shares a line with other text, so every piece gets its own cell.
+			final boolean on = petOn(player);
+			sb.append("<table width=250><tr><td width=150>Buff my pet/summon:</td>");
+			sb.append("<td width=35>").append(on ? color("88CC88", "On") : color("FF6666", "Off")).append("</td>");
+			sb.append("<td width=65>").append(link(on ? "Turn off" : "Turn on", on ? "pet off" : "pet on")).append("</td></tr>");
+			sb.append("<tr><td width=150>").append(gray(summon == null ? "No pet out now" : esc(petName(summon)) + ": " + pet.count(false) + " buffs")).append("</td>");
+			sb.append("<td width=35></td><td width=65>").append(summon == null ? "" : link("Details", "role " + PET_KEY)).append("</td></tr></table>");
 		}
 		sb.append("</td><td width=120 align=center>").append(button("Heal", "heal")).append("</td>");
 		sb.append("<td width=120 align=center>").append(button("Remove buffs", "clear")).append("</td></tr></table>");
