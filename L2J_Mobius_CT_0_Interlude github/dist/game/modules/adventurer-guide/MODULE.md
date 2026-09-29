@@ -9,15 +9,18 @@ built for the character looking at it.
 |---|---|
 | Home | Race, class and level, how far the next class change is, the nearest quests and the best hunting spot, and warnings about the kit: no weapon, no shots for its grade, gear below the grade you can wear |
 | Quests | Tabs for Available, In progress, Coming soon (within 5 levels) and Done, nearest first. Each quest has a detail page with its story, first step, start NPC, and Mark / Teleport near / NPCs and mobs buttons |
-| Hunt | Hunting spots with monsters from your level -3 to +4, close and busy ones first. A spot's page lists its monsters with level colours, base XP/SP, aggression and a Mark for the nearest group |
+| Hunt | Hunting spots with monsters from your level -3 to +4, close and busy ones first. A spot's page lists its monsters with level colours, base XP/SP, aggression, a Mark for the nearest group and a Go teleport beside it |
 | Next steps | The class-change quests your current class can take (Path to, Trial/Testimony/Test, Saga), with the Class Masters of the nearest town; after the 3rd class, the noblesse quests |
 | Gear | The grade each level can wear, your weapon and armor grade, the matching shot and how many you carry, and buttons to the Merchant, Cash Shop and Drop Search pages |
 | Towns | Every town, nearest first, then each town's gatekeepers, warehouses, grocers, weapon and armor traders, Class Masters, skill trainers, pet managers and symbol makers |
 | Tips | Short pages from `data/tips.txt` |
 
 **Mark** puts the radar marker and map flag on the spot. **Teleport** goes to the gatekeeper destination nearest the
-spot for that destination's normal fee, and is free up to level 20. It's refused in combat, while casting, dead, in
-a duel, the Olympiad, a siege or PvP zone, while flagged or with Karma.
+spot for that destination's normal fee, and is free up to level 20. **Go** (on each monster of a hunting spot) lands
+you a few steps from a live group of that monster, on the side facing the nearest gatekeeper; if none is alive, on
+the group's spawn point. It costs the fee of the gatekeeper destination nearest the group, also free up to level 20.
+Both are refused in combat, while casting, dead, in a duel, the Olympiad, a siege or PvP zone, while flagged or with
+Karma.
 
 **Hints:** characters up to level 40 get a one-line reminder at login. On level up, a message says how many new quests
 opened, and when a class change or a new gear grade becomes available.

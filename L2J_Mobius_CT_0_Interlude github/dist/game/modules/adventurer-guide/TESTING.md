@@ -32,6 +32,9 @@ Make a level 1 character (a Human Fighter is a good start) and log in on Talking
 2. Above level 20 (use `//set_level` on a test character), the fee is taken. With no Adena you get "costs N Adena" and
    stay put.
 3. Hit a monster and click Teleport at once: "you can't teleport right now".
+4. Hunt, open a spot: every monster row shows `Mark  Go`, with the fee after Go above level 20. Click Go: you land
+   on the ground a few steps from a group of that monster, and "you're next to …" shows. The fee taken matches the
+   one shown. With `TeleportEnabled = False` (restart), Go isn't shown.
 
 ## Test D: level-up hints
 

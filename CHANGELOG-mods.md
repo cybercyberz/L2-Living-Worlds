@@ -10,6 +10,26 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-29 — Adventurer's Guide: a Go teleport for every monster
+
+### Added
+- **A Go link on every monster row of a hunting spot** (Alt+B → Guide → Hunt → a spot), next to Mark. Before this,
+  the only teleport on the page was "Teleport near", which lands on the gatekeeper destination nearest the spot's
+  centre, often far from the monster you want.
+  - **Where it lands:** a few steps (350 units) from the live monster of that kind nearest the group Mark flags, on
+    the side facing the nearest gatekeeper, and kept on this side of walls by geodata. If none is alive, it lands on
+    the group's spawn point with the height taken from geodata.
+  - **The fee** is the fee of the gatekeeper destination nearest the group, shown in grey after Go. It's free up to
+    `FreeTeleportMaxLevel` (20). The same checks as the other teleports apply: combat, casting, Karma, and so on.
+  - **Safety:** the bypass is `go <area> <npcId>`, so it can only reach groups the guide lists. The page warns that
+    Go lands among the monsters. "Teleport near" stays as the town-side option.
+- **Files:**
+  - `game/modules/adventurer-guide/scripts/AdventurerGuideModule.java`: the Go column, `goToMob` and `landingSpot`.
+    The teleport was split into `canTeleport` / `doTeleport` so `tp` and `go` share it.
+  - `game/modules/adventurer-guide/MODULE.md`, `TESTING.md` and `docs/community-board.md`.
+
+**Apply:** restart the server. Module Java compiles only at startup.
+
 ## 2026-09-29 — l2mod: stricter checks when decrypting client files
 
 ### Changed

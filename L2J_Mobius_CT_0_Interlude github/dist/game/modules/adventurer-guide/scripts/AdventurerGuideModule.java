@@ -41,10 +41,12 @@ import org.l2jmobius.gameserver.cache.HtmCache;
 import org.l2jmobius.gameserver.config.custom.CommunityBoardConfig;
 import org.l2jmobius.gameserver.data.SpawnTable;
 import org.l2jmobius.gameserver.data.xml.ClassListData;
+import org.l2jmobius.gameserver.geoengine.GeoEngine;
 import org.l2jmobius.gameserver.handler.CommunityBoardHandler;
 import org.l2jmobius.gameserver.handler.IParseBoardHandler;
 import org.l2jmobius.gameserver.handler.IVoicedCommandHandler;
 import org.l2jmobius.gameserver.managers.ScriptManager;
+import org.l2jmobius.gameserver.model.Location;
 import org.l2jmobius.gameserver.model.World;
 import org.l2jmobius.gameserver.model.WorldObject;
 import org.l2jmobius.gameserver.model.actor.Npc;
@@ -85,6 +87,9 @@ public class AdventurerGuideModule implements GameModule
 	private static final int QUEST_ROWS = 8;
 	private static final int LIST_ROWS = 10;
 	private static final int MOB_ROWS = 12;
+	/** Go looks for a live monster this far from the group's point, and lands this far from it. */
+	private static final int LIVE_MOB_RANGE = 3000;
+	private static final int LANDING_OFFSET = 350;
 	private static final int TOWN_ROWS = 16;
 	private static final int SOON_LEVELS = 5;
 	// The board sends a page in at most three 4090-character packets.
@@ -1148,19 +1153,34 @@ public class AdventurerGuideModule implements GameModule
 		final StringBuilder sb = new StringBuilder("<table width=490><tr><td>");
 		sb.append(color("LEVEL", esc(a.name))).append(gray(" (" + esc(a.region) + "), monsters level " + a.minLv + "-" + a.maxLv + ".")).append("<br1>");
 		sb.append(gray("Level colours: ")).append(color("808080", "too weak ")).append(color("88CC88", "easy ")).append(color("FFFFFF", "even ")).append(color("FFDD66", "hard ")).append(color("FF6666", "dangerous"));
-		sb.append(gray(". A red name attacks on sight. Mark shows the nearest group.")).append("</td></tr></table><br1>");
-		sb.append("<table width=490><tr><td width=200>").append(gray("Monster")).append("</td><td width=40>").append(gray("Lv")).append("</td><td width=70 align=right>").append(gray("Base XP")).append("</td><td width=60 align=right>").append(gray("SP")).append("</td><td width=50 align=right>").append(gray("Count")).append("</td><td width=70 align=right></td></tr>");
+		sb.append(gray(". A red name attacks on sight. Mark shows the nearest group"));
+		sb.append(gray(_teleportEnabled ? "; Go takes you beside it" + (_freeTeleportMaxLevel > 0 ? " (free up to level " + _freeTeleportMaxLevel + ")." : ".") : ".")).append("</td></tr></table><br1>");
+		sb.append("<table width=490><tr><td width=180>").append(gray("Monster")).append("</td><td width=35>").append(gray("Lv")).append("</td><td width=65 align=right>").append(gray("Base XP")).append("</td><td width=50 align=right>").append(gray("SP")).append("</td><td width=45 align=right>").append(gray("Count")).append("</td><td width=115 align=right></td></tr>");
 		for (int i = page * MOB_ROWS; i < Math.min(mobs.size(), (page + 1) * MOB_ROWS); i++)
 		{
 			final Mob m = mobs.get(i);
 			final int[] p = nearestPoint(player, m.points);
-			sb.append("<tr><td width=200>").append(m.aggro ? color("FF6666", esc(m.name)) : esc(m.name)).append("</td>");
-			sb.append("<td width=40>").append(color(levelColor(m.level, player.getLevel()), String.valueOf(m.level))).append("</td>");
-			sb.append("<td width=70 align=right>").append(m.exp).append("</td><td width=60 align=right>").append(m.sp).append("</td><td width=50 align=right>").append(m.count).append("</td>");
-			sb.append("<td width=70 align=right>").append(p == null ? "" : markLink(p[0], p[1], p[2])).append("</td></tr>");
+			sb.append("<tr><td width=180>").append(m.aggro ? color("FF6666", esc(m.name)) : esc(m.name)).append("</td>");
+			sb.append("<td width=35>").append(color(levelColor(m.level, player.getLevel()), String.valueOf(m.level))).append("</td>");
+			sb.append("<td width=65 align=right>").append(m.exp).append("</td><td width=50 align=right>").append(m.sp).append("</td><td width=45 align=right>").append(m.count).append("</td>");
+			sb.append("<td width=115 align=right>");
+			if ((p != null) && hasPoint(p[0], p[1]))
+			{
+				sb.append(markLink(p[0], p[1], p[2]));
+				if (_teleportEnabled)
+				{
+					final int fee = goFee(player, p);
+					sb.append("&nbsp;&nbsp;").append(link("Go", "go " + a.idx + " " + m.npcId)).append(fee > 0 ? gray(" " + fee) : "");
+				}
+			}
+			sb.append("</td></tr>");
 		}
 		sb.append("</table>");
 		sb.append(pager("area " + a.idx, page, pages));
+		if (_teleportEnabled)
+		{
+			sb.append("<center>").append(gray("Go lands among the monsters, so red names attack at once.")).append("</center>");
+		}
 		sb.append("<br1><center>");
 		if (_teleportEnabled && (a.teleIdx >= 0))
 		{
@@ -1482,35 +1502,150 @@ public class AdventurerGuideModule implements GameModule
 
 	private void teleport(Player player, int teleIdx)
 	{
-		if (!_teleportEnabled || (teleIdx < 0) || (teleIdx >= _teleports.size()))
+		if (!_teleportEnabled || (teleIdx < 0) || (teleIdx >= _teleports.size()) || !canTeleport(player))
 		{
 			return;
 		}
+		final Tele tele = _teleports.get(teleIdx);
+		doTeleport(player, tele.x, tele.y, tele.z, fee(player, tele), tele.name);
+	}
+
+	/**
+	 * The fee for Go to a mob group: the fee of the gatekeeper destination nearest that group.
+	 */
+	private int goFee(Player player, int[] point)
+	{
+		final int teleIdx = nearestTele(point[0], point[1]);
+		return teleIdx < 0 ? 0 : fee(player, _teleports.get(teleIdx));
+	}
+
+	/**
+	 * Teleports the player beside the group of a spot's monster that Mark flags.
+	 */
+	private void goToMob(Player player, int areaIdx, int npcId)
+	{
+		if (!_teleportEnabled || (areaIdx < 0) || (areaIdx >= _areas.size()))
+		{
+			return;
+		}
+		Mob mob = null;
+		for (Mob m : _areas.get(areaIdx).mobs)
+		{
+			if (m.npcId == npcId)
+			{
+				mob = m;
+				break;
+			}
+		}
+		final int[] point = mob == null ? null : nearestPoint(player, mob.points);
+		if ((point == null) || !hasPoint(point[0], point[1]))
+		{
+			showArea(player, areaIdx, -1);
+			return;
+		}
+		if (!canTeleport(player))
+		{
+			return;
+		}
+		final int[] spot = landingSpot(npcId, point);
+		if (doTeleport(player, spot[0], spot[1], spot[2], goFee(player, point), mob.name))
+		{
+			player.sendMessage("Adventurer's Guide: you're next to " + mob.name + " (level " + mob.level + ").");
+		}
+	}
+
+	/**
+	 * Where Go lands: a short way from the live monster nearest the group's point, on the side facing the nearest
+	 * gatekeeper, kept on this side of any wall. With no live monster, the point itself on the ground.
+	 */
+	private int[] landingSpot(int npcId, int[] point)
+	{
+		Npc best = null;
+		double bestDistance = LIVE_MOB_RANGE;
+		for (WorldObject object : World.getInstance().getVisibleObjects())
+		{
+			if (object.isNpc() && (((Npc) object).getId() == npcId))
+			{
+				final Npc npc = (Npc) object;
+				if (npc.isDead() || (npc.getInstanceId() != 0))
+				{
+					continue;
+				}
+				final double d = Math.hypot(npc.getX() - point[0], npc.getY() - point[1]);
+				if (d < bestDistance)
+				{
+					bestDistance = d;
+					best = npc;
+				}
+			}
+		}
+
+		final GeoEngine geo = GeoEngine.getInstance();
+		if (best == null)
+		{
+			return new int[]
+			{
+				point[0],
+				point[1],
+				geo.getSpawnHeight(point[0], point[1], point[2])
+			};
+		}
+
+		// Step back from the monster towards the nearest gatekeeper (or along +x when it has none).
+		double dx = 1;
+		double dy = 0;
+		final int teleIdx = nearestTele(best.getX(), best.getY());
+		if (teleIdx >= 0)
+		{
+			final Tele t = _teleports.get(teleIdx);
+			final double len = Math.hypot(t.x - best.getX(), t.y - best.getY());
+			if (len > 1)
+			{
+				dx = (t.x - best.getX()) / len;
+				dy = (t.y - best.getY()) / len;
+			}
+		}
+		final int tx = best.getX() + (int) (dx * LANDING_OFFSET);
+		final int ty = best.getY() + (int) (dy * LANDING_OFFSET);
+		final Location loc = geo.getValidLocation(best.getX(), best.getY(), best.getZ(), tx, ty, best.getZ(), 0);
+		return new int[]
+		{
+			loc.getX(),
+			loc.getY(),
+			loc.getZ()
+		};
+	}
+
+	private static boolean canTeleport(Player player)
+	{
 		if (player.isCastingNow() || player.isCastingSimultaneouslyNow() || player.isInCombat() || player.isInDuel() || player.isInOlympiadMode() || player.isInsideZone(ZoneId.SIEGE) || player.isInsideZone(ZoneId.PVP) || (player.getPvpFlag() > 0) || player.isAlikeDead() || player.isOnEvent() || player.isInStoreMode() || player.isJailed() || player.isFlying())
 		{
 			player.sendMessage("Adventurer's Guide: you can't teleport right now.");
-			return;
+			return false;
 		}
 		if (player.getKarma() > 0)
 		{
 			player.sendMessage("Adventurer's Guide: players with Karma can't teleport.");
-			return;
+			return false;
 		}
+		return true;
+	}
 
-		final Tele tele = _teleports.get(teleIdx);
-		final int fee = fee(player, tele);
+	private static boolean doTeleport(Player player, int x, int y, int z, int fee, String placeName)
+	{
 		if ((fee > 0) && !player.destroyItemByItemId(ItemProcessType.FEE, ADENA, fee, player, true))
 		{
-			player.sendMessage("Adventurer's Guide: the teleport to " + tele.name + " costs " + fee + " Adena.");
-			return;
+			player.sendMessage("Adventurer's Guide: the teleport to " + placeName + " costs " + fee + " Adena.");
+			return false;
 		}
 
 		player.sendPacket(new ShowBoard());
 		player.disableAllSkills();
 		player.setIn7sDungeon(false);
 		player.setInstanceId(0);
-		player.teleToLocation(tele.x, tele.y, tele.z);
+		player.teleToLocation(x, y, z);
 		ThreadPool.schedule(player::enableAllSkills, 3000);
+		return true;
 	}
 
 	// ---------------------------------------------------------------- hints
@@ -1604,6 +1739,9 @@ public class AdventurerGuideModule implements GameModule
 					break;
 				case "tp":
 					teleport(player, Integer.parseInt(p[1]));
+					break;
+				case "go":
+					goToMob(player, Integer.parseInt(p[1]), Integer.parseInt(p[2]));
 					break;
 				default:
 					showHome(player);

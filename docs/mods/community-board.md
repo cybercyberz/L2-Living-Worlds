@@ -46,7 +46,7 @@ must not start with an existing one.
 
 | Bypass | Module | Does |
 |---|---|---|
-| `bypass _bbs_guide [page …]` | `adventurer-guide` | The Adventurer's Guide pages: `quests`, `quest <id>`, `hunt`, `area <n>`, `next`, `gear`, `towns`, `town <n>`, `tips`, plus the `mark`, `npc` and `tp` actions |
+| `bypass _bbs_guide [page …]` | `adventurer-guide` | The Adventurer's Guide pages: `quests`, `quest <id>`, `hunt`, `area <n>`, `next`, `gear`, `towns`, `town <n>`, `tips`, plus the `mark`, `npc`, `tp` and `go <area> <npcId>` actions |
 | `bypass _bbs_questnav …` | `quest-navigator` | Quest Navigator window and radar marks |
 
 ## The Adventurer's Guide
