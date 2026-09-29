@@ -113,3 +113,39 @@ The pack has its **own git repo** (`D:\game\L2J-Offline-OneClick\.git`). The `D:
   CRLF.
 - **Workflow.** Make a change, test it in game, add a `CHANGELOG.md` entry, then commit with a plain summary line and
   a body saying what and why.
+
+### The GitHub fork
+Our mods are also kept on a fork of upstream in upstream's own source layout, so updates can be taken
+selectively instead of letting `update.ps1` overwrite files.
+
+- **Repo:** [cybercyberz/L2-Living-Worlds](https://github.com/cybercyberz/L2-Living-Worlds).
+  - Branch `living-world-mods` (the default) holds upstream `v0.1.25` plus one commit per local commit.
+  - Tag `base-v0.1.25` marks the upstream commit we're built on (`ba8c9927`).
+  - `main` mirrors upstream untouched.
+- **Layout.** Upstream keeps the pack under `L2J_Mobius_CT_0_Interlude github/dist/`; here it sits at the root.
+  `tools/forksync/forksync.py` holds the path map:
+
+  | Here | In the fork |
+  |---|---|
+  | `game\`, `login\`, `db_installer\`, `launcher\`, `scripts\`, `*.bat` | `L2J…/dist/…` |
+  | `brain\fpc_brain.py`, `requirements.txt`, `setup_brain.*`, `knowledge\` | `L2J…/` |
+  | `tools\` | `L2J…/tools/` |
+  | `docs\`, `CHANGELOG.md`, `CLAUDE.md` | `docs/mods/`, `CHANGELOG-mods.md`, `CLAUDE.md` |
+  | `.gitignore`, `brain\README.md` (written by the pack build) | not carried |
+
+  The pack build also stamps install values into `launcher.ini`, both `Database.ini` files and `version.txt`
+  (the MariaDB paths and the version). Those differ from upstream on purpose and aren't carried.
+- **Pushing new commits.** Clone the fork with `git -c core.autocrlf=false -c core.longpaths=true` (it has long
+  paths). Check out `living-world-mods`, then run:
+  ```
+  python tools\forksync\forksync.py replay <fork-dir> <last-carried-commit>..HEAD
+  ```
+  and push. Each local commit becomes one fork commit, with the same message, author and date.
+- **Taking an upstream change.** In the fork, merge or cherry-pick the upstream commit onto `living-world-mods`
+  and resolve it there. Then bring it here:
+  ```
+  python tools\forksync\forksync.py import <fork-dir> <rev-range>
+  ```
+  This writes the changed files into this folder, mapped back. Review with `git diff`, log it, and commit. Core changes
+  under `L2J…/java/` aren't mapped. They reach this install only as a rebuilt `libs\GameServer.jar` (from an upstream
+  release, or `build.xml` in the fork).

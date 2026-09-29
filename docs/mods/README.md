@@ -8,6 +8,8 @@ This pack is an offline Lineage II **Interlude** server:
 
 These pages explain how the pieces fit together and where to change what. The log of what we changed is
 [CHANGELOG.md](../CHANGELOG.md).
+Our mods are also on a GitHub fork of upstream, [cybercyberz/L2-Living-Worlds](https://github.com/cybercyberz/L2-Living-Worlds)
+(branch `living-world-mods`), kept in sync with `tools/forksync` (see [operations.md](operations.md#the-github-fork)).
 
 ## How it fits together
 

@@ -30,6 +30,10 @@ The user mods it for their own play.
 - **The core can't change.** `libs\GameServer.jar` has no source here. Datapack and module Java is compiled by the
   server at startup, so there's no local build. Compile errors land in `game\log\error*.log`.
 - **Reading jar APIs.** `jre/bin/javap -cp libs/GameServer.jar <class>` shows what a class offers.
+- **The fork.** Our mods also live on `cybercyberz/L2-Living-Worlds`, branch `living-world-mods`: upstream v0.1.25
+  (tag `base-v0.1.25`) plus one commit per local commit. After you commit here, carry the commit over with
+  `tools/forksync/forksync.py replay` and push. Take upstream updates selectively through the fork
+  (`docs/operations.md#the-github-fork`), and only when the user asks.
 - **Updates overwrite files.** `launcher\update.ps1` overlays every file in `launcher\patch-manifest.txt`, including
   `handlers\MasterHandler.java`, `FakePlayers.ini`, `Olympiad.ini` and `AdminReload.java`. After an update, run
   `git diff` and reapply.

@@ -10,6 +10,23 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-29 — GitHub fork of upstream, and forksync
+
+### Added
+- **The fork [cybercyberz/L2-Living-Worlds](https://github.com/cybercyberz/L2-Living-Worlds)**, branch
+  `living-world-mods`. It's upstream `v0.1.25` (tag `base-v0.1.25`, `ba8c9927`) with our mods on top, one fork
+  commit per local commit. The first one is the Community Board cash shop, which our baseline commit already
+  carried. We can now take upstream updates selectively against a known base, instead of letting `update.ps1`
+  overwrite files.
+- **`tools/forksync/forksync.py`.** It maps paths between this install and upstream's source layout:
+  - `replay` carries local commits to the fork;
+  - `import` brings fork or upstream commits back here as working-tree changes;
+  - `map` shows where a path lives.
+- **`docs/operations.md`:** a new section, [The GitHub fork](docs/operations.md#the-github-fork).
+  **`docs/README.md`** links to it.
+
+**Apply:** nothing. The server doesn't use these files.
+
 ## 2026-09-29 — Docs brought up to date with l2mod
 
 ### Changed
