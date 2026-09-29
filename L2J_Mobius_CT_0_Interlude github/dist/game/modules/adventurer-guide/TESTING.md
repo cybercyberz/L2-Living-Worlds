@@ -41,5 +41,5 @@ D-grade gear.
 ## Test E: disabled and removed
 
 1. Set `Enabled = False` and restart. The Guide button does nothing, and `.guide` isn't recognised.
-2. With the server stopped, delete this directory and remove the Guide buttons from `navigation.html` and `home.html`.
+2. With the server stopped, delete this directory and remove the Guide button from `navigation.html`.
    The server starts clean.

@@ -50,7 +50,7 @@ must not start with an existing one.
 | `bypass _bbs_questnav …` | `quest-navigator` | Quest Navigator window and radar marks |
 
 ## The Adventurer's Guide
-The **Guide** button (first in `navigation.html`, and on `home.html`) opens a new-player guide built for the character
+The **Guide** button (first in `navigation.html`) opens a new-player guide built for the character
 viewing it. It covers:
 - the quests they can take now;
 - where to hunt at their level;

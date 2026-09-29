@@ -57,7 +57,7 @@ Rebuild them after changing spawns, gatekeepers or NPCs, and restart.
 
 - **Enable or disable:** set `Enabled` in `config/module.ini`, then restart the server.
 - **Remove:** delete this directory while the server is stopped, and take the Guide button out of
-  `game\data\html\CommunityBoard\Custom\navigation.html` and `home.html`. The module has no database tables.
+  `game\data\html\CommunityBoard\Custom\navigation.html`. The module has no database tables.
 
 It registers `_bbs_guide` (a Community Board command) and `.guide`, and owns everything under this directory. The only
-files outside it are those two board pages, which link to `_bbs_guide`.
+file outside it is that board menu, which links to `_bbs_guide`.

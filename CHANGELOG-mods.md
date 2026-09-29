@@ -10,6 +10,16 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-29 — Guide button removed from the board home page
+
+### Removed
+- **`game\data\html\CommunityBoard\Custom\home.html`** is back to stock. The "Open the Guide" button and its text in
+  the middle of the page weren't needed, since the **Guide** button in the left menu does the same. The button also
+  overlapped the text above it.
+- `docs/community-board.md` and the module's `MODULE.md` and `TESTING.md` no longer mention it.
+
+**Apply:** `//reload html`, then reopen Alt+B.
+
 ## 2026-09-29 — A quick right-click no longer resets the camera
 
 ### Changed
