@@ -1,0 +1,10 @@
+{
+  "id": "role-buffer",
+  "name": "Role Buffer",
+  "version": "1.0.0",
+  "apiVersion": "1",
+  "entrypoint": "modules.rolebuffer.RoleBufferModule",
+  "description": "One-click buff packages per role on the Alt+B board (Warrior, Dagger, Archer, Tank, Mage, Summoner, Healer), every useful buff, dance and song at max level, pet included.",
+  "author": "local",
+  "priority": 110
+}

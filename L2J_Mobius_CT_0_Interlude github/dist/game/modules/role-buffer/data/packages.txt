@@ -1,0 +1,269 @@
+// Role Buffer packages. Edit freely, then run: python tools/buffer/build_buffer_data.py
+// It checks that every id is a known buff, that no two skills in a package share a stack type (the second would
+// replace the first), and that a package fits the slots: 20 buffs and 12 dances/songs (config/Player.ini).
+//
+// [key] Name | What it's for | icon=<skill id>
+// then one skill id per line, most important first. Text after the id is only a note; the buffer always gives the
+// skill's highest level. The [pet] package goes on your pet or summon when "Buff my pet" is on.
+// The roles are shown in this order.
+
+[warrior] Warrior | Melee damage: P. Atk, attack speed, crits, lifesteal | icon=1068
+1363 Chant of Victory (all-in-one; -20% speed, Wind Walk makes up for it)
+1068 Might
+1388 Greater Might
+1040 Shield
+1036 Magic Barrier
+1045 Blessed Body
+1086 Haste
+1077 Focus
+1242 Death Whisper
+1240 Guidance
+1268 Vampiric Rage
+1062 Berserker Spirit
+1087 Agility
+1284 Chant of Revenge
+1204 Wind Walk
+1035 Mental Shield
+1259 Resist Shock
+1362 Chant of Spirit
+1416 Pa'agrio's Fist
+1323 Noblesse Blessing
+271 Dance of the Warrior
+275 Dance of Fury
+274 Dance of Fire
+310 Dance of the Vampire
+272 Dance of Inspiration
+269 Song of Hunter
+264 Song of Earth
+304 Song of Vitality
+364 Song of Champion
+267 Song of Warding
+266 Song of Water
+268 Song of Wind
+
+[dagger] Dagger | Backstabs: crit rate and damage, evasion, speed | icon=1357
+1357 Prophecy of Wind (all-in-one; crits from behind, evasion, lifesteal)
+1068 Might
+1388 Greater Might
+1040 Shield
+1036 Magic Barrier
+1045 Blessed Body
+1086 Haste
+1077 Focus
+1242 Death Whisper
+1240 Guidance
+1268 Vampiric Rage
+1062 Berserker Spirit
+1087 Agility
+1284 Chant of Revenge
+1204 Wind Walk
+1035 Mental Shield
+1259 Resist Shock
+1362 Chant of Spirit
+1416 Pa'agrio's Fist
+1323 Noblesse Blessing
+269 Song of Hunter
+274 Dance of Fire
+271 Dance of the Warrior
+275 Dance of Fury
+310 Dance of the Vampire
+272 Dance of Inspiration
+266 Song of Water
+268 Song of Wind
+364 Song of Champion
+264 Song of Earth
+304 Song of Vitality
+267 Song of Warding
+
+[archer] Archer | Bows: P. Atk, accuracy, crits, attack speed | icon=1240
+1363 Chant of Victory (all-in-one)
+1068 Might
+1388 Greater Might
+1040 Shield
+1036 Magic Barrier
+1045 Blessed Body
+1086 Haste
+1077 Focus
+1242 Death Whisper
+1240 Guidance
+1268 Vampiric Rage
+1062 Berserker Spirit
+1087 Agility
+1044 Regeneration
+1204 Wind Walk
+1035 Mental Shield
+1259 Resist Shock
+1362 Chant of Spirit
+1416 Pa'agrio's Fist
+1323 Noblesse Blessing
+271 Dance of the Warrior
+272 Dance of Inspiration
+275 Dance of Fury
+274 Dance of Fire
+310 Dance of the Vampire
+269 Song of Hunter
+364 Song of Champion
+264 Song of Earth
+304 Song of Vitality
+267 Song of Warding
+266 Song of Water
+268 Song of Wind
+
+[tank] Tank | Survive: P./M. Def, HP, shield block, resistances | icon=1389
+1356 Prophecy of Fire (all-in-one; P. Def, HP, HP regen)
+1389 Greater Shield
+1040 Shield
+1036 Magic Barrier
+1045 Blessed Body
+1243 Bless Shield
+1304 Advanced Block
+1068 Might
+1086 Haste
+1240 Guidance
+1087 Agility
+1044 Regeneration
+1284 Chant of Revenge
+1352 Elemental Protection
+1204 Wind Walk
+1035 Mental Shield
+1259 Resist Shock
+1362 Chant of Spirit
+1416 Pa'agrio's Fist
+1323 Noblesse Blessing
+264 Song of Earth
+267 Song of Warding
+304 Song of Vitality
+265 Song of Life
+266 Song of Water
+305 Song of Vengeance
+271 Dance of the Warrior
+275 Dance of Fury
+310 Dance of the Vampire
+272 Dance of Inspiration
+306 Song of Flame Guard
+308 Song of Storm Guard
+
+[mage] Mage | Nukes: M. Atk, casting speed, magic crits, MP | icon=1059
+1355 Prophecy of Water (all-in-one; M. Atk, casting speed, magic crit)
+1059 Empower
+1085 Acumen
+1303 Wild Magic
+1062 Berserker Spirit (more M. Atk, less defence)
+1048 Blessed Soul
+1397 Clarity
+1078 Concentration
+1045 Blessed Body
+1036 Magic Barrier
+1040 Shield
+1389 Greater Shield
+1087 Agility
+1044 Regeneration
+1204 Wind Walk
+1035 Mental Shield
+1259 Resist Shock
+1362 Chant of Spirit
+1416 Pa'agrio's Fist
+1323 Noblesse Blessing
+273 Dance of the Mystic
+276 Dance of Concentration
+365 Siren's Dance
+363 Song of Meditation
+349 Song of Renewal
+267 Song of Warding
+264 Song of Earth
+304 Song of Vitality
+266 Song of Water
+268 Song of Wind
+265 Song of Life
+
+[summoner] Summoner | You get the Mage set; your pet gets the Pet set | icon=1413
+1355 Prophecy of Water (all-in-one)
+1059 Empower
+1085 Acumen
+1303 Wild Magic
+1048 Blessed Soul
+1397 Clarity
+1078 Concentration
+1045 Blessed Body
+1036 Magic Barrier
+1040 Shield
+1389 Greater Shield
+1087 Agility
+1044 Regeneration
+1284 Chant of Revenge
+1204 Wind Walk
+1035 Mental Shield
+1259 Resist Shock
+1362 Chant of Spirit
+1416 Pa'agrio's Fist
+1323 Noblesse Blessing
+273 Dance of the Mystic
+276 Dance of Concentration
+365 Siren's Dance
+363 Song of Meditation
+349 Song of Renewal
+267 Song of Warding
+264 Song of Earth
+304 Song of Vitality
+266 Song of Water
+268 Song of Wind
+265 Song of Life
+
+[healer] Healer/Support | Heal and buff: casting speed, MP, MP cost, safety | icon=1397
+1413 Magnus' Chant (all-in-one; MP, MP regen, casting speed, M. Def)
+1085 Acumen
+1048 Blessed Soul
+1397 Clarity
+1078 Concentration
+1045 Blessed Body
+1036 Magic Barrier
+1040 Shield
+1389 Greater Shield
+1087 Agility
+1044 Regeneration
+1284 Chant of Revenge
+1033 Resist Poison
+1032 Invigor
+1204 Wind Walk
+1035 Mental Shield
+1259 Resist Shock
+1362 Chant of Spirit
+1416 Pa'agrio's Fist
+1323 Noblesse Blessing
+276 Dance of Concentration
+363 Song of Meditation
+349 Song of Renewal
+273 Dance of the Mystic
+267 Song of Warding
+264 Song of Earth
+304 Song of Vitality
+265 Song of Life
+266 Song of Water
+268 Song of Wind
+
+[pet] Pet / Summon | Your pet or servitor fights: damage, speed, HP | icon=1363
+1363 Chant of Victory
+1068 Might
+1388 Greater Might
+1040 Shield
+1036 Magic Barrier
+1045 Blessed Body
+1086 Haste
+1077 Focus
+1242 Death Whisper
+1240 Guidance
+1268 Vampiric Rage
+1062 Berserker Spirit
+1087 Agility
+1044 Regeneration
+1204 Wind Walk
+1035 Mental Shield
+1259 Resist Shock
+271 Dance of the Warrior
+275 Dance of Fury
+274 Dance of Fire
+310 Dance of the Vampire
+264 Song of Earth
+304 Song of Vitality
+267 Song of Warding
+266 Song of Water

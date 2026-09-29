@@ -10,6 +10,54 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-29 — Role Buffer: one-click buff packages per role
+
+### Added
+- **The `role-buffer` module** (`game/modules/role-buffer/`): Alt+B → **Buffer** now shows one-click packages for
+  seven roles:
+  - Warrior, Dagger, Archer and Tank;
+  - Mage, Summoner and Healer/Support.
+
+  Each package gives every buff, dance and song that role benefits from, at the skill's highest level, for an hour.
+  - **Every package fills the 20 buff slots** without two skills of the same stack type. It includes one all-in-one
+    buff: Chant of Victory, Prophecy of Fire, Water or Wind, or Magnus' Chant. It also fills up to 12 dance/song slots.
+  - **The page recommends the package for the character's class**, and **Details** lists each buff with its icon,
+    level and effect ("Might 3: P. Atk +15%").
+  - **A Pet package** goes on the pet or servitor at the same time. It's switchable per character.
+  - **Heal** and **Remove buffs** buttons.
+  - **`.buff`** opens the page; `.buff <role>` applies a package from chat.
+  - Settings in `config/module.ini`: duration, price, the pet default, buffing in combat, the cooldown, debug logging.
+  - It's self-contained, so it can be shared by copying the folder (see its `MODULE.md`).
+- **`tools/buffer/build_buffer_data.py`:**
+  - reads the 99 buff skills from `game/data/stats/skills`;
+  - writes `data/buffs.tsv`: level, dance or buff, stack type, and an effect summary;
+  - checks `data/packages.txt`: known ids, no clashing stack types, and the slot caps from `Player.ini`.
+
+### Changed
+- **`game/data/html/CommunityBoard/Custom/navigation.html`:** the Buffer button opens `_bbs_buffer`. The stock pages
+  `Custom/buffer/*.html` and `_bbsbuff` are untouched but no longer linked.
+
+### Fixed
+- **"Clicking a buff repeatedly doesn't give it; reopening the board helps."** The core source shows two causes on the
+  stock buffer:
+  - the server's flood protector silently drops any board click within 300 ms of the previous one
+    (`FloodProtectorServerBypassInterval = 3` ticks);
+  - the stock buttons give level 1, which can't replace a stronger buff of the same kind.
+
+  The Role Buffer gives the whole package in one click at max level, says in chat what it gave, puts the result and
+  a clock on the refreshed page, and answers "one moment" to a click within a second of the last one. A click faster
+  than 300 ms is still dropped by the core before the module sees it. I haven't reproduced the old bug in game.
+
+**Files:**
+- `game/modules/role-buffer/` (new): `module.json`, `config/module.ini`, `scripts/RoleBufferModule.java`,
+  `data/packages.txt`, `data/buffs.tsv`, `MODULE.md`, `TESTING.md`;
+- `tools/buffer/` (new);
+- `game/data/html/CommunityBoard/Custom/navigation.html`;
+- `docs/community-board.md`, `docs/modules.md`, `docs/README.md`.
+
+**Apply:** restart the server, since module Java compiles only at startup. Then open Alt+B, which also picks up the new
+Buffer button.
+
 ## 2026-09-29 — Adventurer's Guide: a Go teleport for every monster
 
 ### Added

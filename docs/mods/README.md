@@ -67,6 +67,7 @@ Our mods are also on a GitHub fork of upstream, [cybercyberz/L2-Living-Worlds](h
 | Change what a UI window does | an UnrealScript `.l2patch` for `interface.u` ([tools/l2mod](../tools/l2mod/README.md)) | close the client, `python tools\l2mod install …` |
 | Move, add or remove UI controls | an `interface.xdat` `.l2patch` ([tools/l2mod](../tools/l2mod/README.md)) | close the client, `python tools\l2mod install …` |
 | Change the new-player guide (Alt+B, Guide) | `game\modules\adventurer-guide\` ([MODULE.md](../game/modules/adventurer-guide/MODULE.md)); tips in its `data\tips.txt`; tables from `python tools\guide\build_guide_data.py` | restart |
+| Change the buff packages (Alt+B, Buffer) | `game\modules\role-buffer\data\packages.txt` ([MODULE.md](../game/modules/role-buffer/MODULE.md)); check it with `python tools\buffer\build_buffer_data.py` | restart |
 | Navigate to a quest's NPCs and mobs from Alt+U | `game\modules\quest-navigator\` + `tools\l2mod\patches\quest-navigator.l2patch` ([README](../tools/questnav/README.md)) | restart the server; install the patch with the client closed |
 
 ## Ground rules for modding

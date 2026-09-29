@@ -6,7 +6,7 @@ custom board. The stock board has favourites, region and clan counts; the custom
 
 - **Guide** (the Adventurer's Guide module, see below)
 - Home
-- Buffer
+- **Buffer** (the Role Buffer module, see below)
 - Merchant
 - **Cash Shop**
 - Gatekeeper
@@ -47,6 +47,7 @@ must not start with an existing one.
 | Bypass | Module | Does |
 |---|---|---|
 | `bypass _bbs_guide [page …]` | `adventurer-guide` | The Adventurer's Guide pages: `quests`, `quest <id>`, `hunt`, `area <n>`, `next`, `gear`, `towns`, `town <n>`, `tips`, plus the `mark`, `npc`, `tp` and `go <area> <npcId>` actions |
+| `bypass _bbs_buffer [page …]` | `role-buffer` | The buff packages: `main`, `role <key> [0\|1]`, `apply <key>`, `pet on\|off`, `heal`, `clear` |
 | `bypass _bbs_questnav …` | `quest-navigator` | Quest Navigator window and radar marks |
 
 ## The Adventurer's Guide
@@ -65,6 +66,23 @@ built in Java, so there are no `.html` files to edit, apart from the tips in `da
 
 Generated pages have to fit the board's limit of three 4090-character packets, including `navigation.html`. The guide
 pages them at 8 to 16 rows and logs a warning if one gets too long.
+
+## The Buffer
+The **Buffer** button opens the `role-buffer` module. Each role (Warrior, Dagger, Archer, Tank, Mage, Summoner,
+Healer/Support) has a one-click package: every buff, dance and song that role benefits from, at max level, for an hour
+(`BuffDurationSeconds`). The pet or summon gets its own package too. The page recommends the package for the
+character's class, and **Details** lists what each buff does. The packages are in
+`game\modules\role-buffer\data\packages.txt`; see its `MODULE.md`.
+
+The stock buffer pages (`Custom\buffer\main.html`, `main2.html`, via `_bbsbuff`) are still there but no longer linked.
+They give one level-1 buff per click, from `CommunityAvailableBuffs`. Clicking them quickly often seemed to do
+nothing, for two reasons:
+- the server silently drops any board click within 300 ms of the previous one
+  (`FloodProtectorServerBypassInterval = 3` in `FloodProtector.ini`);
+- a level-1 buff can't replace a stronger buff of the same kind that the character already has.
+
+The Role Buffer gives a whole package per click at max level, prints what it gave, and answers "one moment" to a
+click within a second of the last one. It can't answer a click the flood protector already dropped.
 
 ## Page layout rules (learned the hard way)
 - **Button width.** Use `width=114` with `back="L2UI_CH3.Button.bigbutton2_down" fore="L2UI_CH3.Button.bigbutton2"`.

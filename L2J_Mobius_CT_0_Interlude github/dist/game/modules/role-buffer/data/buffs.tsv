@@ -1,0 +1,100 @@
+#id	level	name	kind	type	typeLevel	time	icon	effect
+1035	4	Mental Shield	buff	RESIST_DERANGEMENT	4	1200	icon.skill1035	Hold/Sleep/Mental Res +50%
+1036	2	Magic Barrier	buff	MD_UP	3	1200	icon.skill1036	M. Def +30%
+1040	3	Shield	buff	PD_UP	3	1200	icon.skill1040	P. Def +15%
+1043	1	Holy Weapon	buff	HOLY_ATTACK	1	1200	icon.skill1043	Holy Atk +20
+1044	3	Regeneration	buff	HP_REGEN_UP	3	1200	icon.skill1044	HP Regen +20%
+1045	6	Blessed Body	buff	MAX_HP_UP	6	1200	icon.skill1045	Max HP +35%
+1048	6	Blessed Soul	buff	MAX_MP_UP	6	1200	icon.skill1048	Max MP +35%
+1062	2	Berserker Spirit	buff	BERSERKER	2	1200	icon.skill1062	M. Atk +16%, P. Atk +8%, M. Def -16%, P. Def -8%, Casting Spd +8%, Atk. Spd +8%, Speed +8, Evasion -4
+1068	3	Might	buff	PA_UP	3	1200	icon.skill1068	P. Atk +15%
+1077	3	Focus	buff	CRITICAL_PROB_UP	3	1200	icon.skill1077	Crit. Rate +30%
+1078	6	Concentration	buff	CANCEL_PROB_DOWN	6	1200	icon.skill1078	Cast Interrupt -53%
+1085	3	Acumen	buff	CASTING_TIME_DOWN	3	1200	icon.skill1085	Casting Spd +30%
+1086	2	Haste	buff	ATTACK_TIME_DOWN	2	1200	icon.skill1086	Atk. Spd +33%
+1087	3	Agility	buff	AVOID_UP	3	1200	icon.skill1087	Evasion +4
+1204	2	Wind Walk	buff	SPEED_UP	2	1200	icon.skill1204	Speed +33
+1240	3	Guidance	buff	HIT_UP	3	1200	icon.skill1240	Accuracy +4
+1242	3	Death Whisper	buff	CRITICAL_DMG_UP	3	1200	icon.skill1242	Crit. Dmg +35%
+1243	6	Bless Shield	buff	SHIELD_PROB_UP	6	1200	icon.skill1243	Shield Rate +80%
+1388	3	Greater Might	buff	PA_PD_UP	3	1200	icon.skill1388	P. Atk +10%
+1389	3	Greater Shield	buff	PA_PD_UP	3	1200	icon.skill1389	P. Def +15%
+1392	3	Holy Resistance	buff	ARMOR_HOLY	3	1200	icon.skill1392	Holy Res +30
+1393	3	Unholy Resistance	buff	ARMOR_UNHOLY	3	1200	icon.skill1393	Dark Res +30
+1073	2	Kiss of Eva	buff	MAX_BREATH_UP	3	1200	icon.skill1073	Breath +600%
+1259	4	Resist Shock	buff	RESIST_SHOCK	4	1200	icon.skill1259	Stun Res +40%
+1303	2	Wild Magic	buff	MAGIC_CRITICAL_UP	2	1200	icon.skill1303	M. Crit +300%
+1304	3	Advanced Block	buff	SHIELD_DEFENCE_UP	3	1200	icon.skill1304	Shield Def +100%
+1352	1	Elemental Protection	buff	MD_UP_ATTR	3	1200	icon.skill1352	Water Res +20, Fire Res +30, Wind Res +20, Earth Res +20
+1353	1	Divine Protection	buff	RESIST_HOLY_UNHOLY	3	1200	icon.skill1353	Dark Res +30, Holy Res +30
+1354	1	Arcane Protection	buff	RESIST_DEBUFF_DISPEL	3	1200	icon.skill1354	Cancel Res +30, Debuff Taken -20%
+1397	3	Clarity	buff	CHEAP_MAGIC	3	1200	icon.skill1397	Spell MP Cost -10%, Skill MP Cost -20%
+1032	3	Invigor	buff	RESIST_BLEEDING	3	1200	icon.skill1032	Bleed Res +50%
+1033	3	Resist Poison	buff	RESIST_POISON	3	1200	icon.skill1033	Poison Res +50%
+1059	3	Empower	buff	MA_UP	3	1200	icon.skill1059	M. Atk +75%
+1182	3	Resist Aqua	buff	ARMOR_WATER	3	1200	icon.skill1182	Water Res +30
+1189	3	Resist Wind	buff	ARMOR_WIND	3	1200	icon.skill1189	Wind Res +30
+1191	3	Resist Fire	buff	ARMOR_FIRE	3	1200	icon.skill1191	Fire Res +30
+1257	3	Decrease Weight	buff	DECREASE_WEIGHT_PENALTY	3	1200	icon.skill1257	Weight +9000
+1268	4	Vampiric Rage	buff	VAMPIRIC_ATTACK	4	1200	icon.skill1268	HP Absorb +9%
+1002	3	Flame Chant	buff	CASTING_TIME_DOWN	3	1200	icon.skill1002	Casting Spd +30%
+1006	3	Chant of Fire	buff	MD_UP	3	1200	icon.skill1006	M. Def +30%
+1007	3	Chant of Battle	buff	PA_UP	3	1200	icon.skill1007	P. Atk +15%
+1009	3	Chant of Shielding	buff	PD_UP	3	1200	icon.skill1009	P. Def +15%
+1251	2	Chant of Fury	buff	ATTACK_TIME_DOWN	2	1200	icon.skill1251	Atk. Spd +33%
+1252	3	Chant of Evasion	buff	AVOID_UP	3	1200	icon.skill1252	Evasion +4
+1253	3	Chant of Rage	buff	CRITICAL_DMG_UP	3	1200	icon.skill1253	Crit. Dmg +35%
+1284	3	Chant of Revenge	buff	DMG_SHIELD	3	1200	icon.skill1284	Reflect Dmg +20%
+1308	3	Chant of Predator	buff	CRITICAL_PROB_UP	3	1200	icon.skill1308	Crit. Rate +30%
+1309	3	Chant of Eagle	buff	HIT_UP	3	1200	icon.skill1309	Accuracy +4
+1310	4	Chant of Vampire	buff	VAMPIRIC_ATTACK	4	1200	icon.skill1310	HP Absorb +9%
+1362	1	Chant of Spirit	buff	RESIST_DEBUFF_DISPEL	3	1200	icon.skill1362	Cancel Res +30, Debuff Taken -20%
+1390	3	War Chant	buff	PA_PD_UP	3	1200	icon.skill1390	P. Atk +10%
+1391	3	Earth Chant	buff	PA_PD_UP	3	1200	icon.skill1391	P. Def +15%
+1004	3	The Wisdom of Pa'agrio	buff	CASTING_TIME_DOWN	3	1200	icon.skill1004	Casting Spd +30%
+1005	3	Blessings of Pa'agrio	buff	PD_UP	3	1200	icon.skill1005	P. Def +15%
+1008	3	The Glory of Pa'agrio	buff	MD_UP	3	1200	icon.skill1008	M. Def +30%
+1249	3	The Vision of Pa'agrio	buff	HIT_UP	3	1200	icon.skill1249	Accuracy +4
+1250	3	Under the Protection of Pa'agrio	buff	SHIELD_PROB_UP	3	1200	icon.skill1250	Shield Rate +50%
+1260	3	The Tact of Pa'agrio	buff	AVOID_UP	3	1200	icon.skill1260	Evasion +4
+1261	2	The Rage of Pa'agrio	buff	BERSERKER	2	1200	icon.skill1261	M. Atk +16%, P. Atk +8%, M. Def -16%, P. Def -8%, Casting Spd +8%, Atk. Spd +8%, Speed +8, Evasion -4
+1282	2	Pa'agrian Haste	buff	SPEED_UP	2	1200	icon.skill1282	Speed +33
+1364	1	The Eye of Pa'agrio	buff	CRITICAL_DMG_UP	3	1200	icon.skill1364	Crit. Dmg +35%
+1365	1	The Soul of Pa'agrio	buff	MA_UP	3	1200	icon.skill1365	M. Atk +75%
+1415	1	Pa'agrio's Emblem	buff	RESIST_DEBUFF_DISPEL	1	300	icon.skill1415	Cancel Res +30, Debuff Taken -20%
+1416	1	Pa'agrio's Fist	buff	CP_UP	1	300	icon.skill1416	Max CP +800
+271	1	Dance of the Warrior	dance	DANCE_OF_WARRIOR	1	120	icon.skill0271	P. Atk +12%
+272	1	Dance of Inspiration	dance	DANCE_OF_INSPIRATION	1	120	icon.skill0272	Accuracy +4
+273	1	Dance of the Mystic	dance	DANCE_OF_MYSTIC	1	120	icon.skill0273	M. Atk +20%
+274	1	Dance of Fire	dance	DANCE_OF_FIRE	1	120	icon.skill0274	Crit. Dmg +35%
+275	1	Dance of Fury	dance	DANCE_OF_FURY	1	120	icon.skill0275	Atk. Spd +15%
+276	1	Dance of Concentration	dance	DANCE_OF_CONCENTRATION	1	120	icon.skill0276	Casting Spd +30%, Cast Interrupt -30%
+277	1	Dance of Light	dance	DANCE_OF_LIGHT	1	120	icon.skill0277	Holy Atk +20
+307	1	Dance of Aqua Guard	dance	DANCE_OF_AQUA_GUARD	1	120	icon.skill0307	Water Res +30
+309	1	Dance of Earth Guard	dance	DANCE_OF_EARTH_GUARD	1	120	icon.skill0309	Earth Res +30
+310	1	Dance of the Vampire	dance	DANCE_OF_VAMPIRE	1	120	icon.skill0310	HP Absorb +8%
+311	1	Dance of Protection	dance	DANCE_OF_PROTECTION	1	120	icon.skill0311	Terrain Dmg Taken -30%
+365	1	Siren's Dance	dance	DANCE_OF_SIREN	1	120	icon.skill0365	M. Crit +100%
+366	1	Dance of Shadows	dance	DANCE_OF_SHADOW	1	120	icon.skill0366	Speed -50%
+264	1	Song of Earth	dance	SONG_OF_EARTH	1	120	icon.skill0264	P. Def +25%
+265	1	Song of Life	dance	SONG_OF_LIFE	1	120	icon.skill0265	HP Regen +20%
+266	1	Song of Water	dance	SONG_OF_WATER	1	120	icon.skill0266	Evasion +3
+267	1	Song of Warding	dance	SONG_OF_WARDING	1	120	icon.skill0267	M. Def +30%
+268	1	Song of Wind	dance	SONG_OF_WIND	1	120	icon.skill0268	Speed +20
+269	1	Song of Hunter	dance	SONG_OF_HUNTER	1	120	icon.skill0269	Crit. Rate +100%
+270	1	Song of Invocation	dance	SONG_OF_INVOCATION	1	120	icon.skill0270	Dark Res +20
+304	1	Song of Vitality	dance	SONG_OF_VITALITY	1	120	icon.skill0304	Max HP +30%
+305	1	Song of Vengeance	dance	SONG_OF_VENGEANCE	1	120	icon.skill0305	Reflect Dmg +20%
+306	1	Song of Flame Guard	dance	SONG_OF_FLAME_GUARD	1	120	icon.skill0306	Fire Res +30
+308	1	Song of Storm Guard	dance	SONG_OF_STORM_GUARD	1	120	icon.skill0308	Wind Res +30
+349	1	Song of Renewal	dance	SONG_OF_RENEWAL	1	120	icon.skill0349	Spell Reuse -30%, Skill Reuse -30%, Spell MP Cost -5%, Skill MP Cost -5%
+363	1	Song of Meditation	dance	SONG_OF_MEDITATION	1	120	icon.skill0363	MP Regen +20%, Spell MP Cost -10%
+364	1	Song of Champion	dance	SONG_OF_CHAMPION	1	120	icon.skill0364	Skill Reuse -30%, Skill MP Cost -20%
+1323	1	Noblesse Blessing	buff	PRESERVE_ABNORMAL	1	3600	icon.skill1323	Keep buffs on death
+1355	1	Prophecy of Water	buff	MULTI_BUFF	1	300	icon.skill1355	M. Atk +20%, M. Def +20%, Casting Spd +20%, M. Crit +100%, MP Regen +20%, Speed -20%, Debuff Taken -10%
+1356	1	Prophecy of Fire	buff	MULTI_BUFF	1	300	icon.skill1356	P. Atk +10%, P. Def +20%, Accuracy +4, Atk. Spd +20%, Speed -10%, Max HP +20%, HP Regen +20%, Debuff Taken -10%
+1357	1	Prophecy of Wind	buff	MULTI_BUFF	1	300	icon.skill1357	Accuracy +4, Evasion +4, Atk. Spd +20%, HP Absorb +5%, Crit. Rate +20% from behind, Crit. Dmg +20% from behind, Debuff Taken -10%
+1363	1	Chant of Victory	buff	MULTI_BUFF	2	300	icon.skill1363	P. Atk +10%, P. Def +20%, Crit. Rate +20%, Accuracy +4, Atk. Spd +20%, Casting Spd +20%, Crit. Dmg +20%, M. Atk +20%, M. Def +20%, Speed -20%, Max HP +20%, Debuff Taken -20%
+1413	1	Magnus' Chant	buff	MULTI_BUFF	1	300	icon.skill1413	MP Regen +20, Casting Spd +20%, M. Def +30%, M. Atk +30%, Max MP +15%, Spell MP Cost -20%
+1414	1	Victories of Pa'agrio	buff	MULTI_BUFF	2	300	icon.skill1414	P. Atk +10%, P. Def +20%, Crit. Rate +20%, Accuracy +4, Atk. Spd +20%, Casting Spd +20%, Crit. Dmg +20%, M. Atk +20%, M. Def +20%, Speed -20%, Max HP +20%, Debuff Taken -20%
+1311	6	Body of Avatar	buff	MAX_HP_UP	6	1200	icon.skill1311	Max HP +35%
