@@ -16,3 +16,7 @@ __pycache__/
 .idea
 /out
 /L2J_Mobius_CT_0_Interlude github/dist/game/presence.json*
+
+# l2mod: decompiled output is derived from the client, regenerate with `python tools/l2mod decompile`
+/L2J_Mobius_CT_0_Interlude github/tools/l2mod/out/
+/L2J_Mobius_CT_0_Interlude github/tools/questnav/quest_npcs.tsv

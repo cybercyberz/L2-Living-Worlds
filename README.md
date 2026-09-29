@@ -1,5 +1,18 @@
 # Interlude: Living World - an offline/solo Lineage 2 server
 
+> **This is `cybercyberz/L2-Living-Worlds`, branch `living-world-mods`: a personal mod branch.**
+> It is upstream [Teravibes/L2-Living-Worlds](https://github.com/Teravibes/L2-Living-Worlds) `v0.1.25`
+> (tag `base-v0.1.25`) plus our own changes as separate commits. `main` mirrors upstream untouched.
+>
+> - **What's added:** a Community Board cash shop, the Quest Navigator module, the `l2mod` client toolkit
+>   (`tools/l2mod`), and modding docs in [docs/mods/](docs/mods/README.md). The change log is
+>   [CHANGELOG-mods.md](CHANGELOG-mods.md).
+> - **Where it comes from:** the mods are made in a local git repo of the installed one-click pack, where
+>   the contents of `dist/` sit at the root, and are carried here with `tools/forksync/forksync.py`.
+>   Its path map: `dist/*` ↔ the install root, `fpc_brain.py` + `knowledge/` ↔ `brain/`, `tools/` ↔ `tools/`,
+>   `docs/mods/` ↔ `docs/`, `CHANGELOG-mods.md` ↔ `CHANGELOG.md`. Doc links are written for the install layout.
+> - **Updating:** upstream releases are brought in selectively onto this branch, measured against `base-v0.1.25`.
+
 A fork of **L2J Mobius CT_0 Interlude** turned into a single-player **"Living World"**:
 you log in and the server *feels* populated - towns full of NPCs, working private
 shops, trade chat, field hunters, and recruitable combat parties - without any other
