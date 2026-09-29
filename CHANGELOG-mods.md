@@ -10,6 +10,32 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-30 — Phantom Party DPS: faster casting for party phantoms, and a DPS meter
+
+### Added
+- **The `phantom-party-dps` module** (`game/modules/phantom-party-dps/`). The party manager in `GameServer.jar` plays
+  members for realism, not damage: it decides once a second, the playstyle engine then waits 1.6–2.5 s after every
+  skill, a nuker never auto-attacks so it idles through that wait, and a fighter's swing stops after a skill until the
+  next tick. The module, for recruited DPS members (WARRIOR, DAGGER, ARCHER, MONK, NUKER by default):
+  - **Fast follow-up:** when a member starts a cast, the engine's pause is cut to 250–500 ms, and as soon as the cast
+    ends the next skill is picked with the engine's own `PhantomPlaystyleEngine.pick`. A fighter with nothing ready
+    resumes swinging at once.
+  - It only follows the manager's lead: the target the member was already hitting, and it stops when the member moves,
+    sits, holds, eases aggro, recovers after a res, is in PvP, or changes target. Raid bosses and minions stay with the
+    manager's raid gates. It never picks targets.
+  - **Burn phase:** from the party's damage over the last 4 s, a mob that will die within 5 s gets no DEBUFF, CONTROL
+    or OPENER casts; the full playstyle returns on the next target.
+  - **`.dps` meter:** DPS, share, casts and active % per party member, for the current or last fight and the session.
+    `.dps reset` clears it.
+  - Settings in `config/module.ini` (pace, window, burn threshold, roles, debug). It depends on
+    `phantom-skill-pacing`, which keeps the per-skill `paceMs` gaps.
+  - No jar change: global skill-use, attack and damage events, plus reflection on the party manager's member records
+    and the engine's per-member state. On a jar whose classes differ it logs one warning and only the meter runs.
+- **Files:** `game/modules/phantom-party-dps/` (new), `docs/modules.md`, `docs/living-world.md`, `docs/README.md`.
+
+**Apply:** restart the server. Module Java compiles only at startup. Measure before and after with `.dps` (see the
+module's `TESTING.md`).
+
 ## 2026-09-30 — Phantom playstyles: paceMs is per skill; header matches the engine
 
 ### Fixed

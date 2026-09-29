@@ -54,6 +54,11 @@ of about 1.6–2.5 s. On its own, the jar's engine uses an entry's `paceMs` as t
 skill stalls the whole rotation. The `phantom-skill-pacing` module
 ([MODULE.md](../game/modules/phantom-skill-pacing/MODULE.md)) turns `paceMs` into a per-skill cooldown instead. The
 XML header lists what each `use` and `when` actually does.
+
+**Party DPS.** The party manager decides once a second per member and pauses 1.6–2.5 s after every skill, so casters
+idle and fighters stop swinging after a skill. The `phantom-party-dps` module
+([MODULE.md](../game/modules/phantom-party-dps/MODULE.md)) chains the next skill as soon as a cast ends, skips setup
+skills on mobs about to die, and adds a `.dps` meter. It never picks targets and leaves raids to the manager.
 | `spawns\Others\FakePlayers.xml` | Fixed FPC spawn (NPC 80000 "Evi" in Giran) | restart |
 
 The **Control Panel** (`LivingWorld.exe` → config editor, which is `tools\l2admin\index.html`) has editors for
