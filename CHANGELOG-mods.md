@@ -43,6 +43,49 @@ Every entry is committed to this folder's git repo (see [docs/operations.md](doc
 
 **Apply:** nothing. The server doesn't use these files.
 
+## 2026-09-29 — Adventurer's Guide: a new-player menu on Alt+B
+
+### Added
+- **The `adventurer-guide` module** (`game\modules\adventurer-guide\`). It adds a **Guide** tab to the Alt+B board
+  (also `.guide`) that tells a player what to do next. Every page is built for the character viewing it:
+  - **Home:** race, class, level, how far the next class change is, the nearest quests and the best hunting spot.
+    It also warns about the kit: no weapon, no shots for the weapon's grade, or gear below the grade they can wear.
+  - **Quests:** tabs for Available, In progress, Coming soon (within 5 levels) and Done, nearest first. Each quest
+    opens a page with its story, first step and start NPC, plus Mark on map, Teleport near, and "NPCs and mobs"
+    (the Quest Navigator window).
+  - **Hunt:** hunting spots with monsters from your level -3 to +4. Each spot lists its monsters with level colours,
+    base XP/SP and aggression.
+  - **Next steps:** the Path, Trial/Testimony/Test and Saga quests your class can take, and the Class Masters of the
+    nearest town. After the 3rd class, the noblesse quests.
+  - **Gear:** the grade each level can wear, your weapon and armor grade, the matching shots, and links to the
+    Merchant, Cash Shop and Drop Search pages.
+  - **Towns:** every town's gatekeepers, warehouses, grocers, weapon and armor traders, Class Masters and trainers.
+  - **Tips:** eight short pages from `data\tips.txt`.
+
+  Every place has **Mark**, which sets the radar and map flag. There's also a **Teleport** to the nearest gatekeeper
+  destination: it charges that destination's normal fee, is free up to level 20, and has the board's combat and Karma
+  checks. Low-level characters get a login reminder, and level-ups say how many new quests opened and when a class
+  change or new gear grade is available.
+- **Why it can know what you can take:** the quest scripts check race, class and level by hand, so the server can't
+  answer that question. The client's `questname-e.dat` can: it lists each quest's level range, allowed classes,
+  prerequisite and start NPC.
+- **`tools\guide\build_guide_data.py`** writes the module's tables:
+  - quests from `questname-e.dat`, read through l2mod;
+  - gatekeeper destinations;
+  - hunting spots from the monster spawns;
+  - town services from the town spawns and buylists.
+
+  `--check` reports whether they're stale. See `tools\guide\README.md`.
+
+### Changed
+- **`game\data\html\CommunityBoard\Custom\navigation.html`:** a Guide button at the top.
+- **`game\data\html\CommunityBoard\Custom\home.html`:** a welcome line and an "Open the Guide" button.
+- **Docs:** `docs/README.md`, `docs/modules.md` and `docs/community-board.md` cover the Guide.
+
+**Apply:** restart the server (the module compiles at startup; the board pages reload with it). If the server is
+already running and you only want the buttons, `//reload html` shows them, but they do nothing until the restart. No
+client change is needed.
+
 ## 2026-09-29 — Docs brought up to date with l2mod
 
 ### Changed

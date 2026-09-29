@@ -1,0 +1,511 @@
+#townIdx	town	category	npcId	name	x	y	z
+0	Aden	Gatekeeper	30848	Elisa	146737	25807	-2013
+0	Aden	Warehouse	31226	Arena Director	147508	47042	-3400
+0	Aden	Warehouse	31226	Arena Director	151484	46383	-3400
+0	Aden	Warehouse	30843	Romp	148859	27258	-2216
+0	Aden	Warehouse	30844	Walderal	148155	26254	-2217
+0	Aden	Grocer	30842	Alexis	148142	28986	-2253
+0	Aden	Grocer	30841	Carson	148860	27959	-2253
+0	Aden	Grocer	30839	Holly	146054	27988	-2250
+0	Aden	Grocer	30840	Lorenzo	146893	28982	-2250
+0	Aden	Grocer	35277	Manor Manager	146504	28468	-2272
+0	Aden	Grocer	35277	Manor Manager	148408	28476	-2272
+0	Aden	Weapons	30837	Woodrow	146787	26255	-2189
+0	Aden	Armor	30838	Woodley	146046	27293	-2189
+0	Aden	Class Master	30854	Drikiyan (Grand Magister)	145856	23168	-2115
+0	Aden	Class Master	30847	Ferris (Head Blacksmith)	150337	28398	-2246
+0	Aden	Class Master	30845	Klump (Warehouse Chief)	148960	26145	-2218
+0	Aden	Class Master	30865	Ladanza (High Prefect)	144512	25696	-2125
+0	Aden	Class Master	30862	Oltlin (Grand Master)	143776	23936	-2118
+0	Aden	Class Master	30857	Orven (High Priest)	147456	22576	-1989
+0	Aden	Class Master	30849	Sedrick (Grand Master)	149216	24960	-2122
+0	Aden	Skill Trainer	30850	Aiken (Master)	148960	25120	-2121
+0	Aden	Skill Trainer	30855	Desmond (Magister)	145648	22752	-2116
+0	Aden	Skill Trainer	30860	Flownia (Priestess)	147692	22848	-1991
+0	Aden	Skill Trainer	30863	Ghest (Master)	143968	24256	-2118
+0	Aden	Skill Trainer	30864	Hanellin (Magister)	144096	23584	-2117
+0	Aden	Skill Trainer	30851	Kendra (Master)	149216	25648	-2121
+0	Aden	Skill Trainer	30861	Leonard (Priest)	147214	23067	-1991
+0	Aden	Skill Trainer	30866	Marestella (Prefect)	144496	25360	-2124
+0	Aden	Skill Trainer	30853	Raien (Master)	149488	25504	-2121
+0	Aden	Skill Trainer	30867	Reva (Seer)	143856	25696	-2125
+0	Aden	Skill Trainer	30858	Ross (Priest)	147216	22848	-1992
+0	Aden	Skill Trainer	30852	Sinden (Master)	148960	25408	-2121
+0	Aden	Skill Trainer	30859	Vivyan (Priestess)	147693	23067	-1991
+0	Aden	Skill Trainer	30846	Wilbert (Blacksmith)	150608	28510	-2247
+0	Aden	Skill Trainer	30856	Winonin (Magister)	145646	23568	-2116
+0	Aden	Pet Manager	30869	Lemper	145168	30432	-2461
+0	Aden	Symbol Maker	31053	Kidder	149044	29160	-2253
+1	Dark Elf Village	Gatekeeper	30134	Jasmine	9670	15537	-4568
+1	Dark Elf Village	Warehouse	30350	Carlon	13763	17501	-4542
+1	Dark Elf Village	Warehouse	30139	Dorankus	13380	17430	-4536
+1	Dark Elf Village	Warehouse	30140	Erviante	13464	17751	-4536
+1	Dark Elf Village	Grocer	35231	Manor Manager	9383	17746	-4568
+1	Dark Elf Village	Grocer	30138	Minaless	12009	15704	-4554
+1	Dark Elf Village	Grocer	30420	Tyra	-61717	75401	-3352
+1	Dark Elf Village	Grocer	30137	Vollodos	11951	15661	-4554
+1	Dark Elf Village	Weapons	30135	Iria	10761	17970	-4554
+1	Dark Elf Village	Armor	30136	Payne	10823	18013	-4554
+1	Dark Elf Village	Class Master	30358	Thifiell (Tetrarch)	10775	14190	-4240
+1	Dark Elf Village	Skill Trainer	30360	Harant (Master)	10447	14620	-4240
+1	Dark Elf Village	Skill Trainer	30144	Harne (Magister)	10344	14445	-4240
+1	Dark Elf Village	Skill Trainer	30143	Trudy (Master)	11283	14226	-4240
+1	Dark Elf Village	Skill Trainer	30145	Vlasty (Magister)	11258	14431	-4240
+2	Dion	Gatekeeper	30485	Capella	17725	108220	-9057
+2	Dion	Gatekeeper	30486	Hanna	17722	119749	-9068
+2	Dion	Gatekeeper	30487	Penelope	17728	107703	-11849
+2	Dion	Gatekeeper	30484	Ponti	17725	113906	-11671
+2	Dion	Gatekeeper	30059	Trisha	15631	142885	-2704
+2	Dion	Warehouse	30057	Aldo	20777	144971	-3068
+2	Dion	Warehouse	30058	Holvas	20750	144432	-3068
+2	Dion	Grocer	30063	Lara	19223	146228	-3069
+2	Dion	Grocer	35145	Manor Manager	17882	144184	-3051
+2	Dion	Grocer	35145	Manor Manager	19342	145105	-3106
+2	Dion	Grocer	30062	Sonia	19313	146229	-3069
+2	Dion	Weapons	30060	Sabrin	17999	144484	-3046
+2	Dion	Armor	30061	Casey	17948	144560	-3046
+2	Dion	Class Master	30508	Castor (High Prefect)	19932	143232	-3040
+2	Dion	Class Master	30595	Opix (Head Blacksmith)	19712	143307	-3025
+2	Dion	Class Master	30066	Pabris (Grand Master)	19516	144772	-3088
+2	Dion	Class Master	30594	Ranspo (Warehouse Chief)	21017	144481	-3065
+2	Dion	Class Master	30070	Sylvain (High Priest)	15795	142347	-2680
+2	Dion	Class Master	30462	Tronix (Grand Master)	17168	146720	-3085
+2	Dion	Skill Trainer	30065	Arnelle (Master)	19725	144567	-3088
+2	Dion	Skill Trainer	30460	Cardien (Master)	19472	144334	-3088
+2	Dion	Skill Trainer	30464	Clayton (Magister)	17280	146944	-3085
+2	Dion	Skill Trainer	30509	Dowki (Prefect)	20050	143308	-3040
+2	Dion	Skill Trainer	30067	Glyvka (Priestess)	16269	142461	-2688
+2	Dion	Skill Trainer	30463	Ixia (Master)	17384	146605	-3085
+2	Dion	Skill Trainer	30461	Mirien (Magister)	16427	142131	-2688
+2	Dion	Skill Trainer	30458	Poitan (Blacksmith)	19737	143122	-3028
+2	Dion	Skill Trainer	30069	Rollant (Magister)	16236	142153	-2688
+2	Dion	Skill Trainer	30068	Shegfield (Priest)	16456	142447	-2688
+2	Dion	Skill Trainer	30510	Somak (Seer)	19924	143196	-3040
+2	Dion	Skill Trainer	30064	Terry (Master)	19708	144780	-3088
+2	Dion	Skill Trainer	30459	Wandius (Master)	19696	144336	-3088
+2	Dion	Pet Manager	30828	Waters	19276	142864	-3032
+2	Dion	Symbol Maker	31048	McDermott	19505	146220	-3071
+3	Floran Village	Warehouse	30079	Barder	17836	169853	-3494
+3	Floran Village	Warehouse	31773	Sonin	17788	169842	-3496
+3	Floran Village	Grocer	30078	Pano	16970	170391	-3496
+3	Floran Village	Skill Trainer	30291	Alex (Captain)	20943	171358	-3548
+4	Dwarven Village	Gatekeeper	30540	Wirphy	115072	-178176	-880
+4	Dwarven Village	Warehouse	30522	Airy	114832	-179520	-856
+4	Dwarven Village	Warehouse	30521	Murdoc	114716	-180018	-872
+4	Dwarven Village	Grocer	35644	Manor Manager	116176	-181600	-1360
+4	Dwarven Village	Grocer	30519	Mion	116268	-177524	-880
+4	Dwarven Village	Weapons	30516	Reep	115741	-181645	-1320
+4	Dwarven Village	Armor	30518	Garita	115900	-177316	-880
+4	Dwarven Village	Armor	30517	Shari	116192	-181072	-1336
+4	Dwarven Village	Class Master	30525	Bronk (Head Blacksmith)	115468	-182446	-1440
+4	Dwarven Village	Class Master	30520	Reed (Warehouse Chief)	115205	-180024	-872
+4	Dwarven Village	Skill Trainer	30526	Brunon (Blacksmith)	115315	-182155	-1440
+4	Dwarven Village	Skill Trainer	30527	Silvera (Blacksmith)	115271	-182692	-1440
+5	Elven Village	Gatekeeper	30146	Mirabel	46926	51511	-2976
+5	Elven Village	Warehouse	30151	Chad	47868	50167	-2983
+5	Elven Village	Warehouse	30152	Julia	47912	50170	-2983
+5	Elven Village	Warehouse	30153	Markius	47780	49568	-2984
+5	Elven Village	Grocer	30149	Creamees	42700	50057	-2984
+5	Elven Village	Grocer	30150	Herbiel	42766	50037	-2984
+5	Elven Village	Grocer	35230	Manor Manager	43849	50558	-3056
+5	Elven Village	Weapons	30147	Unoren	44667	46896	-2982
+5	Elven Village	Armor	30148	Ariel	44683	46952	-2981
+5	Elven Village	Class Master	30154	Asterios (Hierarch)	44692	52261	-2792
+5	Elven Village	Skill Trainer	30156	Cobendell (Master)	44823	52414	-2792
+5	Elven Village	Skill Trainer	30155	Ellenia (Master)	45725	52105	-2792
+5	Elven Village	Skill Trainer	30158	Esrandell (Magister)	45919	52414	-2792
+5	Elven Village	Skill Trainer	30157	Greenis (Magister)	45000	52101	-2792
+6	Giran	Gatekeeper	30080	Clarissa	83396	147904	-3404
+6	Giran	Gatekeeper	30836	Minerva	105888	109808	-3216
+6	Giran	Warehouse	30092	Collob	79248	149552	-3531
+6	Giran	Warehouse	30104	Parman	83263	146736	-3464
+6	Giran	Warehouse	30083	Pochi	80329	145482	-3533
+6	Giran	Warehouse	30095	Randolf	82405	149905	-3520
+6	Giran	Warehouse	30086	Taurin	80752	146400	-3533
+6	Giran	Warehouse	30103	Valkon	83264	146602	-3464
+6	Giran	Grocer	30098	Alexandria	79599	145457	-3494
+6	Giran	Grocer	30082	Denkus	80518	147873	-3506
+6	Giran	Grocer	30097	Galladucci	79599	145522	-3494
+6	Giran	Grocer	30081	Helvetia	80518	147922	-3506
+6	Giran	Grocer	35187	Manor Manager	79296	148128	-3536
+6	Giran	Grocer	35187	Manor Manager	80544	152288	-3536
+6	Giran	Grocer	35187	Manor Manager	81936	149584	-3472
+6	Giran	Weapons	30084	Graham	79747	146492	-3518
+6	Giran	Weapons	30085	Stanford	79801	146493	-3518
+6	Giran	Armor	30091	Ellie	80510	149250	-3508
+6	Giran	Armor	30087	Peta	79711	150788	-3520
+6	Giran	Armor	30088	Radia	79654	150788	-3520
+6	Giran	Armor	30090	Sandra	80511	149183	-3508
+6	Giran	Class Master	30474	Angus (Grand Master)	79059	149457	-3596
+6	Giran	Class Master	30511	Gesto (Warehouse Chief)	83263	146667	-3464
+6	Giran	Class Master	30109	Hannavalt (Grand Master)	85655	146471	-3399
+6	Giran	Class Master	30115	Jurek (Grand Magister)	85823	153248	-3494
+6	Giran	Class Master	30512	Kusto (Head Blacksmith)	77659	148089	-3595
+6	Giran	Class Master	30120	Maximilian (High Priest)	87058	148634	-3392
+6	Giran	Class Master	30513	Penatus (High Prefect)	80420	144499	-3536
+6	Giran	Skill Trainer	31581	Anastia (Magister)	106608	113392	-3192
+6	Giran	Skill Trainer	30473	Bandellos (Priest)	85829	148365	-3392
+6	Giran	Skill Trainer	30111	Dieter (Magister)	86359	152970	-3494
+6	Giran	Skill Trainer	30106	Dufner (Master)	85234	146634	-3399
+6	Giran	Skill Trainer	30116	Dustin (Priest)	86912	148802	-3392
+6	Giran	Skill Trainer	31580	Galadrid (Master)	106608	113296	-3192
+6	Giran	Skill Trainer	30105	Genwitter (Master)	85505	146208	-3399
+6	Giran	Skill Trainer	30107	Goldian (Master)	85502	146752	-3399
+6	Giran	Skill Trainer	30835	Icarus (Lich King)	106581	113352	-3192
+6	Giran	Skill Trainer	30110	Iker (Magister)	85289	153341	-3494
+6	Giran	Skill Trainer	30119	Isabellin (Priestess)	85828	148894	-3392
+6	Giran	Skill Trainer	30113	Juris (Magister)	85253	153153	-3494
+6	Giran	Skill Trainer	30476	Kaira (Magister)	78928	149041	-3596
+6	Giran	Skill Trainer	30833	Kaspar (Magister)	104870	113221	-3184
+6	Giran	Skill Trainer	30108	Macken (Master)	85055	146560	-3399
+6	Giran	Skill Trainer	30515	Manakia (Seer)	80464	144592	-3529
+6	Giran	Skill Trainer	30112	Maurius (Magister)	86362	153337	-3494
+6	Giran	Skill Trainer	31582	Mordred (Dark Knight)	104840	113260	-3184
+6	Giran	Skill Trainer	30117	Primos (Priest)	86472	148848	-3392
+6	Giran	Skill Trainer	30118	Pupina (Priestess)	86485	148384	-3392
+6	Giran	Skill Trainer	30300	Pushkin (Blacksmith)	77458	148169	-3595
+6	Giran	Skill Trainer	30114	Roa (Magister)	85297	152963	-3494
+6	Giran	Skill Trainer	30472	Rosheria (Master)	85231	146328	-3399
+6	Giran	Skill Trainer	30471	Rupio (Blacksmith)	77712	148288	-3595
+6	Giran	Skill Trainer	30475	Stapin (Master)	78766	149239	-3596
+6	Giran	Skill Trainer	30514	Vokian (Prefect)	80464	144368	-3533
+6	Giran	Pet Manager	30829	Cooper	81100	145840	-3531
+6	Giran	Symbol Maker	31049	Pepper	83264	150176	-3520
+7	Gludin Village	Gatekeeper	30320	Richlin	-80752	149776	-3044
+7	Gludin Village	Warehouse	30210	Norman	-81857	153545	-3171
+7	Gludin Village	Warehouse	30316	Raut	-81966	153547	-3170
+7	Gludin Village	Grocer	30313	Asha	-81266	152076	-3125
+7	Gludin Village	Grocer	30209	Colleen	-81908	152077	-3125
+7	Gludin Village	Grocer	35103	Manor Manager	-82640	150016	-3120
+7	Gludin Village	Grocer	35103	Manor Manager	-81824	155264	-3168
+7	Gludin Village	Grocer	30314	Nestle	-80108	153307	-3162
+7	Gludin Village	Grocer	30315	Poesia	-79405	153963	-3160
+7	Gludin Village	Weapons	30207	Arodin	-80343	154897	-3162
+7	Gludin Village	Armor	30208	Damion	-80935	155526	-3162
+7	Gludin Village	Class Master	30037	Levian (High Priestess)	-78982	150830	-3033
+7	Gludin Village	Class Master	30498	Moke (Warehouse Chief)	-81913	153545	-3171
+7	Gludin Village	Class Master	30500	Osborn (High Prefect)	-80386	153282	-3176
+7	Gludin Village	Class Master	30373	Ramos (Grand Master)	-81688	149350	-3125
+7	Gludin Village	Class Master	30499	Tapoy (Head Blacksmith)	-82954	155618	-3180
+7	Gludin Village	Class Master	30290	Xenos (Grand Master)	-84401	149606	-3127
+7	Gludin Village	Skill Trainer	30375	Adonius (Priest)	-79274	150966	-3031
+7	Gludin Village	Skill Trainer	30010	Auron (Master)	-81861	149197	-3125
+7	Gludin Village	Skill Trainer	30369	Baenedes (Master)	-81864	149502	-3125
+7	Gludin Village	Skill Trainer	30014	Celma (Master)	-82212	149197	-3125
+7	Gludin Village	Skill Trainer	30378	Estella (Master)	-84661	149989	-3127
+7	Gludin Village	Skill Trainer	30034	Iris (Magister)	-79559	150661	-3043
+7	Gludin Village	Skill Trainer	30501	Kasman (Prefect)	-80448	153408	-3176
+7	Gludin Village	Skill Trainer	30317	Kluto (Blacksmith)	-83172	155483	-3174
+7	Gludin Village	Skill Trainer	30376	Nell (Magister)	-79557	150982	-3043
+7	Gludin Village	Skill Trainer	30374	Rhodiell (Master)	-82211	149504	-3125
+7	Gludin Village	Skill Trainer	30377	Talbot (Magister)	-84642	149630	-3127
+7	Gludin Village	Skill Trainer	30502	Umos (Seer)	-80448	153208	-3176
+7	Gludin Village	Skill Trainer	30022	Zigaunt (Priest)	-79256	150676	-3043
+7	Gludin Village	Pet Manager	30731	Martin	-84624	150832	-3129
+7	Gludin Village	Symbol Maker	31046	Marsden	-81520	152256	-3120
+8	Gludio	Gatekeeper	30256	Bella	-12736	122816	-3114
+8	Gludio	Warehouse	30322	Ballin	-13049	124737	-3118
+8	Gludio	Warehouse	30255	Haprock	-13132	124988	-3118
+8	Gludio	Grocer	30254	Harmony	-14934	124468	-3114
+8	Gludio	Grocer	35103	Manor Manager	-15160	124292	-3104
+8	Gludio	Grocer	35103	Manor Manager	-12172	122648	-3088
+8	Gludio	Grocer	30294	Varan	-14933	124540	-3115
+8	Gludio	Weapons	30321	Sydnia	-15238	123282	-3107
+8	Gludio	Armor	30253	Simplon	-15132	123282	-3107
+8	Gludio	Class Master	30505	Drikus (High Prefect)	-12823	124887	-3126
+8	Gludio	Class Master	30504	Mendio (Head Blacksmith)	-15190	124756	-3112
+8	Gludio	Class Master	30288	Rains (Grand Master)	-13579	123017	-3103
+8	Gludio	Class Master	30289	Raymond (High Priest)	-12784	121709	-2952
+8	Gludio	Class Master	30503	Rikadio (Warehouse Chief)	-13323	124989	-3118
+8	Gludio	Class Master	30297	Tobias (Grand Master)	-12892	123143	-3102
+8	Gludio	Skill Trainer	30325	Audiberti (Master)	-13419	123068	-3104
+8	Gludio	Skill Trainer	30506	Buka (Prefect)	-12788	124764	-3126
+8	Gludio	Skill Trainer	30326	Leona (Master)	-13691	123068	-3103
+8	Gludio	Skill Trainer	30293	Manuel (Priest)	-13487	121541	-2966
+8	Gludio	Skill Trainer	30298	Pinter (Blacksmith)	-15349	124763	-3113
+8	Gludio	Skill Trainer	30507	Racoy (Seer)	-12788	124976	-3117
+8	Gludio	Skill Trainer	30345	Ramoniell (Magister)	-13487	121884	-2960
+8	Gludio	Skill Trainer	30328	Reisa (Master)	-13693	122583	-3103
+8	Gludio	Skill Trainer	30344	Rohmer (Magister)	-13269	121540	-2966
+8	Gludio	Skill Trainer	30330	Sidra (Magister)	-12503	123054	-3102
+8	Gludio	Skill Trainer	30327	Sorius (Master)	-13440	122643	-3103
+8	Gludio	Skill Trainer	30329	Virgil (Master)	-12791	123259	-3102
+8	Gludio	Skill Trainer	30030	Vivyan (Priestess)	-13269	121884	-2966
+8	Gludio	Pet Manager	30827	Lundy	-13908	123322	-3116
+8	Gludio	Symbol Maker	31047	Kell	-14708	124160	-3100
+9	Goddard	Gatekeeper	31376	Kurfa	149824	-79840	-5579
+9	Goddard	Gatekeeper	31275	Tatiana	147966	-55228	-2728
+9	Goddard	Gatekeeper	31383	Teranu Mardui	107680	-52112	-2405
+9	Goddard	Warehouse	31381	Hagos	107376	-55424	-2393
+9	Goddard	Warehouse	31268	Hakon	146412	-57484	-2965
+9	Goddard	Warehouse	31374	Jaff	149104	-80544	-5635
+9	Goddard	Warehouse	31267	Lietta	146440	-57500	-2965
+9	Goddard	Warehouse	31270	Stefano	146172	-57380	-2965
+9	Goddard	Grocer	31373	Atan	150368	-81216	-5603
+9	Goddard	Grocer	31380	Diyabu	107296	-54576	-2393
+9	Goddard	Grocer	31375	Jumara	150416	-80752	-5603
+9	Goddard	Grocer	31263	Liesel	149312	-57360	-2966
+9	Goddard	Grocer	35366	Manor Manager	145704	-57104	-2979
+9	Goddard	Grocer	35366	Manor Manager	150144	-56597	-2982
+9	Goddard	Grocer	31262	Rupert	149372	-57552	-2966
+9	Goddard	Grocer	31382	Shikon	107232	-52776	-2393
+9	Goddard	Weapons	31256	Leon	148832	-58960	-2965
+9	Goddard	Weapons	31257	Veronica	148975	-58919	-2965
+9	Goddard	Armor	31258	Helmut	149012	-58894	-2965
+9	Goddard	Armor	31259	Janne	149152	-58776	-2961
+9	Goddard	Armor	31260	Judith	149380	-57590	-2966
+9	Goddard	Armor	31261	Renee	149232	-57680	-2966
+9	Goddard	Class Master	31288	Aklan (High Prefect)	144204	-55780	-2960
+9	Goddard	Class Master	31276	Bernhard (Grand Master)	148880	-52608	-2736
+9	Goddard	Class Master	31279	Gregory (High Priest)	147712	-52688	-2731
+9	Goddard	Class Master	31755	Halaster (Grand Magister)	146553	-52608	-2760
+9	Goddard	Class Master	31269	Mona (Warehouse Chief)	146528	-57936	-2965
+9	Goddard	Class Master	31272	Noel (Head Blacksmith)	146432	-58784	-2976
+9	Goddard	Class Master	31285	Samael (Grand Master)	145080	-54592	-2965
+9	Goddard	Skill Trainer	31283	Alminas (Magister)	146416	-52564	-2736
+9	Goddard	Skill Trainer	31280	Bastian (Priest)	148048	-52416	-2736
+9	Goddard	Skill Trainer	31278	Bronwyn (Master)	148736	-52560	-2736
+9	Goddard	Skill Trainer	31281	Cerenas (Priest)	147376	-52416	-2736
+9	Goddard	Skill Trainer	31286	Drakon (Master)	144808	-54732	-2965
+9	Goddard	Skill Trainer	31277	Felix (Master)	149008	-52560	-2736
+9	Goddard	Skill Trainer	31583	Feynn (Blacksmith)	146428	-58880	-2976
+9	Goddard	Skill Trainer	31271	Hilda (Blacksmith)	146396	-58696	-2976
+9	Goddard	Skill Trainer	31282	Justin (Magister)	146688	-52576	-2736
+9	Goddard	Skill Trainer	31287	Kamilen (Magister)	145168	-54880	-2965
+9	Goddard	Skill Trainer	31289	Lakan (Prefect)	144228	-55720	-2960
+9	Goddard	Skill Trainer	31290	Skahi (Seer)	144256	-55824	-2960
+9	Goddard	Pet Manager	31265	Annette	148928	-58400	-2979
+9	Goddard	Symbol Maker	31264	Olsun	149008	-57696	-2966
+10	Hunters Village	Gatekeeper	30233	Esmeralda	117129	76917	-2689
+10	Hunters Village	Warehouse	30686	Silva	115435	76541	-2649
+10	Hunters Village	Warehouse	30232	Sorint	115271	76705	-2650
+10	Hunters Village	Grocer	30231	Garette	116109	75022	-2583
+10	Hunters Village	Grocer	30301	Hally	116646	74820	-2581
+10	Hunters Village	Grocer	35277	Manor Manager	116780	75504	-2727
+10	Hunters Village	Weapons	30684	Viktor	115310	75447	-2581
+10	Hunters Village	Armor	30230	Edroc	115116	75923	-2580
+10	Hunters Village	Class Master	30685	Baxt (Warehouse Chief)	115647	77114	-2649
+10	Hunters Village	Class Master	30704	Garvarentz (High Prefect)	120100	74739	-2372
+10	Hunters Village	Class Master	30699	Medown (Grand Master)	120249	76031	-2259
+10	Hunters Village	Class Master	30694	Scraide (Grand Magister)	119043	78586	-2158
+10	Hunters Village	Class Master	30689	Siria (Grand Master)	119673	77618	-2243
+10	Hunters Village	Class Master	30687	Vergara (Head Blacksmith)	117649	75415	-2646
+10	Hunters Village	Skill Trainer	30691	Aren Athebaldt (Master)	119249	77663	-2243
+10	Hunters Village	Skill Trainer	30705	Chakiris (Prefect)	120079	74847	-2374
+10	Hunters Village	Skill Trainer	30688	Duning (Blacksmith)	117613	75310	-2648
+10	Hunters Village	Skill Trainer	30701	Errickin (Magister)	120180	75807	-2260
+10	Hunters Village	Skill Trainer	30698	Evelyn (Magister)	118571	78513	-2158
+10	Hunters Village	Skill Trainer	30706	Lazenby (Seer)	120039	74650	-2374
+10	Hunters Village	Skill Trainer	30690	Luther (Master)	119472	77835	-2243
+10	Hunters Village	Skill Trainer	30695	Moses (Magister)	119156	78356	-2158
+10	Hunters Village	Skill Trainer	30696	Page (Magister)	118890	78104	-2158
+10	Hunters Village	Skill Trainer	30700	Prestan (Master)	120251	76247	-2260
+10	Hunters Village	Skill Trainer	30693	Queenien (Master)	119727	77137	-2243
+10	Hunters Village	Skill Trainer	30692	Stedmiel (Master)	119892	77284	-2243
+10	Hunters Village	Skill Trainer	30697	Videlrien (Magister)	118887	78752	-2158
+10	Hunters Village	Pet Manager	30831	Nelson	117432	76044	-2716
+10	Hunters Village	Symbol Maker	31051	Keach	116320	74688	-2582
+11	Heine	Gatekeeper	30899	Flauen	111386	219413	-3536
+11	Heine	Warehouse	30895	Kluck	109623	220091	-3520
+11	Heine	Warehouse	30896	Mia	109625	220238	-3520
+11	Heine	Grocer	30892	Enverun	107082	216673	-3595
+11	Heine	Grocer	35319	Manor Manager	107372	217848	-3675
+11	Heine	Grocer	35319	Manor Manager	115527	218850	-3664
+11	Heine	Grocer	30893	Payel	107141	216674	-3595
+11	Heine	Weapons	30891	Verona	115957	217807	-3582
+11	Heine	Armor	30890	Espen	115799	217684	-3580
+11	Heine	Class Master	30900	Marcus (Grand Master)	113739	218423	-3626
+11	Heine	Class Master	30894	Natools (Warehouse Chief)	109627	220168	-3520
+11	Heine	Class Master	30897	Roman (Head Blacksmith)	108003	218963	-3656
+11	Heine	Class Master	30905	Squillari (High Priest)	111385	216821	-3458
+11	Heine	Class Master	30913	Tushku (High Prefect)	108683	218942	-3674
+11	Heine	Class Master	30910	Xairakin (Grand Master)	115904	219919	-3627
+11	Heine	Skill Trainer	30909	Anabel (Magister)	111549	217381	-3458
+11	Heine	Skill Trainer	30901	Arti (Master)	113967	218584	-3626
+11	Heine	Skill Trainer	30911	Brikus (Master)	115618	219666	-3627
+11	Heine	Skill Trainer	30902	Karuna (Master)	114373	218268	-3626
+11	Heine	Skill Trainer	30907	Minevia (Magister)	111221	217236	-3458
+11	Heine	Skill Trainer	30898	Morning (Blacksmith)	107763	218725	-3659
+11	Heine	Skill Trainer	30904	Naiel (Master)	114205	219156	-3626
+11	Heine	Skill Trainer	30906	Ranton (Priest)	111226	216994	-3458
+11	Heine	Skill Trainer	30914	Sorbo (Prefect)	108656	219056	-3676
+11	Heine	Skill Trainer	30915	Takina (Seer)	108652	218856	-3676
+11	Heine	Skill Trainer	30908	Tanios (Priest)	111548	217133	-3458
+11	Heine	Skill Trainer	30903	Traus (Master)	114251	219489	-3626
+11	Heine	Skill Trainer	30912	Xenovia (Magister)	115614	220280	-3627
+11	Heine	Pet Manager	31067	Rood	110605	219495	-3672
+11	Heine	Symbol Maker	31050	Thora	107253	217252	-3597
+12	Orc Village	Gatekeeper	30576	Tamil	-45264	-112512	-240
+12	Orc Village	Warehouse	30562	Grookin	-43109	-113770	-216
+12	Orc Village	Warehouse	30563	Imantu	-43114	-113404	-216
+12	Orc Village	Grocer	35645	Manor Manager	-44172	-112236	-240
+12	Orc Village	Grocer	30561	Papuma	-43950	-115457	-194
+12	Orc Village	Weapons	30558	Jakal	-44416	-111486	-216
+12	Orc Village	Armor	30559	Kunai	-43905	-111824	-216
+12	Orc Village	Armor	30560	Uska	-43910	-115518	-194
+12	Orc Village	Class Master	30565	Kakai (Flame Lord)	-46768	-113610	-3
+12	Orc Village	Skill Trainer	30569	Brukurse (Prefect)	-45952	-114784	-200
+12	Orc Village	Skill Trainer	30570	Karukia (Prefect)	-45952	-114496	-200
+12	Orc Village	Skill Trainer	30572	Livina (Seer)	-45864	-112540	-200
+12	Orc Village	Skill Trainer	30571	Tanapi (Seer)	-45863	-112621	-200
+13	Ivory Tower	Gatekeeper	30716	Cecile	85336	16194	-2799
+13	Ivory Tower	Gatekeeper	30162	Karin	84814	15886	-4291
+13	Ivory Tower	Gatekeeper	30719	Mariell	85336	16194	-2285
+13	Ivory Tower	Gatekeeper	30722	Merian	85336	16194	-1769
+13	Ivory Tower	Gatekeeper	30727	Verona	85336	16194	-3664
+13	Ivory Tower	Warehouse	30169	Marty	85005	15638	-4271
+13	Ivory Tower	Warehouse	30170	Radic	84689	16198	-4271
+13	Ivory Tower	Grocer	30165	Ralford	85004	16760	-4271
+13	Ivory Tower	Weapons	30163	Rex	85982	16193	-4271
+13	Ivory Tower	Armor	30164	Ian	85655	15638	-4271
+13	Ivory Tower	Class Master	30174	Arkenias (Grand Magister)	85675	15994	-2285
+13	Ivory Tower	Class Master	30175	Fairen (Grand Magister)	85675	15994	-1769
+13	Ivory Tower	Class Master	30176	Valleria (Grand Magister)	85675	15994	-2799
+13	Ivory Tower	Skill Trainer	30171	Galios (Magister)	85332	16592	-2799
+13	Ivory Tower	Skill Trainer	30717	Gauen (Magister)	85332	16592	-2285
+13	Ivory Tower	Skill Trainer	30718	Joan (Magister)	84985	15991	-2285
+13	Ivory Tower	Skill Trainer	30720	Kaiena (Magister)	85332	16592	-1769
+13	Ivory Tower	Skill Trainer	30721	Ladd (Magister)	84985	15991	-1769
+13	Ivory Tower	Skill Trainer	30715	Marina (Magister)	84985	15991	-2799
+14	Oren	Gatekeeper	30177	Valentina	82992	53171	-1492
+14	Oren	Warehouse	30182	Cliff	81318	54995	-1508
+14	Oren	Warehouse	30183	Hagger	81777	55123	-1506
+14	Oren	Grocer	30181	Galibredo	79451	54877	-1542
+14	Oren	Grocer	35229	Manor Manager	80091	53464	-1558
+14	Oren	Grocer	35229	Manor Manager	82682	55280	-1523
+14	Oren	Grocer	30180	Sara	79451	54973	-1541
+14	Oren	Weapons	30179	Raudia	79112	53602	-1548
+14	Oren	Armor	30178	Zenkin	79111	53657	-1548
+14	Oren	Class Master	30195	Brecson (Grand Master)	83201	55005	-1508
+14	Oren	Class Master	30676	Croop (Warehouse Chief)	81655	54736	-1504
+14	Oren	Class Master	30677	Flutter (Head Blacksmith)	83741	55410	-1508
+14	Oren	Class Master	30191	Hollint (High Priest)	83634	52927	-1443
+14	Oren	Class Master	30681	Karia (High Prefect)	83760	56096	-1523
+14	Oren	Class Master	30187	Klaus Blackbird (Grand Master)	79183	56947	-1510
+14	Oren	Skill Trainer	30186	Bhan (Master)	79448	57053	-1510
+14	Oren	Skill Trainer	30192	Darya (Master)	83477	54912	-1509
+14	Oren	Skill Trainer	30683	Daunt (Prefect)	83676	56144	-1520
+14	Oren	Skill Trainer	30680	Egnos (Priest)	83785	53215	-1454
+14	Oren	Skill Trainer	30194	Gideon (Magister)	82930	54911	-1509
+14	Oren	Skill Trainer	30678	Helton (Blacksmith)	83684	55631	-1509
+14	Oren	Skill Trainer	30682	Pekiron (Seer)	83712	56000	-1523
+14	Oren	Skill Trainer	30190	Phanovia (Magister)	83785	53398	-1454
+14	Oren	Skill Trainer	30184	Rigol (Master)	79077	56694	-1510
+14	Oren	Skill Trainer	30679	Roameria (Master)	79213	56423	-1510
+14	Oren	Skill Trainer	30189	Rovia (Magister)	83469	53398	-1454
+14	Oren	Skill Trainer	30185	Taniac Blackbird (Master)	79706	56914	-1510
+14	Oren	Skill Trainer	30188	Vadin (Priest)	83469	53215	-1454
+14	Oren	Pet Manager	30830	Joey	81992	54048	-1494
+14	Oren	Symbol Maker	31052	Heid	80071	55068	-1545
+15	Rune	Gatekeeper	31698	Arisha	38208	-48048	899
+15	Rune	Gatekeeper	31320	Ilyana	43824	-47664	-800
+15	Rune	Gatekeeper	31699	Stanislava	38384	-48064	-1151
+15	Rune	Gatekeeper	32034	Temple Gatekeeper	-15934	-36605	-10693
+15	Rune	Gatekeeper	32035	Temple Gatekeeper	-16722	-36928	-10725
+15	Rune	Gatekeeper	32036	Temple Gatekeeper	-15853	-43811	-10685
+15	Rune	Gatekeeper	32037	Temple Gatekeeper	-16629	-44290	-10725
+15	Rune	Gatekeeper	32039	Triol's Mirror	34842	-49756	-763
+15	Rune	Gatekeeper	32040	Triol's Mirror	-11986	-35903	-10857
+15	Rune	Warehouse	31315	Daisy	43556	-48640	-800
+15	Rune	Warehouse	31312	Durin	43348	-48444	-800
+15	Rune	Warehouse	31311	Hugin	43556	-48592	-800
+15	Rune	Warehouse	31313	Lunin	43308	-48444	-800
+15	Rune	Grocer	31366	Feed Seller	47952	-78256	-3472
+15	Rune	Grocer	31366	Feed Seller	49344	-87648	-2696
+15	Rune	Grocer	31366	Feed Seller	53663	-83971	-2720
+15	Rune	Grocer	31366	Feed Seller	53814	-81977	-2744
+15	Rune	Grocer	31366	Feed Seller	55472	-88720	-2112
+15	Rune	Grocer	31366	Feed Seller	56824	-76243	-3576
+15	Rune	Grocer	35512	Manor Manager	38278	-48426	896
+15	Rune	Grocer	31306	Natasha	45411	-47418	-792
+15	Rune	Grocer	31386	Violet	59618	-42774	-3000
+15	Rune	Grocer	31307	Weber	45120	-47452	-796
+15	Rune	Weapons	31300	Drumond	44692	-47312	-800
+15	Rune	Weapons	31301	Nils	44700	-47396	-800
+15	Rune	Armor	31303	Alisha	44620	-47620	-800
+15	Rune	Armor	31304	Astrid	45472	-47424	-796
+15	Rune	Armor	31305	Candice	45184	-47444	-796
+15	Rune	Armor	31302	Vladimir	44704	-47472	-800
+15	Rune	Class Master	31324	Andromeda (Grand Master)	38368	-47096	-1143
+15	Rune	Class Master	31314	Donal (Warehouse Chief)	43560	-48912	-800
+15	Rune	Class Master	31328	Innocentin (High Priest)	36476	-49032	-1104
+15	Rune	Class Master	31326	Lambac (High Prefect)	38368	-46728	-1143
+15	Rune	Class Master	31317	Lombert (Head Blacksmith)	45136	-48624	-800
+15	Rune	Class Master	31336	Rahorakti (Grand Seer)	38432	-49184	-1105
+15	Rune	Class Master	31321	Siegmund (Grand Master)	38368	-46912	-1131
+15	Rune	Class Master	31334	Tifaren (Grand Magister)	38464	-49920	-1105
+15	Rune	Class Master	31331	Valdis (Grand Magister)	36256	-49536	-1104
+15	Rune	Skill Trainer	31332	Amelia (Magister)	36336	-49904	-1104
+15	Rune	Skill Trainer	31323	Beryl (Master)	37240	-46916	-1143
+15	Rune	Skill Trainer	31329	Eliyah (Priest)	36528	-49024	-1104
+15	Rune	Skill Trainer	31322	Erian (Master)	38060	-46920	-1143
+15	Rune	Skill Trainer	31335	Kayan (Magister)	38512	-49552	-1105
+15	Rune	Skill Trainer	31337	Mekara (Seer)	38220	-49012	-1105
+15	Rune	Skill Trainer	31333	Rumiel (Magister)	36548	-50064	-1104
+15	Rune	Skill Trainer	31327	Tazki (Prefect)	37648	-46920	-1135
+15	Rune	Skill Trainer	31325	Themis (Master)	36832	-46916	-1143
+15	Rune	Skill Trainer	31316	Vincenz (Blacksmith)	45072	-48784	-800
+15	Rune	Skill Trainer	31330	Wagner (Priest)	36448	-49072	-1104
+15	Rune	Pet Manager	31309	Woods	43456	-49520	-800
+15	Rune	Symbol Maker	31308	Achim	44976	-47440	-800
+16	Schuttgart	Gatekeeper	31964	Bilia	87048	-143448	-1293
+16	Schuttgart	Warehouse	31959	Axel	88904	-141324	-1527
+16	Schuttgart	Warehouse	31957	Cherbal	88663	-141231	-1527
+16	Schuttgart	Warehouse	31956	Rydel	88626	-141206	-1527
+16	Schuttgart	Grocer	31951	Jose	85659	-141181	-1528
+16	Schuttgart	Grocer	35558	Manor Manager	89340	-141591	-1536
+16	Schuttgart	Grocer	31952	Pele	85753	-141360	-1528
+16	Schuttgart	Weapons	31945	Auzendorff	86459	-139631	-1527
+16	Schuttgart	Weapons	31946	Hombre	86311	-139669	-1553
+16	Schuttgart	Armor	31948	Adrian	86144	-139800	-1527
+16	Schuttgart	Armor	31950	Mailland	85779	-141100	-1528
+16	Schuttgart	Armor	31947	Owaki	86285	-139679	-1553
+16	Schuttgart	Armor	31949	Rouge	85672	-141146	-1528
+16	Schuttgart	Class Master	32092	Alder (Warehouse Chief)	88529	-140816	-1527
+16	Schuttgart	Class Master	31968	Baryl (High Priest)	87444	-146042	-1293
+16	Schuttgart	Class Master	32093	Bolin (Head Blacksmith)	88427	-139823	-1533
+16	Schuttgart	Class Master	32098	Celes (Grand Magister)	88571	-145073	-1293
+16	Schuttgart	Class Master	31974	Drizzit (Grand Master)	90559	-141911	-1527
+16	Schuttgart	Class Master	32097	Finker (High Prefect)	89964	-143221	-1527
+16	Schuttgart	Class Master	31965	Hector (Grand Master)	86238	-145065	-1293
+16	Schuttgart	Class Master	32096	Helminter (Grand Master)	90582	-141999	-1527
+16	Schuttgart	Class Master	31996	Javier (Grand Magister)	88470	-145080	-1293
+16	Schuttgart	Class Master	32095	Marie (High Priest)	87282	-146057	-1293
+16	Schuttgart	Class Master	31961	Newyear (Head Blacksmith)	88405	-139769	-1533
+16	Schuttgart	Class Master	32094	Schule (Grand Master)	86170	-145068	-1293
+16	Schuttgart	Class Master	31977	Shaka (High Prefect)	89959	-143257	-1527
+16	Schuttgart	Class Master	31958	Yasheni (Warehouse Chief)	88552	-140784	-1527
+16	Schuttgart	Skill Trainer	31975	Aerina (Master)	90313	-141801	-1527
+16	Schuttgart	Skill Trainer	31972	Atraxia (Magister)	88660	-145083	-1293
+16	Schuttgart	Skill Trainer	31960	Byron (Blacksmith)	88467	-139841	-1533
+16	Schuttgart	Skill Trainer	31967	Euline (Master)	86336	-145078	-1293
+16	Schuttgart	Skill Trainer	31969	Evelyn (Priest)	87721	-146230	-1293
+16	Schuttgart	Skill Trainer	31966	Karamon (Master)	86058	-145067	-1293
+16	Schuttgart	Skill Trainer	31979	Moira (Seer)	89986	-143186	-1527
+16	Schuttgart	Skill Trainer	31971	Otillo (Magister)	88374	-145081	-1293
+16	Schuttgart	Skill Trainer	31990	Siger (Blacksmith)	88447	-139675	-1533
+16	Schuttgart	Skill Trainer	31970	Sinis (Priest)	86988	-146216	-1293
+16	Schuttgart	Skill Trainer	31976	Talia (Magister)	90388	-142185	-1527
+16	Schuttgart	Skill Trainer	31978	Tazeer (Prefect)	90000	-143286	-1527
+16	Schuttgart	Pet Manager	31954	Saroyan	86387	-140156	-1542
+16	Schuttgart	Symbol Maker	31953	Rankar	86031	-141035	-1528
+17	Talking Island Village	Gatekeeper	30006	Roxxy	-84108	244604	-3728
+17	Talking Island Village	Gatekeeper	30427	Siff	-113490	235526	-3640
+17	Talking Island Village	Gatekeeper	30429	Tiramisa	49328	248416	-5952
+17	Talking Island Village	Warehouse	30054	Rant	-81895	243917	-3712
+17	Talking Island Village	Warehouse	30055	Rolfe	-81840	243534	-3712
+17	Talking Island Village	Warehouse	30005	Wilford	-81512	243424	-3712
+17	Talking Island Village	Grocer	30004	Katerina	-84204	240403	-3720
+17	Talking Island Village	Grocer	35103	Manor Manager	-83536	243280	-3728
+17	Talking Island Village	Grocer	30003	Silvia	-83789	240799	-3717
+17	Talking Island Village	Weapons	30001	Lector	-86385	243267	-3717
+17	Talking Island Village	Armor	30002	Jackson	-86733	242918	-3720
+17	Talking Island Village	Class Master	30031	Biotin (High Priest)	-84516	245449	-3712
+17	Talking Island Village	Class Master	30026	Bitz (Grand Master)	-83326	242964	-3720
+17	Talking Island Village	Skill Trainer	30033	Baulro (Magister)	-84729	245001	-3720
+17	Talking Island Village	Skill Trainer	30027	Gwinter (Master)	-83020	242553	-3720
+17	Talking Island Village	Skill Trainer	30035	Harrys (Magister)	-84965	245222	-3720
+17	Talking Island Village	Skill Trainer	30029	Minia (Master)	-83175	243065	-3720
+17	Talking Island Village	Skill Trainer	30036	Petron (Priest)	-85186	245001	-3720
+17	Talking Island Village	Skill Trainer	30028	Pintage (Master)	-82809	242751	-3720
+17	Talking Island Village	Skill Trainer	30032	Yohanes (Priest)	-84981	244764	-3720

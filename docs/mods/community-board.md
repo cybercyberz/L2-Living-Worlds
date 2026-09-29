@@ -4,6 +4,7 @@
 `CustomCommunityBoard = True` in `game\config\Custom\CommunityBoard.ini` replaces the stock Alt+B home page with the
 custom board. The stock board has favourites, region and clan counts; the custom board has these pages:
 
+- **Guide** (the Adventurer's Guide module, see below)
 - Home
 - Buffer
 - Merchant
@@ -38,6 +39,32 @@ wherever a page has `%navigation%`.
 | `bypass _bbsheal;<page>` | Full heal |
 
 Multisells opened from the board must list `<npc>-1</npc>` in their `<npcs>` block.
+
+Modules can add their own board commands (any name starting with `_bbs`) by registering an `IParseBoardHandler`
+with `CommunityBoardHandler` and building their pages in Java. The board picks a handler by prefix, so a new command
+must not start with an existing one.
+
+| Bypass | Module | Does |
+|---|---|---|
+| `bypass _bbs_guide [page …]` | `adventurer-guide` | The Adventurer's Guide pages: `quests`, `quest <id>`, `hunt`, `area <n>`, `next`, `gear`, `towns`, `town <n>`, `tips`, plus the `mark`, `npc` and `tp` actions |
+| `bypass _bbs_questnav …` | `quest-navigator` | Quest Navigator window and radar marks |
+
+## The Adventurer's Guide
+The **Guide** button (first in `navigation.html`, and on `home.html`) opens a new-player guide built for the character
+viewing it. It covers:
+- the quests they can take now;
+- where to hunt at their level;
+- their next class change;
+- gear by grade;
+- every town's services;
+- tips.
+
+Places can be marked on the radar or reached with a paid teleport. It's the `adventurer-guide` module. Its pages are
+built in Java, so there are no `.html` files to edit, apart from the tips in `data\tips.txt`. See
+`game\modules\adventurer-guide\MODULE.md`, and `tools\guide\README.md` for the data behind it.
+
+Generated pages have to fit the board's limit of three 4090-character packets, including `navigation.html`. The guide
+pages them at 8 to 16 rows and logs a warning if one gets too long.
 
 ## Page layout rules (learned the hard way)
 - **Button width.** Use `width=114` with `back="L2UI_CH3.Button.bigbutton2_down" fore="L2UI_CH3.Button.bigbutton2"`.

@@ -1,0 +1,10 @@
+{
+  "id": "adventurer-guide",
+  "name": "Adventurer's Guide",
+  "version": "1.0.0",
+  "apiVersion": "1",
+  "entrypoint": "modules.adventurerguide.AdventurerGuideModule",
+  "description": "A new-player guide on the Alt+B board: quests you can take, where to hunt, next class change, gear, towns and tips, with radar marks and teleports.",
+  "author": "local",
+  "priority": 110
+}

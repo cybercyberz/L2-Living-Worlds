@@ -98,6 +98,7 @@ public class HealMeModule implements GameModule
 | `hello-world` | `Enabled = False` | `.hello` | The minimum: manifest, config, one voiced command |
 | `custom-item` | `Enabled = False` | `.token` | Ship an item (id 60000, `displayId` 4037) through a `resources` folder, and reserve an id range |
 | `alt-companion` | **`Enabled = True`** | `.alt <name>` | Bring one of your own characters into your party as an AI member; uses `companions()` |
+| `adventurer-guide` | **`Enabled = True`** | `.guide`, and `_bbs_guide` on the Alt+B board | A new-player guide: eligible quests from the client's quest table, hunting spots by level, class path, gear, towns, tips; radar marks and paid teleports; login and level-up hints through `events()` |
 | `quest-navigator` | **`Enabled = True`** | `.questnav go\|clear\|export` | The server half of the Alt+U Quest Navigator: answers `_bbs_questnav` bypasses from the patched quest window, and registers its board handler with `CommunityBoardHandler` directly |
 
 Each has a `MODULE.md` and `TESTING.md` worth reading before writing your own. Their docs mention a

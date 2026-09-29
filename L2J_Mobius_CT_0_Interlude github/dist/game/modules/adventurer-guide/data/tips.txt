@@ -1,0 +1,46 @@
+// Tips pages for the Adventurer's Guide (Alt+B - Guide - Tips).
+// A line starting with "# " starts a page and is its title. The lines under it are the page, in board HTML:
+// they are joined with spaces, so use <br1> for a line break and <br> for a blank line. Keep each page short.
+// Lines starting with // are comments. Apply edits with a server restart.
+
+# Getting around
+<font color="B09B79">Move:</font> click the ground, or use the arrow keys. <font color="B09B79">Attack or talk:</font> click a target, then click it again.<br1>
+<font color="B09B79">Useful windows:</font> Alt+V inventory, Alt+T character, Alt+K skills, Alt+U quests, Alt+M world map, Alt+B this board, Alt+C actions (sit, pick up, trade).<br1>
+<font color="B09B79">Get there:</font> every Mark link in this guide puts a flag on your minimap and an arrow on your radar. Gatekeepers in towns teleport you between towns and hunting grounds.<br1>
+<font color="B09B79">Stuck?</font> Use a Scroll of Escape, or type /unstuck.
+
+# Soulshots and spiritshots
+Shots are the biggest damage boost in the game. Fighters use <font color="LEVEL">soulshots</font>, mages use <font color="LEVEL">spiritshots</font> (blessed ones are better).<br1>
+The shot grade must match your <font color="B09B79">weapon's</font> grade: a D-grade sword needs D-grade soulshots.<br1>
+To fire them automatically, drag them to your shortcut bar and right-click the icon there.<br1>
+Buy them from any Grocer: see Towns. New characters get free novice shots from the Newbie Helper in their starting village.
+
+# Dying and experience
+When you die you lose a little experience, and you can drop to the previous level. Press "To Village" to return to the nearest town, or wait for someone to resurrect you.<br1>
+Don't pull more monsters than you can handle, and watch for <font color="FF6666">red names</font> in the hunting lists: those monsters attack on sight.<br1>
+Sit down (Alt+C, Sit) to regain HP and MP faster between fights. Carry healing potions from the Grocer.
+
+# Newbie help
+Every starting village has a <font color="LEVEL">Newbie Helper</font>. Talk to them for free buffs while you are low level, novice shots and a travel token.<br1>
+The Adventurers' Guide and Adventurer Guildsman NPCs in towns explain the basics and hand out early tasks.<br1>
+The first quests near your village give gear and adena. Open Quests for you and take the nearest ones first.
+
+# Other players and companions
+This world is full of other adventurers. Some are fake players run by the server: they hunt, trade and chat like real ones.<br1>
+You can invite them to a party. Type <font color="LEVEL">.alt name</font> to bring one of your own other characters along as an AI party member.<br1>
+Parties share experience and kill much faster. Party quests and hard hunting grounds are easier with one.
+
+# The board and its shops
+Alt+B opens this board. On the left:<br1>
+<font color="B09B79">Buffer</font> gives you buffs. <font color="B09B79">Merchant</font> and <font color="B09B79">Cash Shop</font> sell gear, scrolls and supplies for Adena. <font color="B09B79">Gatekeeper</font> teleports you between towns.<br1>
+<font color="B09B79">Drop Search</font> tells you which monster drops an item, and marks it on your map.
+
+# Following a quest
+Alt+U opens your quest log. Click a quest to read your current step.<br1>
+Click the quest's name in Alt+U to open the Quest Navigator: it lists the quest's NPCs and monsters, and clicking one marks it on your map.<br1>
+In this guide, open a quest and press "NPCs and mobs" for the same list. If a step says "talk to", the NPC is usually in the nearest town.
+
+# Class changes
+You pick your path at level <font color="LEVEL">20</font>, <font color="LEVEL">40</font> and <font color="LEVEL">76</font>. Each change is a quest: at 20 a "Path to" quest, at 40 three Trial, Testimony or Test quests, at 76 a Saga.<br1>
+After the quest, talk to a Class Master of your race in town. Next steps lists the quests your class can take, and where the masters are.<br1>
+At 75 you can add a subclass, and after that work toward noblesse.

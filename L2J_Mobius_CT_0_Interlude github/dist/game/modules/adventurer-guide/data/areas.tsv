@@ -1,0 +1,220 @@
+#idx	name	region	x	y	z	teleIdx	minLv	maxLv	spawns
+0	1st Floor Lobby	Oren	88688	14240	-5293	0	40	43	24
+1	Abandoned Camp	Others	-49784	144657	-3185	4	15	29	92
+2	Abandoned Coal Mines	Dwarven Territory	139311	-176817	-888	5	10	19	34
+3	Alligator Beach	Innadril	109193	200923	-3502	7	39	42	18
+4	Alligator Island	Innadril	116930	180177	-3306	126	40	45	141
+5	Ancient Battleground	Others	116712	-293	-3722	8	64	68	17
+6	Anghel Waterfall	Others	162937	87742	-2820	9	53	55	21
+7	Ant Nest	Gludio	-12999	177837	-4561	10	22	37	239
+8	Antharas' Lair	Giran	147155	114351	-4212	11	49	75	656
+9	Beast Farm	Rune	54170	-85249	-2630	152	64	68	14
+10	Bee Hive	Dion	30876	184405	-3288	12	30	40	152
+11	Blazing Swamp	Aden	147244	-11310	-3893	13	65	75	402
+12	Breka's Stronghold	Giran	84751	128988	-3073	14	30	35	95
+13	Cave of Trials	Orc Territory	12687	-112939	-2948	15	10	39	125
+14	Cemetery	Aden	172069	17937	-3117	112	50	60	133
+15	Chapel Guards	Rune	-16392	-48066	-10852	131	80	80	76
+16	Cruma Marshlands	Dion	16687	114705	-3469	18	20	47	250
+17	Cruma Tower	Dion	17179	113710	-9979	18	27	50	520
+18	Crypts of Disgrace	Others	49670	-121426	-3459	19	25	33	213
+19	Dark Elf Starting Area	Dark Elf Territory	7888	15836	-3466	20	1	12	264
+20	Dark Forest	Dark Elf Territory	-19174	15568	-3401	21	8	12	123
+21	Death Pass	Giran	68779	107472	-3604	25	35	37	22
+22	Den of Evil	Schuttgart	70594	-119502	-2648	22	40	50	249
+23	Devil's Isle	Giran	47963	211310	-3552	23	43	54	807
+24	Dion Town Square	Others	23128	143608	-3292	24	20	31	43
+25	Dragon Valley	Giran	93234	115229	-3254	76	33	59	314
+26	Dwarven Starting Area	Dwarven Territory	147298	-201655	-3179	151	4	25	445
+27	Dwarven Village	Dwarven Territory	118519	-178914	-1667	26	2	6	26
+28	East Gate Entrance	Aden	156225	28576	-3180	27	45	47	16
+29	Eastern Mining Zone (Northeastern Shore)	Dwarven Territory	169649	-209466	-3512	28	18	23	85
+30	Elven Forest	Elven Territory	20608	50789	-3562	29	4	15	127
+31	Elven Fortress	Others	24114	78175	-4093	30	10	17	44
+32	Elven Ruins	Talking Island	-114318	231989	-3120	31	10	38	36
+33	Elven Starting Area	Elven Territory	26716	53254	-3592	29	1	19	547
+34	Elven Village	Elven Territory	48430	51456	-3549	32	1	8	142
+35	Enchanted Valley	Hunters	115774	48673	-4104	35	45	55	339
+36	Enchanted Valley, Northen Region	Hunters	107079	40587	-4332	33	45	50	24
+37	Enchanted Valley, Southern Region	Hunters	125284	59337	-3931	35	40	50	30
+38	Entrance to Floran Village	Dion	18059	168379	-3497	36	30	35	119
+39	Entrance to the Forge of the Gods	Goddard	176185	-115192	-4315	37	78	80	26
+40	Execution Grounds	Dion	47721	147592	-3163	124	20	35	199
+41	Fellmere Harvesting Grounds	Others	-66688	103246	-3731	38	14	27	86
+42	Field of Silence	Innadril	84525	184953	-3525	39	35	40	457
+43	Field of Whispers	Innadril	85521	214720	-3404	40	35	40	335
+44	Fields of Massacre	Aden	181476	-17317	-2343	41	55	65	276
+45	Forest of Mirrors	Others	142134	79753	-3397	42	40	52	105
+46	Forest of the Dead	Others	54406	-54151	-3184	43	63	73	443
+47	Forge of the Gods	Goddard	184202	-113604	-4137	37	78	80	360
+48	Forgotten Temple	Gludio	-55530	187330	-4398	44	16	33	92
+49	Forsaken Plains	Others	170095	40857	-4433	45	54	60	58
+50	Fortress of Resistance	Others	47146	110308	-1395	46	23	34	299
+51	Front Of Aden Castle	Aden	155260	16075	-3820	47	48	50	9
+52	Front Of Dion Castle	Dion	16583	154200	-3318	48	23	33	45
+53	Front Of Giran Castle	Giran	102217	145039	-3430	49	31	33	31
+54	Front Of Goddard Castle	Goddard	156169	-49686	-3374	50	67	69	71
+55	Front Of Oren Castle	Oren	71957	41757	-3290	52	43	45	38
+56	Front of the Archaic Fortress	Others	104707	-143711	-3342	55	35	40	34
+57	Front of the Bayou Fortress	Aden	186749	47021	-4330	56	55	77	58
+58	Front of the Borderland Fortress	Goddard	153293	-76055	-4340	57	77	80	100
+59	Front of the Gludio Castle	Others	-20248	118877	-3459	58	18	24	14
+60	Front of the Hive Fortress	Dion	23202	187476	-3275	59	30	38	133
+61	Front of the Ivory Fortress	Oren	78535	22	-3284	60	46	53	112
+62	Front of the Narsell Fortress	Others	166237	48621	-3873	61	55	56	9
+63	Front of the Shanty Fortress	Others	-63797	159705	-3583	62	16	19	5
+64	Front of the Southern Fortress	Others	-29212	212559	-3691	63	22	24	33
+65	Front of the Swamp Fortress	Rune	71385	-57910	-3068	64	66	73	70
+66	Front of the Valley Fortress	Giran	121575	117218	-3349	65	49	60	71
+67	Front of the White Sands Fortress	Innadril	121208	206103	-3419	66	38	40	17
+68	Frozen Labyrinth	Schuttgart	120737	-114110	-2750	67	54	63	175
+69	Frozen Waterfall	Orc Territory	10348	-136159	-1640	68	13	17	55
+70	Garden of Beasts	Goddard	136082	-52955	-3180	75	68	71	131
+71	Garden of Eva	Innadril	82654	253948	-9768	83	40	50	180
+72	Giant's Cave Lower Layer	Aden	191015	57128	-5217	70	58	65	274
+73	Giant's Cave Upper Layer	Aden	184588	60609	-5819	71	58	65	209
+74	Gludio Town Square	Others	-21422	122120	-3461	74	20	24	20
+75	Goddard Town Square	Goddard	142891	-59512	-3226	75	68	70	36
+76	Gorgon Flower Garden	Giran	113940	134351	-3253	49	31	40	161
+77	Hardin's Academy	Giran	83590	100982	-3344	100	38	40	99
+78	Hardin's Private Academy	Giran	107126	112414	-3160	76	38	57	50
+79	Hot Springs	Goddard	150232	-110455	-2496	79	73	76	175
+80	Hunter's Village	Others	123262	80265	-2552	80	40	44	16
+81	Imperial Tomb	Goddard	182903	-80448	-4880	57	76	82	494
+82	Inside the Garden of Eva	Innadril	82792	247664	-9555	83	40	50	107
+83	Ivory Tower	Aden	87053	17249	-3649	84	41	52	260
+84	Ketra Orc Outpost	Goddard	145412	-79103	-4217	85	68	80	684
+85	Langk Lizardman Dwellings	Others	-44906	206492	-3499	86	16	25	99
+86	Mithril Mines	Dwarven Territory	179555	-178951	-1093	87	19	34	511
+87	Monastery of Silence	Goddard	113678	-79342	-1904	88	80	80	278
+88	Near the frontier post	Others	109098	1320	-3552	89	64	64	14
+89	Neutral Zone	Others	-10644	79235	-3474	90	15	20	68
+90	Obelisk of Victory	Talking Island	-97797	238207	-3464	92	4	13	119
+91	Orc Barracks	Gludin	-91850	106588	-3425	93	18	34	190
+92	Orc Starting Area	Orc Territory	-10388	-110999	-2278	130	4	25	887
+93	Orc Village	Orc Territory	-43752	-112936	-1092	94	1	7	114
+94	Orc Village Outskirts	Orc Territory	-16732	-79832	-3616	131	36	36	1
+95	Oren Town Square	Oren	82097	59351	-3334	96	42	57	62
+96	Outlaw Forest	Oren	94493	-11157	-2890	97	50	55	259
+97	Pavel Ruins	Schuttgart	90220	-113869	-3647	98	47	54	181
+98	Plains of Dion	Dion	11403	169228	-3182	36	23	36	257
+99	Plains of Glory	Aden	136698	8832	-3998	47	45	50	130
+100	Plains of the Lizardmen	Oren	87572	83961	-3529	100	35	40	216
+101	Plunderous Plains	Others	112269	-155536	-1965	101	30	37	46
+102	Primeval Isle	Rune	18359	-14929	-2962	20	80	87	512
+103	Red Rock Ridge	Gludio	-39835	196123	-3205	102	17	35	39
+104	Ruins of Agony	Others	-45346	121011	-3192	103	16	24	51
+105	Ruins of Despair	Others	-17843	141097	-3866	104	15	24	91
+106	Rune Castle Town Guild	Others	35500	-49860	-763	105	83	83	3
+107	Rune Castle Town Store	Others	49788	-47530	-3502	106	63	70	14
+108	Rune Town Square	Others	49348	-48501	-3384	107	63	69	3
+109	Rune Township	Others	48687	-42594	-2535	108	63	73	78
+110	Sea of Spores	Oren	56184	21757	-4668	111	40	60	207
+111	Seal of Shilen	Aden	184162	20533	-3273	112	53	65	206
+112	Shyeed's Cavern	Rune	79706	-54236	-3796	113	66	80	362
+113	Silent Valley	Aden	171153	55180	-4328	114	54	79	138
+114	Singing Waterfall	Talking Island	-111548	246546	-3226	115	10	17	54
+115	Skyshadow Meadow	Oren	91156	54034	-3536	116	54	60	87
+116	South Entrance of Devastated Castle	Aden	179654	-8894	-3025	117	55	65	76
+117	Spider Nest	Others	-60791	75521	-3272	119	16	20	105
+118	Stakato Nest	Rune	85008	-46425	-4786	113	72	80	142
+119	Swamp of Screams	Others	82021	-50565	-2913	113	63	75	346
+120	Swampland	Others	-21213	42666	-3567	121	13	39	149
+121	Talking Island Fields	Talking Island	-98918	243596	-3421	92	1	16	140
+122	Talking Island Village	Others	-86097	245010	-3598	122	1	5	84
+123	Talking Island, Western Territory (Northern Area)	Talking Island	-106510	216207	-3077	123	13	15	34
+124	Tanor Canyon	Dion	58752	157449	-3139	124	35	50	116
+125	The Center of Alligator Island	Innadril	115144	177643	-3543	126	41	45	139
+126	The Center of the Abandoned Coal Mines	Others	145911	-172302	-105	127	10	19	138
+127	The Forbidden Gateway	Aden	181592	8763	-2632	112	60	65	48
+128	The Immortal Plateau	Orc Territory	-16166	-117713	-2234	130	9	14	48
+129	The Immortal Plateau, Southern Region	Orc Territory	-1695	-80641	-2317	131	18	25	93
+130	The Town of Dion	Others	14398	140201	-3107	132	20	32	38
+131	The Village of Gludin	Others	-77766	157637	-2936	135	15	15	2
+132	Timak Outpost	Oren	71169	68252	-3521	96	40	45	217
+133	Tower of Insolence	Aden	114628	16090	1816	136	60	75	491
+134	Town of Goddard	Goddard	154266	-57607	-3273	138	68	69	3
+135	Town of Schuttgart	Others	93959	-137473	-2972	141	20	20	5
+136	Turek Orc Camp	Gludin	-95312	114446	-3339	93	25	34	101
+137	Underground Shopping Area	Aden	80759	16340	-4923	142	40	48	53
+138	Valley of Saints	Rune	80384	-82228	-3297	143	60	76	365
+139	Varka Silenos Barracks	Goddard	122571	-42886	-3179	144	77	80	200
+140	Varka Silenos Outpost	Goddard	116822	-49049	-2830	144	77	80	368
+141	Wall of Argos	Goddard	180273	-46801	-3084	147	68	76	328
+142	War Torn Plains	Aden	161827	11759	-3654	27	45	53	174
+143	Wasteland	Gludio	-25913	185513	-4485	10	25	38	1157
+144	Wastelands	Gludio	-15639	206059	-3327	148	19	39	41
+145	West Area of the Devastated Castle	Aden	171097	-17057	-3019	149	55	65	125
+146	West Gate Entrance	Aden	136062	26391	-3501	150	45	47	43
+147	Western Mining Zone (Central Shore)	Dwarven Territory	137980	-206326	-3469	151	12	17	93
+148	Wild Beast Pastures	Rune	48396	-87612	-2690	152	64	68	25
+149	Wild Beast Reserve	Rune	56040	-91594	-1360	152	99	99	5
+150	Wilds near Abandoned Camp	Others	-53857	137317	-2706	4	20	29	77
+151	Wilds near Ancient Battleground	Others	122870	-7578	-3611	8	64	70	41
+152	Wilds near Anghel Waterfall	Others	160377	81534	-3040	9	51	55	50
+153	Wilds near Ant Nest	Others	-14465	169156	-3066	10	22	39	26
+154	Wilds near Cave of Trials	Others	20445	-113185	-3085	15	12	37	90
+155	Wilds near Cruma Marshlands	Others	11099	134232	-2807	17	20	22	3
+156	Wilds near Cruma Tower	Others	21384	109472	-10679	18	30	44	6
+157	Wilds near Crypts of Disgrace	Others	41616	-115100	-1752	19	18	29	12
+158	Wilds near Devil's Isle	Others	43617	244826	-6502	23	13	18	24
+159	Wilds near Dion Town Square	Others	28237	137467	-2960	24	21	23	33
+160	Wilds near Dwarven Village	Others	125325	-174101	-1062	26	36	36	3
+161	Wilds near Elven Forest	Others	34357	36004	-3624	29	14	14	1
+162	Wilds near Elven Fortress	Others	16758	79136	-4157	30	4	40	120
+163	Wilds near Elven Village	Others	40805	48385	-3613	32	4	14	12
+164	Wilds near Enchanted Valley, Northen Region	Others	113395	47016	-4647	33	55	55	16
+165	Wilds near Enchanted Valley, Southern Region	Others	130505	63202	-3805	35	40	55	19
+166	Wilds near Entrance to Floran Village	Others	17048	164046	-3503	36	30	37	40
+167	Wilds near Fellmere Harvesting Grounds	Others	-62147	108582	-3502	38	15	27	163
+168	Wilds near Forest of Mirrors	Others	147058	80094	-3521	42	40	55	95
+169	Wilds near Forest of the Dead	Others	57392	-45888	-2926	43	63	73	49
+170	Wilds near Forgotten Temple	Others	-57811	181134	-4522	44	29	35	93
+171	Wilds near Forsaken Plains	Others	178677	39006	-4292	45	56	60	10
+172	Wilds near Fortress of Resistance	Others	46373	117864	-2231	46	11	30	243
+173	Wilds near Front Of Dion Castle	Others	9297	157270	-3074	48	30	35	28
+174	Wilds near Front Of Rune Castle	Others	-10774	-39692	-10863	53	80	80	45
+175	Wilds near Front Of Schuttgart Castle	Others	69853	-137418	-2733	54	27	27	6
+176	Wilds near Front of the Archaic Fortress	Others	107041	-146894	-3098	55	37	40	8
+177	Wilds near Front of the Bayou Fortress	Others	182083	39178	-3859	56	56	59	22
+178	Wilds near Front of the Gludio Castle	Others	-19409	106344	-3511	58	14	30	411
+179	Wilds near Front of the Ivory Fortress	Others	69748	10572	-3692	60	44	44	3
+180	Wilds near Front of the Narsell Fortress	Others	156326	66226	-3548	61	43	52	35
+181	Wilds near Front of the Shanty Fortress	Others	-53853	167208	-3406	62	16	32	30
+182	Wilds near Front of the Southern Fortress	Others	-39335	213401	-3714	63	22	24	3
+183	Wilds near Gludio Town Square	Others	-25779	122975	-3627	74	20	27	17
+184	Wilds near Hardin's Private Academy	Others	107862	93183	-2146	76	45	55	3
+185	Wilds near Hunter's Village	Others	116578	86008	-2685	80	40	55	140
+186	Wilds near Inside the Garden of Eva	Others	45985	246452	-6566	83	9	35	62
+187	Wilds near Langk Lizardman Dwellings	Others	-49538	211782	-3146	86	22	25	17
+188	Wilds near Monastery of Silence	Others	104875	-61061	-2540	88	66	69	17
+189	Wilds near Near the frontier post	Others	108710	-2027	-3353	89	64	64	2
+190	Wilds near Neutral Zone	Others	-17872	74186	-3581	90	13	30	80
+191	Wilds near Obelisk of Victory	Others	-96984	247644	-3640	92	9	9	1
+192	Wilds near Orc Barracks	Others	-79335	112721	-3147	93	18	28	83
+193	Wilds near Plains of Dion	Others	6417	171606	-3508	99	23	23	2
+194	Wilds near Plunderous Plains	Others	122163	-152080	-2311	101	30	40	48
+195	Wilds near Red Rock Ridge	Others	-29054	191843	-3922	102	32	36	27
+196	Wilds near Ruins of Agony	Others	-41706	117772	-3214	103	15	44	298
+197	Wilds near Ruins of Despair	Others	-17157	143359	-3661	104	15	24	123
+198	Wilds near Rune Township	Others	49542	-38777	-2071	108	68	73	90
+199	Wilds near Sea of Spores	Others	43895	17128	-4385	111	48	49	13
+200	Wilds near Shyeed's Cavern	Others	101529	-60112	-2542	113	65	69	43
+201	Wilds near Silent Valley	Others	163067	68975	-3415	114	50	55	36
+202	Wilds near Spider Nest	Others	-52141	68409	-3798	119	10	20	211
+203	Wilds near Swamp of Screams	Others	60020	-46044	-2785	120	63	73	31
+204	Wilds near Swampland	Others	-27621	50030	-4120	121	12	39	360
+205	Wilds near Talking Island Village	Others	-74011	254700	-3242	122	1	1	10
+206	Wilds near Tanor Canyon	Others	58866	147375	-3444	124	38	44	16
+207	Wilds near The Immortal Plateau, Southern Region	Others	-16441	-48363	-10721	131	39	87	387
+208	Wilds near The Town of Dion	Others	16841	136423	-2584	132	20	32	10
+209	Wilds near The Village of Gludin	Others	-77613	136563	-3267	135	15	25	23
+210	Wilds near Valley of Saints	Others	77708	-80919	-4031	143	70	76	16
+211	Wilds near Wall of Argos	Others	190412	-63247	-2864	147	73	75	52
+212	Wilds near Wastelands	Others	-7978	199443	-3524	148	22	39	20
+213	Wilds near Windawood Manor	Others	-24946	157899	-2946	153	15	31	89
+214	Wilds near Windmill Hill	Others	-68013	168613	-3450	154	15	31	34
+215	Wilds near Windy Hill	Others	-80743	88094	-3476	155	18	60	40
+216	Windawood Manor	Others	-27395	155777	-3201	153	15	25	78
+217	Windmill Hill	Others	-73475	166818	-3988	154	15	20	81
+218	Windy Hill	Others	-86140	85075	-3370	155	26	30	101
