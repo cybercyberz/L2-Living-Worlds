@@ -163,7 +163,11 @@ Each stock function was compiled from its own embedded source and compared byte 
   - a 28-byte header;
   - 128-byte RSA blocks, textbook RSA with no padding. Each decrypted block holds up to 124 data bytes: byte 3 is
     the count, and the data ends at a 4-byte boundary;
-  - a 20-byte footer: 12 zero bytes, the CRC32 of everything before the footer, and 4 zero bytes.
+  - a 20-byte footer: 12 zero bytes, the CRC32 of everything before the footer, and 4 zero bytes. `decrypt` checks
+    the CRC field (bytes 12-15) first.
+    - Checked 2026-09-29: all 43 Ver41x client files pass.
+    - The two `Lineage2Ver111` files (`Localization.ini`, `ttfontinfo.ini`) are a different format that
+      `ver41x` doesn't read. Their footers have data in bytes 4-11, but the CRC sits in the same place.
 
   The joined data is a 4-byte uncompressed size and a zlib stream.
 - **The key.** This client uses the community **l2encdec** key, not the official 413 key:

@@ -3,12 +3,14 @@
 Layout: a 28-byte UTF-16LE header "Lineage2Ver413", then 128-byte RSA blocks (textbook RSA, no padding), then a
 20-byte footer. Each decrypted block holds up to 124 data bytes: block[3] is the count, and the data sits at
 128 - size - ((124 - size) % 4). The joined data is a 4-byte little-endian uncompressed size followed by a zlib
-stream.
+stream. The footer carries the CRC32 of everything before it at bytes 12-15, and decrypt() checks it.
 
 A client decrypts with a modulus built into its binary and a small exponent. For the official moduli the
 matching encryption exponent isn't public. This client, however, was built with the community "l2encdec" modulus
 (its L2.bin carries it, and every stock .dat decrypts with it), whose encryption exponent is public. So we can both
-read and write its .dat files. Re-encrypting a stock file's own data rebuilds the stock file byte for byte.
+read and write its .dat files (use dat.decrypt / dat.encrypt, which pass that key). Re-encrypting a stock file's own
+compressed stream rebuilds the stock file byte for byte. Recompressing with Python's zlib gives a different but
+equally valid stream, so an edited file never matches the stock bytes (see NOTES.md).
 
 Constants: acmi's open-source L2crypt (acmi.l2.clientmod.crypt.rsa.L2Ver41x), checked by decrypting the stock files.
 """
@@ -50,10 +52,21 @@ class Ver41xError(Exception):
 
 
 def version_of(raw):
+    if len(raw) < HEADER_LEN + FOOTER_LEN:
+        raise Ver41xError("too short for a Lineage2Ver file")
     head = raw[:HEADER_LEN].decode("utf-16-le", "replace")
     if not head.startswith("Lineage2Ver"):
         raise Ver41xError("not a Lineage2Ver file")
-    return int(head[len("Lineage2Ver"):])
+    try:
+        return int(head[len("Lineage2Ver"):])
+    except ValueError:
+        raise Ver41xError("bad version in header %r" % head)
+
+
+def _check_footer(raw):
+    want = struct.unpack("<I", raw[-FOOTER_LEN + 12:-FOOTER_LEN + 16])[0]
+    if want != zlib.crc32(raw[:-FOOTER_LEN]) & 0xFFFFFFFF:
+        raise Ver41xError("footer CRC mismatch (truncated or corrupted file)")
 
 
 def _blocks(raw):
@@ -64,12 +77,22 @@ def _blocks(raw):
 
 
 def decrypt(raw, modulus=None, exponent=None):
-    """The decompressed contents of a Ver41x file."""
+    """The decompressed contents of a Ver41x file. With no key, the official key for the header's version is used;
+    this client's files need the l2encdec key instead (dat.decrypt)."""
     ver = version_of(raw)
+    _check_footer(raw)
     if modulus is None:
         if ver not in MODULI:
             raise Ver41xError("unknown version %d" % ver)
-        modulus, exponent = MODULI[ver]
+        try:
+            return _decrypt(raw, *MODULI[ver])
+        except Ver41xError as x:
+            raise Ver41xError("%s. This client uses the l2encdec key: use dat.decrypt() or pass "
+                              "L2ENCDEC_MODULUS, L2ENCDEC_DECRYPT_EXPONENT" % x)
+    return _decrypt(raw, modulus, exponent)
+
+
+def _decrypt(raw, modulus, exponent):
     data = bytearray()
     for blk in _blocks(raw):
         m = pow(int.from_bytes(blk, "big"), exponent, modulus).to_bytes(BLOCK, "big")

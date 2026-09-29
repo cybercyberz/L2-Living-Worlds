@@ -10,6 +10,28 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-29 — l2mod: stricter checks when decrypting client files
+
+### Changed
+- **`tools/l2mod/l2mod/crypto/ver41x.py`:**
+  - **`decrypt` checks the footer CRC** before decrypting, so a truncated or corrupted file fails with a clear
+    error instead of somewhere inside zlib. All 43 Ver41x client files pass the check.
+  - **A keyless `decrypt`** uses the official key for the header's version. That key never works on this client's
+    files, so when it fails the error now says to use the l2encdec key, via `dat.decrypt()`.
+  - **A malformed header** (a non-numeric version, or a file too short) raises `Ver41xError` instead of
+    `ValueError`.
+  - **The docstring** now says exactly what round-trips: re-encrypting a file's own compressed stream rebuilds it
+    byte for byte, but recompressing it with Python's zlib doesn't.
+- **`tools/l2mod/tests/test_dat.py`:** four new selftest gates:
+  - encrypt, then decrypt, gives the same data back (including edited data);
+  - a flipped byte fails the CRC check;
+  - a bad version raises `Ver41xError`;
+  - a keyless decrypt names the l2encdec key.
+- **`docs/client.md`:** the `user.ini` note now points at `dat.decrypt` / `dat.encrypt`.
+- **`tools/l2mod/NOTES.md`:** records the CRC check and the two `Lineage2Ver111` files it doesn't cover.
+
+**Apply:** nothing. This is tooling only. `python tools/l2mod selftest` passes (20 tests).
+
 ## 2026-09-29 — Guide button removed from the board home page
 
 ### Removed

@@ -30,9 +30,9 @@ L2 package encryption.
   `LaunchClient=true`. The launcher opens it once port 7777 is up.
 - **`Option.ini` is plain text** (resolution, window mode). `user.ini` and `Lineage2us.ini` are encrypted.
 - **Key and mouse bindings** are in `user.ini`, section `[Engine.Input]`. It's encrypted with the l2encdec key, so
-  `tools/l2mod/l2mod/crypto/ver41x.py` reads and writes it: `decrypt(raw, L2ENCDEC_MODULUS,
-  L2ENCDEC_DECRYPT_EXPONENT)`, then `encrypt(..., L2ENCDEC_ENCRYPT_EXPONENT)`. The output isn't byte-identical to
-  stock (zlib differs), but it decrypts to the same text. Edit it with the client closed, because the client may
+  `tools/l2mod/l2mod/dat.py` reads and writes it: `dat.decrypt(raw)`, then `dat.encrypt(plain, raw)`. Both pass
+  that key; the raw key functions are in `tools/l2mod/l2mod/crypto/ver41x.py`. An edited file isn't byte-identical
+  to stock (zlib differs), but it decrypts to the same text. Edit it with the client closed, because the client may
   save it on exit.
 
 ## Data tables (`system\*.dat`, all encrypted with the `Lineage2Ver413` header)

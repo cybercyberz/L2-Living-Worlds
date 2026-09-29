@@ -42,6 +42,31 @@ class Stage5Dat(unittest.TestCase):
         out += b"\0" * 12 + struct.pack("<I", zlib.crc32(bytes(out))) + b"\0" * 4
         self.assertEqual(bytes(out), raw)
 
+    def test_encrypt_decrypt_roundtrip(self):
+        """Recompressed output (not byte-identical to stock) still decrypts to exactly what went in."""
+        n, d, e = ver41x.L2ENCDEC_MODULUS, ver41x.L2ENCDEC_DECRYPT_EXPONENT, ver41x.L2ENCDEC_ENCRYPT_EXPONENT
+        plain = dat.decrypt(stock.stock_bytes("sysstring-e.dat"))
+        for data in (plain, plain + b"l2mod test"):
+            with self.subTest(len(data)):
+                self.assertEqual(ver41x.decrypt(ver41x.encrypt(data, n, e), n, d), data)
+
+    def test_footer_crc_checked(self):
+        raw = bytearray(stock.stock_bytes("sysstring-e.dat"))
+        raw[ver41x.HEADER_LEN + 5] ^= 0xFF
+        with self.assertRaisesRegex(ver41x.Ver41xError, "CRC"):
+            dat.decrypt(bytes(raw))
+
+    def test_bad_version(self):
+        raw = bytearray(stock.stock_bytes("sysstring-e.dat"))
+        raw[:ver41x.HEADER_LEN] = "Lineage2VerXYZ".encode("utf-16-le")
+        with self.assertRaises(ver41x.Ver41xError):
+            ver41x.decrypt(bytes(raw))
+
+    def test_default_key_hint(self):
+        """A keyless decrypt tries the official 413 key, which fails here, and says which key to use."""
+        with self.assertRaisesRegex(ver41x.Ver41xError, "l2encdec"):
+            ver41x.decrypt(stock.stock_bytes("sysstring-e.dat"))
+
     def test_edit_and_clone(self):
         f = tempfile.NamedTemporaryFile("w", suffix=".l2patch", delete=False, encoding="utf-8")
         f.write('package itemname-e.dat\nset 57 name = "Gold Coin"\nclone 57 as 60000\n'
