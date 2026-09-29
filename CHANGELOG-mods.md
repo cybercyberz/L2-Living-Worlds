@@ -10,6 +10,22 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-29 — CLAUDE.md: the GitHub fork workflow
+
+### Changed
+- **`CLAUDE.md` gets a "GitHub: upstream and our fork" section.** It records:
+  - what upstream is and the newest version seen (v0.1.25, checked 2026-09-29);
+  - the fork's branches and the `base-v0.1.25` tag;
+  - the path map, and what's never carried or differs on purpose;
+  - the replay-after-every-commit steps (clone with `core.longpaths`);
+  - how a selective update goes.
+
+  Future sessions keep the fork in sync without re-deriving any of this.
+- **The "Updates overwrite files" note** now says to update through the fork instead of `update.ps1`.
+- **The "core can't change" note** now says the core's source is in the fork, with no build set up.
+
+**Apply:** nothing. This is docs only.
+
 ## 2026-09-29 — GitHub fork of upstream, and forksync
 
 ### Added
