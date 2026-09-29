@@ -10,6 +10,27 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-29 — A quick right-click no longer resets the camera
+
+### Changed
+- **The client's right-mouse binding** (`Client\Interlude\system\user.ini`, `[Engine.Input]`) was:
+
+  `RightMouse=CameraRotationModeOn | CameraRotationModeOff | FixedDefaultCamera OnRelease MaxPressedTime=200.0`
+
+  So any right-click shorter than 200 ms snapped the camera back to its default view. It's now:
+
+  `RightMouse=CameraRotationModeOn | CameraRotationModeOff`
+
+  That's the stock alternative the file already had commented out. Holding right-click to rotate still works.
+  **Home** still resets the camera on purpose, and **PageUp/PageDown** cycle the fixed views.
+- The original is kept as `user.ini.bak`, next to the patched file. The client folder isn't tracked, so this entry
+  is the record of the change. To redo it after a client reinstall: decrypt `user.ini` with
+  `tools/l2mod/l2mod/crypto/ver41x.py` (l2encdec key), make the same edit, and re-encrypt. See
+  [docs/client.md](docs/client.md#launching).
+- **`docs/client.md`:** a note on where key bindings live and how to edit `user.ini`.
+
+**Apply:** a client change. Edit it with the client closed, then relaunch the client.
+
 ## 2026-09-29 — CLAUDE.md: the GitHub fork workflow
 
 ### Changed
