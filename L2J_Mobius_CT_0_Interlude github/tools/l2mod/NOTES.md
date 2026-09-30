@@ -223,3 +223,52 @@ its bypasses reach the server.
   **Alt+L** (key 76, modifier 18) toggles the window. Modifier 18 is Alt and 17 is Ctrl. Free Alt keys in
   GamingState include A, D, E, L, Q, S and Z.
 - **ClassContext skip** for `Virtual(#F, Str("x"))` is `len(x) + 8`.
+
+## Class compiler (stage 6.1-6.4)
+`compiler/decl.py` parses a class's declarations, and `compiler/classgen.py` turns them into package objects. It
+has two targets: `Append` (a new class in an editable package, via `add_class`) and `InPlace` (every object mapped
+onto the stock export of the same path, which is what the gate uses). Function and state bodies go through the
+stage-3 `FunctionCompiler`.
+
+These are the UE2 compiler's rules. Each was found from a gate mismatch and confirmed by the gate going green:
+- **The class's Children chain** is built in two passes:
+  - First pass, in source order: a const, enum or struct is put at the head, and a variable goes right after the
+    last variable added (or at the head if it's the first).
+  - Second pass: each function and state is put at the head, in source order.
+- **Other chains.** A struct's fields run in declaration order. A state's functions are head-inserted, so they
+  end up in reverse. A function's children are its parameters, then `ReturnValue`, then its locals.
+- **Property flags:**
+  - `CPF_NeedCtorLink` (`0x400000`) for strings, dynamic arrays, and structs that hold either.
+  - `CPF_Parm` (`0x80`) for parameters, plus optional `0x10`, out `0x100` and coerce `0x800`.
+  - ReturnValue is `CPF_Parm|CPF_OutParm|CPF_ReturnParm` (`0x580`).
+- **Arrays.** A dynamic array's inner property has the same name as the array and is owned by it. A fixed
+  array's size can be a const.
+- **Functions:**
+  - FunctionFlags always include `0x20000`. `FUNC_Defined` is set only when there's a body.
+  - A declaration such as `function F();` still gets the script `04 0B` (`return;`), with its line and position
+    at the `;`.
+  - Otherwise `line` and `text_pos` are the first statement after the `local` lines.
+  - Super is the function being overridden. Inside a state, the class's own function comes first, then a parent
+    state's, then a parent class's.
+- **States:**
+  - The script is `08` (EX_Stop) when the state has no code.
+  - `line` and `text_pos` point at the state's closing brace.
+  - ProbeMask sets bit (name index - 300) for each probe function the state defines. BeginState is bit 16 and
+    EndState is bit 17.
+- **Consts** store the raw source text after `=` (`" 12"`). Structs have line and pos 0.
+- **The class:**
+  - Flags are `0x12`, plus `0x400000` for `dynamicrecompile`.
+  - PackageImports is always `Interface, NWindow, Engine, Core`, and within is `Core.Object`.
+  - The config name is `System`, and line and pos are -1.
+- **Defaults.** The embedded ScriptText **leaves out `defaultproperties`**. Defaults are tagged properties in
+  field order (the class's chain, then each parent's), with each property's elements by index. An element at
+  index 0 has no array flag.
+- **Dependencies** hold script CRCs that aren't reproduced. A new class writes `(self, 1, 0)` and
+  `(parent, 1, 0)`. The spike showed the client doesn't check them.
+
+**Gate (2026-09-30).** All 142 classes in interface.u compile from their embedded source to **7,044 of 7,044**
+objects, byte for byte. The defaults are written out as `defaultproperties` source and compiled back, so they're
+covered too. Only the Dependencies list is copied from stock. A new test class covers structs, a dynamic array
+of structs, a const-sized fixed array, a return value, `switch`, `&&` and indexed defaults. It compiles into a
+copy of the package, leaves every stock object byte-identical and reads back cleanly. `selftest` runs both
+(`tests/test_classes.py`).

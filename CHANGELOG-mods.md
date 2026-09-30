@@ -39,6 +39,37 @@ Every entry is committed to this folder's git repo (see [docs/operations.md](doc
 **Apply:** restart the server. For the friend, send the updated module folder, have them drop it in `game\modules\`,
 and restart.
 
+## 2026-09-30 — l2mod: the class compiler (stage 6.1-6.4)
+
+### Added
+- **Whole classes compile from source.** Stage 3 could only replace existing function bodies.
+  - `compiler/decl.py` parses a class's declarations: header, const, var (fixed and dynamic arrays), enum,
+    struct, function signatures and locals, states, and `defaultproperties`.
+  - `compiler/classgen.py` turns them into package objects: the class, script text, properties, consts, enums,
+    structs, functions and states, plus defaults. Bodies go through the existing function compiler.
+  - `add_class()` adds a new class to an editable package, with any new names and imports it needs. This is what
+    a native Party Command window needs.
+- **The stage-6 gate** (`compiler/classoracle.py`, run by `selftest` in `tests/test_classes.py`). Every one of the
+  142 interface.u classes, compiled from its own embedded source, gives all **7,044 of 7,044** objects byte for
+  byte. Each class's defaults are written out as source and compiled back. A new test class compiles in and
+  leaves every stock object untouched.
+- The UE2 compiler rules the gate turned up (chain order, flags, positions, probe masks, defaults order) are in
+  `tools/l2mod/NOTES.md`.
+
+### Changed
+- `FunctionCompiler.ref` treats a symbol from the stock copy of the same package as local. An editable copy keeps
+  every stock export index.
+- `SymbolTable.adopt()` makes a just-added class visible to the compiler.
+
+**Files:**
+- `tools/l2mod/l2mod/compiler/decl.py`, `classgen.py`, `classoracle.py` (new)
+- `tools/l2mod/l2mod/compiler/codegen.py`
+- `tools/l2mod/l2mod/symbols.py`
+- `tools/l2mod/tests/test_classes.py` (new)
+- `tools/l2mod/NOTES.md`
+
+**Apply:** nothing to apply; it's a tool change. Patch files can't add a class yet; that comes in stage 6.6.
+
 ## 2026-09-30 — l2mod: a brand-new UI class works in the client (stage 6.0)
 
 ### Added

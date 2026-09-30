@@ -149,8 +149,9 @@ class FunctionCompiler:
     # --------------------------------------------------------------------------------------------- references
 
     def ref(self, sym):
-        if sym.pkg is self.pkg:
-            return sym.ref
+        if sym.pkg is self.pkg or (sym.pkg is not None and self.pkg_names.get(id(sym.pkg)) is not None
+                                   and self.pkg_names.get(id(sym.pkg)) == self.pkg_names.get(id(self.pkg))):
+            return sym.ref  # our package, or the stock copy of it (same export indices)
         if self._imports is None:
             self._imports = {self.pkg.path(-(i + 1)).lower(): -(i + 1) for i in range(len(self.pkg.imports))}
         path = (self.pkg_names[id(sym.pkg)] + "." + sym.path).lower()

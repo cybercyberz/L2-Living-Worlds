@@ -335,6 +335,12 @@ class SymbolTable:
                     self._classes.setdefault(pkg.names[e.name].lower(), (pkg, i + 1))
         return pkg
 
+    def adopt(self, pkg, name, class_ref):
+        """Make a class that was just added to an editable copy of package `name` visible, resolved from that
+        copy. The copy keeps every stock export's index, so its stock symbols stay interchangeable."""
+        self.pkg_names[id(pkg)] = name
+        self._classes[pkg.names[pkg.exports[class_ref - 1].name].lower()] = (pkg, class_ref)
+
     def load_all(self, names=("Core", "Engine", "NWindow", "interface")):
         for n in names:
             self.package(n)
