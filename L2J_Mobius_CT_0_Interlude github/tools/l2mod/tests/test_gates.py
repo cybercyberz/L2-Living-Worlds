@@ -50,6 +50,23 @@ class Stage1Package(unittest.TestCase):
             with self.subTest(name):
                 self.assertEqual(bad, [])
 
+    def test_serializer_roundtrip(self):
+        """emit.serialize(parse(obj)) gives back every script object's bytes: the class compiler writes through it."""
+        from l2mod.upk import emit
+        for name in packages():
+            pkg = load.package(name)
+            walker = load.script_walker(pkg)
+            bad = []
+            for i, e in enumerate(pkg.exports):
+                if pkg.class_name(i + 1) not in objects.SCRIPT_CLASSES:
+                    continue
+                o = objects.parse(pkg, i + 1, walker)
+                script = e.data[o["script_start"]:o["script_end"]] if "script_start" in o else b""
+                if emit.serialize(pkg, o, script, e.flags) != e.data:
+                    bad.append(pkg.path(i + 1))
+            with self.subTest(name):
+                self.assertEqual(bad, [])
+
     def test_relocating_writer(self):
         """Changing one object moves only that object; everything else keeps its bytes and offset."""
         pkg, raw = load.fresh_package("interface.u")

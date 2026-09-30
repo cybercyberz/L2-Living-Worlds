@@ -64,7 +64,8 @@ def read_tagged_properties(r, pkg):
                 index = ((b & 0x3F) << 24) | (r.u8() << 16) | (r.u8() << 8) | r.u8()
         value = r.raw(size)
         props.append({"name": pkg.names[name], "type": PROP_TYPES.get(ptype, ptype), "struct": struct_name,
-                      "index": index, "bool": is_array if ptype == 3 else None, "value": value})
+                      "index": index, "bool": is_array if ptype == 3 else None, "value": value,
+                      "size_type": size_type})
 
 
 def _field(r, o):

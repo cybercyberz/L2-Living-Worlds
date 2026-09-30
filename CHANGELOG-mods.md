@@ -10,6 +10,27 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-30 — l2mod: a script-object writer (stage 6 begins)
+
+### Added
+- **`tools/l2mod/l2mod/upk/emit.py`**, the inverse of `objects.parse`. It turns a parsed or hand-built script-object
+  dict back into its serial bytes. This covers properties, Const, Enum, TextBuffer, Function, State, Struct and Class,
+  including tagged properties and class defaults. It's the first piece of stage 6, the full class compiler, which
+  builds new classes (for example a native Party Command window) as dicts and writes them through it.
+- **A new gate, `test_serializer_roundtrip`**, run by `selftest`. Every script object in all 22 client packages
+  (33,000 objects) must serialize back to its stock bytes. It passes.
+
+### Changed
+- `objects.read_tagged_properties` also records each tag's `size_type`, so the writer can reproduce the stock
+  encoding.
+
+**Files:**
+- `tools/l2mod/l2mod/upk/emit.py` (new)
+- `tools/l2mod/l2mod/upk/objects.py`
+- `tools/l2mod/tests/test_gates.py`
+
+**Apply:** nothing to apply; it's a tool change. No client file changes.
+
 ## 2026-09-30 — Phantom Combat: party healers that know the party
 
 ### Added
