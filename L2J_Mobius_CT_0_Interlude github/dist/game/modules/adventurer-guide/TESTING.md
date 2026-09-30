@@ -46,3 +46,15 @@ D-grade gear.
 1. Set `Enabled = False` and restart. The Guide button does nothing, and `.guide` isn't recognised.
 2. With the server stopped, delete this directory and remove the Guide button from `navigation.html`.
    The server starts clean.
+
+## Test F: a stock install (what a friend gets)
+
+1. Stop the server. In `game\config\Custom\CommunityBoard.ini` set `CustomCommunityBoard = False`, and delete the
+   Guide button line from `game\data\html\CommunityBoard\Custom\navigation.html`. Keep a copy of both first.
+2. Start the server. The console shows `Adventurer's Guide: turned on the custom Community Board` and
+   `added the Guide button in data/html/CommunityBoard/Custom/navigation.html`.
+3. Alt+B opens the board with the left menu, Guide first. `navigation.html` gained exactly one line, with its line
+   endings unchanged.
+4. Restart: neither message appears again, and the file doesn't change.
+5. `//reload config`, then Alt+B, Guide: the custom board comes back on at the first guide page.
+6. Put the two files back.

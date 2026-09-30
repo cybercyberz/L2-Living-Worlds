@@ -10,6 +10,35 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-30 — The guide and buffer modules set up the Alt+B board themselves
+
+### Fixed
+- **A copy of `adventurer-guide` on a friend's stock install showed the stock Alt+B board**, with no left menu and no
+  Guide button; only `.guide` worked. Two things caused it:
+  - the stock pack ships `CustomCommunityBoard = False`, and we had turned it on here long ago for the cash shop;
+  - the Guide button lives in our edited `navigation.html`, which the module folder doesn't carry.
+
+  Both modules now do the setup when they start:
+  - **`EnableCustomBoard = True`** sets the core's `CommunityBoardConfig.CUSTOM_CB_ENABLED` on. The board commands
+    set it again, after a `//reload config`.
+  - **`AddMenuButton = True`** edits `game/data/html/CommunityBoard/Custom/navigation.html` once and refreshes it in
+    the HTML cache:
+    - the guide adds a Guide button above the first button;
+    - the buffer points the stock Buffer button at `_bbs_buffer`, or adds one after Guide.
+
+    The edit keeps the file's line endings. When the button is already there, the file isn't touched, so nothing
+    changes on this install.
+
+  The module `resources` → `html` overlay isn't wired in the core yet, which is why the menu has to be edited on disk.
+- **Files:**
+  - `game/modules/adventurer-guide/`: `scripts/AdventurerGuideModule.java`, `config/module.ini`, `MODULE.md`,
+    `TESTING.md`;
+  - the same four in `game/modules/role-buffer/`;
+  - `docs/community-board.md`.
+
+**Apply:** restart the server. For the friend, send the updated module folder, have them drop it in `game\modules\`,
+and restart.
+
 ## 2026-09-30 — l2mod: a script-object writer (stage 6 begins)
 
 ### Added

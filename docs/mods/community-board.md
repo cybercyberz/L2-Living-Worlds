@@ -14,6 +14,10 @@ custom board. The stock board has favourites, region and clan counts; the custom
 - Delevel
 - Premium
 
+The `adventurer-guide` and `role-buffer` modules also turn the custom board on themselves (`EnableCustomBoard` in
+their `module.ini`), and add their menu buttons to `navigation.html` once (`AddMenuButton`). That way a copy of either
+module on a stock install, which ships `CustomCommunityBoard = False`, gets the same board as here.
+
 Pages are HTML files under `game\data\html\CommunityBoard\Custom\`. The left menu is `navigation.html`, inserted
 wherever a page has `%navigation%`.
 

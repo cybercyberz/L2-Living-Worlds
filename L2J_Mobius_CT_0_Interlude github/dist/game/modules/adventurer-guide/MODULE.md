@@ -55,12 +55,21 @@ Rebuild them after changing spawns, gatekeepers or NPCs, and restart.
 | `HuntLevelBelow`, `HuntLevelAbove` | 3, 4 | The monster level band for Hunt |
 | `LoginHintMaxLevel` | 40 | The login reminder goes to characters up to this level; 0 turns it off |
 | `LevelUpHints` | True | The level-up messages |
+| `EnableCustomBoard` | True | Turn on the custom Alt+B board (left menu) even when `CommunityBoard.ini` has `CustomCommunityBoard = False` |
+| `AddMenuButton` | True | Add the Guide button to the board menu once, if it's missing |
 
-## Enable, disable, remove
+## Install, enable, disable, remove
 
+- **Install:** copy this folder into `game\modules\` and restart the server. That's all.
+  - The stock pack ships `CustomCommunityBoard = False`, which means a stock Alt+B board with no left menu. The module
+    turns the custom board on while it runs. The console says `turned on the custom Community Board`.
+  - On first start, it adds one Guide button line to the top of
+    `game\data\html\CommunityBoard\Custom\navigation.html`. The console says `added the Guide button`. Later starts
+    find the button and change nothing.
+  - Set `EnableCustomBoard` or `AddMenuButton` to False to manage the board yourself.
 - **Enable or disable:** set `Enabled` in `config/module.ini`, then restart the server.
 - **Remove:** delete this directory while the server is stopped, and take the Guide button out of
-  `game\data\html\CommunityBoard\Custom\navigation.html`. The module has no database tables.
+  `navigation.html` (the module doesn't take it out). The module has no database tables.
 
 It registers `_bbs_guide` (a Community Board command) and `.guide`, and owns everything under this directory. The only
 file outside it is that board menu, which links to `_bbs_guide`.

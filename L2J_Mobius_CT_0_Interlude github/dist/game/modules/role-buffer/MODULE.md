@@ -62,9 +62,17 @@ Only skills in the generator's `CATALOG` can be used; add an id there to offer a
 | `AllowInCombat` | False | Allow buffing in combat |
 | `ApplyCooldownMs` | 1000 | The shortest time between two packages |
 | `Debug` | False | Log every click and result |
+| `EnableCustomBoard` | True | Turn on the custom Alt+B board (left menu) even when `CommunityBoard.ini` has `CustomCommunityBoard = False` |
+| `AddMenuButton` | True | Point the board menu's Buffer button at this module (or add one) once |
 
-## Enable, disable, remove
+## Install, enable, disable, remove
 
+- **Install:** copy this folder into `game\modules\` and restart the server. That's all.
+  - The stock pack ships `CustomCommunityBoard = False`, which means a stock Alt+B board with no left menu. The module
+    turns the custom board on while it runs.
+  - On first start, it points the stock Buffer button in `game\data\html\CommunityBoard\Custom\navigation.html` at
+    `_bbs_buffer`. If there's no Buffer button, it adds one. The console says what it did.
+  - Set `EnableCustomBoard` or `AddMenuButton` to False to manage the board yourself.
 - **Enable or disable:** set `Enabled` in `config/module.ini`, then restart the server.
 - **Remove:** delete this directory while the server is stopped, and point the Buffer button in
   `game\data\html\CommunityBoard\Custom\navigation.html` back to `_bbstop;buffer/main.html`. The module has no
@@ -76,9 +84,5 @@ file outside it is the board menu, whose Buffer button links to `_bbs_buffer`. T
 
 ## Sharing it
 
-Copy this folder into another L2 Living Worlds server's `game\modules\`, and set that server's Buffer button (or add
-one) to `bypass _bbs_buffer`:
-
-```html
-<button value="Buffer" action="bypass _bbs_buffer" width=114 height=30 back="L2UI_CH3.Button.bigbutton2_down" fore="L2UI_CH3.Button.bigbutton2">
-```
+Copy this folder into another L2 Living Worlds server's `game\modules\` and restart. The module turns on the custom
+board and sets up the Buffer button itself (see Install above).

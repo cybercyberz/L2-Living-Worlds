@@ -20,6 +20,7 @@
  */
 package modules.adventurerguide;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -38,6 +39,7 @@ import java.util.regex.Pattern;
 
 import org.l2jmobius.commons.threads.ThreadPool;
 import org.l2jmobius.gameserver.cache.HtmCache;
+import org.l2jmobius.gameserver.config.ServerConfig;
 import org.l2jmobius.gameserver.config.custom.CommunityBoardConfig;
 import org.l2jmobius.gameserver.data.SpawnTable;
 import org.l2jmobius.gameserver.data.xml.ClassListData;
@@ -108,6 +110,7 @@ public class AdventurerGuideModule implements GameModule
 	private static final Pattern NOBLE_QUEST = Pattern.compile(".*Precious Soul.*|.*Nobility.*");
 
 	private Logger _log;
+	private boolean _enableCustomBoard;
 	private boolean _teleportEnabled;
 	private double _feeMultiplier;
 	private int _freeTeleportMaxLevel;
@@ -135,6 +138,7 @@ public class AdventurerGuideModule implements GameModule
 		_freeTeleportMaxLevel = context.config().getInt("FreeTeleportMaxLevel", 20);
 		_huntBelow = context.config().getInt("HuntLevelBelow", 3);
 		_huntAbove = context.config().getInt("HuntLevelAbove", 4);
+		_enableCustomBoard = context.config().getBoolean("EnableCustomBoard", true);
 
 		final Path dataPath = Paths.get(context.config().getString("DataPath", "modules/adventurer-guide/data"));
 		try
@@ -162,6 +166,102 @@ public class AdventurerGuideModule implements GameModule
 		}
 
 		_log.info("Adventurer's Guide enabled: " + _quests.size() + " quests, " + _areas.size() + " hunting spots, " + _teleports.size() + " teleports, " + _towns.size() + " towns; registered " + CMD + " and .guide");
+
+		if (_enableCustomBoard)
+		{
+			BoardSetup.enableCustomBoard(_log, "Adventurer's Guide");
+		}
+		if (context.config().getBoolean("AddMenuButton", true))
+		{
+			BoardSetup.ensureMenuButton(_log, "Adventurer's Guide", "Guide", CMD, null, null);
+		}
+	}
+
+	// ---------------------------------------------------------------- board setup
+
+	/**
+	 * Makes a plain copy of this module work on any install: turns on the custom Community Board (stock ships
+	 * {@code CustomCommunityBoard = False}, which has no left menu) and puts this module's button in that menu.
+	 */
+	private static class BoardSetup
+	{
+		private static final String NAVIGATION_FILE = "data/html/CommunityBoard/Custom/navigation.html";
+
+		private BoardSetup()
+		{
+		}
+
+		static void enableCustomBoard(Logger log, String who)
+		{
+			if (!CommunityBoardConfig.CUSTOM_CB_ENABLED)
+			{
+				CommunityBoardConfig.CUSTOM_CB_ENABLED = true;
+				log.info(who + ": turned on the custom Community Board (CustomCommunityBoard was False).");
+			}
+		}
+
+		/**
+		 * Adds a menu button to navigation.html, once. When the menu has a button for {@code oldBypass}, that one is
+		 * pointed at {@code bypass} instead. A new button goes on the line after the one for {@code afterBypass}, or
+		 * before the first button.
+		 */
+		static void ensureMenuButton(Logger log, String who, String label, String bypass, String oldBypass, String afterBypass)
+		{
+			final File file = new File(ServerConfig.DATAPACK_ROOT, NAVIGATION_FILE);
+			if (!file.isFile())
+			{
+				log.warning(who + ": " + file + " not found; add a button with bypass " + bypass + " to your board menu by hand.");
+				return;
+			}
+			try
+			{
+				final String text = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+				if (text.contains("\"bypass " + bypass + "\""))
+				{
+					return; // Already there.
+				}
+
+				final String changed;
+				final String what;
+				if ((oldBypass != null) && text.contains("\"bypass " + oldBypass + "\""))
+				{
+					changed = text.replace("\"bypass " + oldBypass + "\"", "\"bypass " + bypass + "\"");
+					what = "pointed the " + label + " button at " + bypass;
+				}
+				else
+				{
+					final String eol = text.contains("\r\n") ? "\r\n" : "\n";
+					int at = -1;
+					final int after = afterBypass == null ? -1 : text.indexOf("\"bypass " + afterBypass + "\"");
+					if (after >= 0)
+					{
+						final int end = text.indexOf(eol, after);
+						at = end < 0 ? -1 : end + eol.length();
+					}
+					if (at < 0)
+					{
+						at = text.indexOf("<button");
+					}
+					if (at < 0)
+					{
+						log.warning(who + ": " + file + " has no buttons; add a button with bypass " + bypass + " by hand.");
+						return;
+					}
+					// On a line of its own when it starts a line, like the menu's other buttons.
+					final boolean lineStart = (at == 0) || text.startsWith(eol, at - eol.length());
+					final String button = "<button value=\"" + label + "\" action=\"bypass " + bypass + "\" width=114 height=30 back=\"L2UI_CH3.Button.bigbutton2_down\" fore=\"L2UI_CH3.Button.bigbutton2\"><br>";
+					changed = text.substring(0, at) + button + (lineStart ? eol : "") + text.substring(at);
+					what = "added the " + label + " button";
+				}
+				Files.write(file.toPath(), changed.getBytes(StandardCharsets.UTF_8));
+				HtmCache.getInstance().loadFile(file);
+				log.info(who + ": " + what + " in " + NAVIGATION_FILE + ".");
+			}
+			catch (IOException | RuntimeException e)
+			{
+				log.warning(who + ": could not update " + file + ": " + e);
+			}
+		}
 	}
 
 	// ---------------------------------------------------------------- data
@@ -1764,6 +1864,10 @@ public class AdventurerGuideModule implements GameModule
 		@Override
 		public boolean onCommand(String command, Player player)
 		{
+			if (_enableCustomBoard)
+			{
+				BoardSetup.enableCustomBoard(_log, "Adventurer's Guide"); // again, after a //reload config
+			}
 			handle(player, command.substring(CMD.length()));
 			return true;
 		}

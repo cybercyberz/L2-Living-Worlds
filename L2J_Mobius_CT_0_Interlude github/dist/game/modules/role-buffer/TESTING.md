@@ -43,3 +43,11 @@
    nothing.
 2. Set `BuffDurationSeconds = 0` and restart: buffs last their normal 20 minutes, dances 2 minutes.
 3. Set `Enabled = False` and restart: the Buffer button does nothing, and `.buff` isn't recognised.
+
+## Test F: a stock install
+
+1. Stop the server. Set `CustomCommunityBoard = False` and point the Buffer button in `navigation.html` back to
+   `bypass _bbstop;buffer/main.html`. Keep a copy of both first.
+2. Start the server. The console shows `Role Buffer: pointed the Buffer button at _bbs_buffer`. Alt+B has the left
+   menu, and Buffer opens the packages.
+3. Restart: nothing changes. Put the two files back.
