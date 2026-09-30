@@ -6,7 +6,7 @@
 2. The console shows the module enabling, and one line from it:
 
    ```
-   Phantom Combat: skill pacing on (49 paced entries, 26 classes); party tempo on (gap 250+250 ms); burn phase on (under 5.0 s); meter on.
+   Phantom Combat: skill pacing on (49 paced entries, 26 classes); party tempo on (gap 250+250 ms); burn phase on (under 5.0 s); meter on; party healing on (every 250 ms, wasted casts stopped).
    ```
 
    The entry count is the number of non-PULL entries with `paceMs` in `PhantomPlaystyles.xml`. A `different shape`
@@ -51,7 +51,33 @@ With `Debug = True`:
 2. A party Warrior still waits 6 s between Stun Attacks while casting its other skills in between.
 3. A field-hunter Warrior shows the stock behavior: after a Stun Attack, nothing else for about 6 s.
 
+## Test H: party healing
+
+Set `Debug = True`, restart. Healer lines read
+`Phantom Combat: <healer> <heals|saves|group heals N members|raises|cleanses|recharges...>: <skill> -> <target> (hp x/y, incoming z)`.
+
+1. **Two healers split the work.** Recruit two healers (for example two Bishops) and a tank, and fight a pack.
+   - The two healers' lines name different targets, or the second one's `incoming` already shows the first heal.
+   - One member never gets two single heals that together exceed the gap by much.
+   - A small gap (under 10% of max HP) gets no heal; a Greater Battle Heal isn't spent on a small top-off.
+2. **One res per corpse.** Let a member die with two healers alive: one `raises` line, and the other healer keeps
+   healing. The corpse is not raised twice.
+3. **One cleanse per target.** When two members are poisoned (or one is paralyzed), each healer's `cleanses`/`frees`
+   line names a different member.
+4. **One recharge per target.** With an Elven Elder and a Shillien Elder and a drained Bishop: one `recharges` the
+   Bishop, the other moves on to the next mana user.
+5. **Your heals count.** Heal a party member yourself: the phantoms don't also heal that member (their `incoming`
+   shows your heal).
+6. **Crisis.** At a raid, when three or more members drop low: one `calls Benediction` (Bishop 66+); a tank near death
+   with heals not keeping up gets `shields` (Celestial Shield, Bishop 64+).
+7. **Wasted casts.** `stopped <name>'s <skill> on <target>: already covered` appears now and then, and the healer keeps
+   doing other work (buffs, following); it never freezes on the same stopped cast.
+8. **Orders still work.** Say "heal me" at full HP: the healer heals you once. Say "recharge <name>": the Elder
+   recharges that member until full.
+9. **Off.** `PartyHealing = False`, restart: the startup line says `party healing off`, and healers behave as before
+   (the party manager's thresholds).
+
 ## Test G: disabled is stock
 
-`Enabled = False`, restart: no line from the module, `.dps` is an unknown command, and every phantom pauses 1.6–2.5 s
-between skills and stalls for `paceMs` after a paced one, as the stock engine does.
+`Enabled = False`, restart: no line from the module, `.dps` is an unknown command, every phantom pauses 1.6–2.5 s
+between skills and stalls for `paceMs` after a paced one, and healers heal by the manager's thresholds, as stock.

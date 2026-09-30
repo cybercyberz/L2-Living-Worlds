@@ -60,6 +60,9 @@ The `phantom-combat` module ([MODULE.md](../game/modules/phantom-combat/MODULE.m
 - **skill pacing:** `paceMs` becomes a per-skill cooldown for all phantoms;
 - **party tempo:** DPS members chain the next skill as soon as a cast ends, and skip setup skills on mobs about to die.
   It never picks targets and leaves raids to the manager;
+- **party healing:** each recruited healer knows every member's HP, the damage it is taking, and the heals, cleanses,
+  recharges and res already on their way (yours too). It picks its own job and matches the heal to the gap, so two or
+  more healers split the work instead of overhealing one member or raising the same corpse twice;
 - a **`.dps` meter**.
 
 The **Control Panel** (`LivingWorld.exe` → config editor, which is `tools\l2admin\index.html`) has editors for

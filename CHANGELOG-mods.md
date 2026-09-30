@@ -10,6 +10,51 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-30 — Phantom Combat: party healers that know the party
+
+### Added
+- **A party healing section in `phantom-combat`** (`PartyHealing`, on by default). The party manager in
+  `GameServer.jar` heals by fixed HP% thresholds (60%, or 80/90% in raids) and only sees another healer if that one
+  claimed the same target in the same second or is casting on it right now. So:
+  - heals didn't match the gap;
+  - below 50% HP every healer piled onto one member;
+  - group heals, cleanses and recharges weren't coordinated at all;
+  - the 4.5 s res claim ran out before a 6 s Resurrection landed, so a second healer could raise the same corpse.
+
+  Now each recruited healer (Cleric, Oracles, Bishop, Elders, Cardinal, Saints) decides for itself, every 250 ms:
+  - **What it knows** (`PartyBoard.java`): every member's HP, the damage it took per second over the last 3 s, and a
+    ledger of every heal, group heal, cleanse, recharge and res anyone in the party has started, including yours.
+    Estimates use the game's own heal formula (power, spiritshots, M.Atk, heal bonus, class multiplier). Finished or
+    aborted casts drop out on their own, and a res claim holds until the corpse stands up.
+  - **What it does** (`HealerBrain.java`), first need first:
+    1. save a member predicted below 35% with the fastest heal that lifts it back (Celestial Shield on a tank or you
+       when heals can't keep up);
+    2. party crisis: Benediction or Balance Life, one healer per party;
+    3. cleanse: paralyze or petrify first, then poison or bleed, with Vitalize when HP is also needed;
+    4. res: you first, then the tank, healers, anyone;
+    5. group heal when 3 or more members still need it after heals on the way;
+    6. single heal on the biggest role-weighted need, with the cheapest heal per HP that doesn't exceed 115% of the gap;
+    7. Recharge, Mass Recharge or Invocation.
+
+    One healer per target for res, cleanse and recharge. A slow heal is cancelled if another heal already filled the
+    target.
+  - **Wasted casts are stopped** (`VetoWastedHeals`). The module's skill-use listener is now a function listener, so
+    it can stop the manager's own heal, group heal, res, cleanse or recharge before it costs MP, when another caster
+    already covers it. Your casts and chat orders ("heal me", "recharge X") are never stopped.
+  - **Skills now used** that the manager never cast: Vitalize, Restore Life, Benediction, Balance Life, Celestial
+    Shield, Mass Recharge, Invocation.
+  - **The manager keeps** buffs, following, MP rest, AoE dodging, raid positioning and every chat order. While a healer
+    carries out an order, the brain leaves it alone.
+- New settings: `PartyHealing`, `HealTickMs`, `CriticalPercent`, `MinHealPercent`, `OverhealLimitPercent`,
+  `GroupHealMinTargets`, `EmergencySkills`, `VetoWastedHeals`. `PlaystyleAccess.java` has a third handle group (the
+  members' order fields). If it fails on a future jar, party healing alone switches off.
+- **Files:** `game/modules/phantom-combat/` (`scripts/PartyBoard.java`, `scripts/HealerBrain.java` new;
+  `scripts/PhantomCombatModule.java`, `scripts/PlaystyleAccess.java`, `config/module.ini`, `module.json`, `MODULE.md`,
+  `TESTING.md`); `docs/modules.md`, `docs/living-world.md`, `docs/README.md`.
+
+**Apply:** restart the server. The startup line ends with `party healing on (every 250 ms, wasted casts stopped).`
+In-game checks: `game/modules/phantom-combat/TESTING.md`, test H.
+
 ## 2026-09-30 — Phantom Combat: pacing and party DPS merged into one module
 
 ### Changed

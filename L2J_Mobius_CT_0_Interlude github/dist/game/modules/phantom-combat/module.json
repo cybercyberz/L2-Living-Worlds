@@ -1,10 +1,10 @@
 {
   "id": "phantom-combat",
   "name": "Phantom Combat",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "apiVersion": "1",
   "entrypoint": "modules.phantomcombat.PhantomCombatModule",
-  "description": "When a phantom may cast next: paceMs is a per-skill cooldown, party DPS members don't idle between skills, and .dps measures it.",
+  "description": "How phantoms fight together: paceMs is a per-skill cooldown, party DPS members don't idle between skills, healers share the healing without overhealing, and .dps measures it.",
   "author": "local",
   "priority": 100
 }

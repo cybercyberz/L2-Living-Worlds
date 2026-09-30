@@ -62,7 +62,7 @@ Our mods are also on a GitHub fork of upstream, [cybercyberz/L2-Living-Worlds](h
 | Change the Alt+B board | `game\data\html\CommunityBoard\Custom\` | `//reload html` |
 | Rebuild the cash shop | `python tools\cashshop\build_cashshop.py` | `//reload multisell`, `//reload html` |
 | Tune the fake players | `game\config\Custom\FakePlayers.ini`, `game\data\Phantom*.xml` | `//reload config`, `//phantom playstyle` |
-| Tune phantoms' cast pace (per-skill gaps, party tempo, burn phase), or measure party damage | `game\modules\phantom-combat\config\module.ini` ([MODULE.md](../game/modules/phantom-combat/MODULE.md)); `.dps` in game | restart |
+| Tune phantoms' cast pace (per-skill gaps, party tempo, burn phase), how party healers share healing, or measure party damage | `game\modules\phantom-combat\config\module.ini` ([MODULE.md](../game/modules/phantom-combat/MODULE.md)); `.dps` in game | restart |
 | Change how often a phantom recasts one skill | its `paceMs` in `game\data\PhantomPlaystyles.xml`, enforced per skill by `phantom-combat` | `//phantom playstyle` |
 | Give an item, NPC or skill its own client name | a `.dat` patch in `tools\l2mod\patches\` ([client.md](client.md#l2mod-decompile-and-patch-the-ui-packages)) | close the client, `python tools\l2mod install …` |
 | Give an item its own client icon or model | the `*grp.dat` tables with an external tool ([client.md](client.md)) | restart the client |

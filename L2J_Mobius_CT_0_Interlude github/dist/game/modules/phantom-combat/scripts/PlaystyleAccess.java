@@ -42,7 +42,9 @@ import org.l2jmobius.gameserver.model.actor.Player;
  * <ul>
  * <li><b>data</b> - the loaded playstyle map and {@code PlayEntry.paceMs} (skill pacing);</li>
  * <li><b>party</b> - the party manager's member records, its gate helpers, and the engine's per-member state (party
- * tempo and burn phase).</li>
+ * tempo and burn phase);</li>
+ * <li><b>heal</b> - the member's standing orders and Olympiad hold, so party healing steps back while the manager
+ * carries out an order. Needs the party group.</li>
  * </ul>
  */
 final class PlaystyleAccess
@@ -71,6 +73,14 @@ final class PlaystyleAccess
 	Field psGeneration;
 	Constructor<Playstyle> playstyleCtor;
 	boolean partyOk;
+
+	// Heal group.
+	Field hHealNow;
+	Field hPendingBuff;
+	Field hRechargeTarget;
+	Field hRebuffing;
+	Field hOlympiadHeld;
+	boolean healOk;
 
 	PlaystyleAccess(Logger log)
 	{
@@ -111,6 +121,23 @@ final class PlaystyleAccess
 		catch (ReflectiveOperationException | RuntimeException e)
 		{
 			log.warning("Phantom Combat: this GameServer.jar's party manager has a different shape (" + e + "); party tempo and burn phase stay off.");
+		}
+		if (partyOk)
+		{
+			try
+			{
+				final Class<?> member = Class.forName("org.l2jmobius.gameserver.managers.PhantomPartyManager$Member");
+				hHealNow = field(member, "healNow");
+				hPendingBuff = field(member, "pendingBuff");
+				hRechargeTarget = field(member, "rechargeTarget");
+				hRebuffing = field(member, "rebuffing");
+				hOlympiadHeld = field(member, "olympiadHeld");
+				healOk = true;
+			}
+			catch (ReflectiveOperationException | RuntimeException e)
+			{
+				log.warning("Phantom Combat: this GameServer.jar's party members have a different shape (" + e + "); party healing stays off.");
+			}
 		}
 	}
 
