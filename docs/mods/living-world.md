@@ -48,18 +48,19 @@ Key `FakePlayers.ini` groups (values as installed):
 | `FakePlayerChatData.xml` | Canned chat lines (used when the brain is off) | `//reload fakeplayerchat` |
 | `fpc-map-images.json` | Map data for the Control Panel's population map | — |
 | `stats\npcs\custom\fpc_passive.xml` (80000), `fpc_combat.xml` (81001) | NPC templates the FPCs use | restart |
-
-**Playstyle pacing.** Each combat tick the engine casts the first listed skill whose checks pass, then waits a beat
-of about 1.6–2.5 s. On its own, the jar's engine uses an entry's `paceMs` as that beat for every skill, so a paced
-skill stalls the whole rotation. The `phantom-skill-pacing` module
-([MODULE.md](../game/modules/phantom-skill-pacing/MODULE.md)) turns `paceMs` into a per-skill cooldown instead. The
-XML header lists what each `use` and `when` actually does.
-
-**Party DPS.** The party manager decides once a second per member and pauses 1.6–2.5 s after every skill, so casters
-idle and fighters stop swinging after a skill. The `phantom-party-dps` module
-([MODULE.md](../game/modules/phantom-party-dps/MODULE.md)) chains the next skill as soon as a cast ends, skips setup
-skills on mobs about to die, and adds a `.dps` meter. It never picks targets and leaves raids to the manager.
 | `spawns\Others\FakePlayers.xml` | Fixed FPC spawn (NPC 80000 "Evi" in Giran) | restart |
+
+**Phantom combat pace.** Each combat tick the engine casts the first listed skill whose checks pass, then waits a beat
+of about 1.6–2.5 s. The XML header lists what each `use` and `when` actually does. Two things in the jar cost
+phantoms time:
+- the engine uses an entry's `paceMs` as that beat for every skill, so a paced skill stalls the whole rotation;
+- the party manager decides once a second per member, so casters idle and fighters stop swinging after a skill.
+
+The `phantom-combat` module ([MODULE.md](../game/modules/phantom-combat/MODULE.md)) handles both:
+- **skill pacing:** `paceMs` becomes a per-skill cooldown for all phantoms;
+- **party tempo:** DPS members chain the next skill as soon as a cast ends, and skip setup skills on mobs about to die.
+  It never picks targets and leaves raids to the manager;
+- a **`.dps` meter**.
 
 The **Control Panel** (`LivingWorld.exe` → config editor, which is `tools\l2admin\index.html`) has editors for
 playstyles, bot clans and crests, and populations. Use it rather than hand-editing the big XMLs.

@@ -37,7 +37,7 @@
 	                 minLevel is rarely needed; maxLevel is what RETIRES an outgrown skill (a level 80
 	                 archer still knows Power Shot, so only an explicit cap stops it being used).
 	  paceMs       - optional minimum gap between casts of THIS skill, enforced per skill by the
-	                 phantom-skill-pacing module (game\modules\phantom-skill-pacing). Other skills keep the
+	                 phantom-combat module (game\modules\phantom-combat, SkillPacing). Other skills keep the
 	                 engine's default ~1.6-2.5s beat meanwhile. Without that module the engine instead holds
 	                 ALL non-PANIC casts for paceMs after this one.
 

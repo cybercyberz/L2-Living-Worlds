@@ -10,6 +10,39 @@ Each entry has a date, what changed and why, the files touched, and **how to app
 The format follows [Keep a Changelog](https://keepachangelog.com/): **Added**, **Changed**, **Fixed**, **Removed**.
 Every entry is committed to this folder's git repo (see [docs/operations.md](docs/operations.md#version-control)).
 
+## 2026-09-30 — Phantom Combat: pacing and party DPS merged into one module
+
+### Changed
+- **`phantom-skill-pacing` and `phantom-party-dps` are now one module, `phantom-combat`** (`game/modules/phantom-combat/`).
+  Both decided when a phantom may cast next. Both overrode the engine's "next cast" gate and each had its own
+  skill-use listener, and the DPS module depended on the pacing one. The server log showed the DPS module loading
+  *before* the pacing module despite that dependency. Now there's one module with three switchable sections, and one
+  listener that runs the steps in a fixed order (meter → skill cooldown → tempo follow-up):
+  - **Skill pacing** (`SkillPacing`, all phantoms): `paceMs` is a per-skill cooldown. Same as before.
+  - **Party tempo** (`PartyTempo`, `BurnPhase`, recruited DPS members): follow-up casting, resumed swings and burn
+    phase. Same as before.
+  - **Meter** (`Meter`): `.dps`. Same as before.
+- **A rule replaces the dependency:** every phantom whose casting pace the module sets also gets each skill's own
+  `paceMs`. With `SkillPacing = False` and `PartyTempo = True`, field hunters get the stock engine back, but party tempo
+  members still keep their per-skill gaps. Before, turning pacing off made the tempo quietly erase `paceMs`.
+- **Settings:** one `config/module.ini` with a section per part. `FastFollowUp` is now `PartyTempo`; every other key
+  keeps its name and default. Neither old config had been edited, so there is nothing to carry over.
+- **Code:** split by responsibility instead of by module. `PlaystyleAccess.java` holds every reflection handle, in two
+  groups: if one breaks on a future jar, only the sections that need it switch off. The rest is `SkillPacing.java`,
+  `PartyTempo.java`, `DpsMeter.java`, and `PhantomCombatModule.java` for the wiring. The logic is moved, not rewritten.
+- `game/data/PhantomPlaystyles.xml`: the header's `paceMs` line names `phantom-combat`.
+
+### Fixed
+- **`docs/living-world.md`:** the pacing note had been inserted inside the data-files table, splitting its last row
+  off. The note now sits after the table.
+
+- **Files:** `game/modules/phantom-combat/` (new); `game/modules/phantom-skill-pacing/` and
+  `game/modules/phantom-party-dps/` (removed); `game/data/PhantomPlaystyles.xml` (header comment);
+  `docs/modules.md`, `docs/living-world.md`, `docs/README.md`.
+
+**Apply:** restart the server. The startup line reads
+`Phantom Combat: skill pacing on (49 paced entries, 26 classes); party tempo on (...); burn phase on (...); meter on.`
+
 ## 2026-09-30 — Phantom Party DPS: faster casting for party phantoms, and a DPS meter
 
 ### Added
