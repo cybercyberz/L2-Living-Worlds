@@ -39,6 +39,41 @@ Every entry is committed to this folder's git repo (see [docs/operations.md](doc
 **Apply:** restart the server. For the friend, send the updated module folder, have them drop it in `game\modules\`,
 and restart.
 
+## 2026-09-30 — l2mod: patches can add classes, windows and hotkeys (stage 6.6)
+
+### Added
+- **`class <Name> from <file.uc>`** in a `package interface.u` patch adds a whole new class, compiled from a source
+  file next to the patch. An inline `class <Name>` block followed by `{ ... }` works too. It's compiled after the
+  patch's `replace`/`asm` edits, into the same package. The build refuses:
+  - a class that already exists;
+  - a class added by two patches;
+  - a source that declares a different name.
+- **New `interface.xdat` patch lines:**
+  - `add window <Name> from <StockWnd>`: a new top-level window. It's a copy of a stock one, renamed, with its
+    controls' owner rewritten and its `script` set to the class of the same name.
+  - `copy <Wnd>.<control> to <Wnd> as <name>`: a control from any window into another.
+  - `shortcut <State> Alt+L = "<action>"`: a new hotkey. It's refused if the key is already taken in that state.
+    The client sends an action it doesn't know to scripts as `EV_ShortcutCommand`.
+- `l2mod build` also lists the functions of classes a patch adds.
+- Tests for all of it: `tests/test_classes.py` and `tests/test_xdat.py`. The full selftest (28 tests) passes.
+
+### Changed
+- **xdat fields renamed.** The fields we now understand have names:
+  - windows: `unk101`, `unk102` and `unk103` are now `backTex`, `script` and `state`;
+  - controls: `unk4` is now `ownerWnd`;
+  - shortcut sets: `unk0` and `unk1` are now `name` and `state`.
+
+  No existing patch used the old names.
+- **The `interface.u` verifier allows added objects.** Stock exports must still be byte-identical, except patched
+  functions. Stock names and imports may only grow at the end. Every added object must parse to its exact size.
+
+**Files:**
+- `tools/l2mod/l2mod/patch.py`, `xdat.py`, `cli.py`
+- `tools/l2mod/tests/test_classes.py`, `test_xdat.py`
+- `tools/l2mod/README.md`, `NOTES.md`
+
+**Apply:** nothing to apply; it's a tool change. The Party Command window will be the first patch that uses it.
+
 ## 2026-09-30 — l2mod: the class compiler (stage 6.1-6.4)
 
 ### Added

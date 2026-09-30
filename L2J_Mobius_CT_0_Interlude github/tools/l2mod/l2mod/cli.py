@@ -139,8 +139,12 @@ def cmd_build(args):
             from .crypto import ver111
             from .upk.package import Package
             pkg = Package(ver111.decrypt(data))
-            for ed in pf.edits:
-                ref = pkg.find(ed.target, "Function")
+            refs = [pkg.find(ed.target, "Function") for ed in pf.edits]
+            for ca in pf.classes:
+                cref = pkg.find(ca.name, "Class")
+                refs += [r for r in range(cref, len(pkg.exports) + 1)
+                         if pkg.class_name(r) == "Function" and load.owning_class(pkg, r) == cref]
+            for ref in refs:
                 stmts, o = load.script(pkg, ref)
                 print(disasm.function_header(pkg, ref, o))
                 for line in disasm.Lister(pkg).listing(stmts, o["script_size"]):

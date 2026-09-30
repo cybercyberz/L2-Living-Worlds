@@ -1,7 +1,11 @@
 """Stage 6 gates: the class compiler."""
+import os
+import shutil
+import tempfile
 import unittest
 
-from l2mod import load
+from l2mod import load, patch
+from l2mod.crypto import ver111
 from l2mod.compiler import classoracle
 from l2mod.compiler.classgen import ClassGenError, add_class
 from l2mod.symbols import SymbolTable
@@ -99,6 +103,28 @@ class Stage6Classes(unittest.TestCase):
         self.assertEqual([(d["name"], d["index"]) for d in cls["defaults"]], [("m_Picked", 1), ("m_Title", 0)])
         picked = objects.parse(new, new.find("L2modTestWnd.m_Picked"), walker)
         self.assertEqual(picked["array_dim"], 3)
+
+    def test_class_in_patch_files(self):
+        """`class X from file.uc` and an inline `class X { ... }` block both build; the same class twice doesn't."""
+        d = tempfile.mkdtemp()
+        try:
+            with open(os.path.join(d, "L2modTestWnd.uc"), "w", encoding="utf-8") as f:
+                f.write(NEW_CLASS)
+            a = os.path.join(d, "a.l2patch")
+            with open(a, "w", encoding="utf-8") as f:
+                f.write("; from a file\npackage interface.u\nclass L2modTestWnd from L2modTestWnd.uc\n")
+            b = os.path.join(d, "b.l2patch")
+            with open(b, "w", encoding="utf-8") as f:
+                f.write("package interface.u\nclass L2modOtherWnd\n{\nclass L2modOtherWnd extends UIScript;\n\n"
+                        "function OnLoad()\n{\n\tif( true )\n\t{\n\t\tRegisterEvent( 90 );\n\t}\n}\n}\n")
+            data, report = patch.build("interface.u", [patch.PatchFile(a), patch.PatchFile(b)])
+            new = Package(ver111.decrypt(data))
+            new.find("L2modTestWnd", "Class")
+            new.find("L2modOtherWnd.OnLoad", "Function")
+            with self.assertRaises(patch.PatchError):
+                patch.build("interface.u", [patch.PatchFile(a), patch.PatchFile(a)])
+        finally:
+            shutil.rmtree(d)
 
     def test_duplicate_class_is_refused(self):
         table = SymbolTable().load_all()

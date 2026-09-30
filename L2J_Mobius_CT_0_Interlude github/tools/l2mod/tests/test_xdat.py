@@ -45,6 +45,37 @@ class Stage4Xdat(unittest.TestCase):
         finally:
             os.unlink(path)
 
+    def _build(self, text):
+        path = _patch_file(text)
+        try:
+            return patch.build("interface.xdat", [patch.PatchFile(path)])[0]
+        finally:
+            os.unlink(path)
+
+    def test_add_window_copy_and_shortcut(self):
+        data = self._build("package interface.xdat\n"
+                           "add window L2modTestWnd from PartyWndOption\n"
+                           "copy QuestTreeWnd.btnClose to L2modTestWnd as btnClose\n"
+                           "shortcut GamingState Alt+L = \"ShowL2modTestWnd\"\n")
+        x = xdat.Xdat.read(data)
+        w = x.window("L2modTestWnd")
+        self.assertEqual(w["script"], "L2modTestWnd")
+        self.assertEqual({c["ownerWnd"] for c in w.walk() if c is not w}, {"L2modTestWnd"})
+        self.assertEqual(w.get_child("btnClose").kind, "Button")
+        self.assertEqual(x.window("PartyWndOption")["script"], "PartyWndOption")  # the source is untouched
+        gaming = [s for s in x.shortcuts if s["state"] == "GamingState"][0]
+        last = gaming["actions"][-1]
+        self.assertEqual((last["key_1"], last["key_2"], last["key_3"], last["action"]),
+                         (76, 18, 0, "ShowL2modTestWnd"))
+
+    def test_taken_shortcut_is_refused(self):
+        with self.assertRaises(patch.PatchError):  # Alt+P is ApplyMinFrame
+            self._build("package interface.xdat\nshortcut GamingState Alt+P = \"Foo\"\n")
+
+    def test_existing_window_is_refused(self):
+        with self.assertRaises(patch.PatchError):
+            self._build("package interface.xdat\nadd window QuestTreeWnd from PartyWndOption\n")
+
 
 if __name__ == "__main__":
     unittest.main()

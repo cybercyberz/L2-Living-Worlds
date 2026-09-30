@@ -63,14 +63,35 @@ Patches build from the stock package every time. The result is re-read and every
 checked to be byte-identical. `asm Class.Function { ... }` blocks take a bytecode listing instead of source, for
 anything the compiler doesn't cover.
 
-**Window layout** patches use `package interface.xdat` and three kinds of line:
+**New classes.** A patch can add a whole class, such as the script of a new window. Keep the source in a `.uc`
+file next to the patch:
+
+```
+; A Party Command window.
+package interface.u
+class PartyCmdWnd from PartyCmdWnd.uc
+```
+
+or inline, as `class PartyCmdWnd` followed by `{`, the full source, and `}` on their own lines. The class
+compiler builds every object the class needs, adds the names and imports it uses, and checks that each stock
+object is unchanged. A class name that already exists, or one added by two patches, is refused.
+
+**Window layout** patches use `package interface.xdat` and these lines:
 
 ```
 package interface.xdat
 clone QuestTreeWnd.btnClose as btnQuestNav     ; copy a control inside its window
 set QuestTreeWnd.btnQuestNav.anchor_x = 170     ; change any field: int, float or "string"
 remove QuestTreeWnd.txt324                      ; delete a control
+add window PartyCmdWnd from PartyWndOption      ; a new top-level window, run by the class PartyCmdWnd
+copy QuestTreeWnd.btnClose to PartyCmdWnd as btnClose   ; a control from any window into another
+shortcut GamingState Alt+L = "ShowPartyCmdWnd"  ; a new hotkey
 ```
+
+`add window` copies a stock window and all its controls under the new name, and sets its `script` field to the
+class of the same name. A shortcut whose action the client doesn't know is sent to scripts as `EV_ShortcutCommand`
+with `Command=<action>`, so the window's class can open itself. A key that's already taken in that state, or a
+window name that exists, is refused.
 
 To see a window's controls and fields, run `python tools/l2mod xdat QuestTreeWnd`. A new control that should do
 something needs a script patch too. For example, add a `case "btnQuestNav":` to that window's `OnClickButton`.
@@ -119,4 +140,7 @@ Each stage ships only when its gate passes; see the plan in NOTES.md.
 4. `interface.xdat` window layout: exact read and write, plus `set`/`clone`/`remove` patches. **Done.**
 5. `.dat` game data: decrypt, six table schemas, row patches, re-encryption with this client's key. **Done**
    (in-game check pending).
-6. A full class compiler.
+6. A full class compiler. **In progress:**
+   - Whole classes compile from source: all 142 stock `interface.u` classes rebuild to 7,044 of 7,044 objects.
+   - Patches can add classes, windows and hotkeys.
+   - Still to do: patches from modules, and the engine-only compiler gaps.

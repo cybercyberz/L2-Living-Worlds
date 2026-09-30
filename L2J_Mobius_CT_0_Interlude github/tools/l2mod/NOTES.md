@@ -272,3 +272,19 @@ covered too. Only the Dependencies list is copied from stock. A new test class c
 of structs, a const-sized fixed array, a return value, `switch`, `&&` and indexed defaults. It compiles into a
 copy of the package, leaves every stock object byte-identical and reads back cleanly. `selftest` runs both
 (`tests/test_classes.py`).
+
+## Patches that add classes, windows and hotkeys (stage 6.6)
+- **Field names.** The xdat fields we now understand have names in `xdat.py`:
+  - on a Window: `unk101` is `backTex`, `unk102` is `script` and `unk103` is `state`;
+  - on every control: `unk4` is `ownerWnd`;
+  - on a shortcut set: `unk0` and `unk1` are `name` and `state`.
+
+  `unk100` (for example `MainWnd`) looks like a parent window, but that isn't confirmed.
+- **`add window`** deep-copies a stock window. It renames the window, sets `script` to the new name, and
+  rewrites `ownerWnd` in every control that named the source window. The verifier checks that no control in a
+  new window still names a stock window, that every stock window is byte-identical, and that each shortcut set
+  only grew at its end.
+- **`shortcut`** takes `<key>[+<modifier>...]`, stored as the key then up to two modifiers (Alt 18, Ctrl 17,
+  Shift 16), zero-padded. F1-F12 are 112-123.
+- **A class in a patch** is compiled after the patch's `replace` and `asm` edits, into the same edited package.
+  Its source is stored as ScriptText with CRLF line endings, as in stock.

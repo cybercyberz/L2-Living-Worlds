@@ -20,12 +20,25 @@ A patch file (`*.l2patch`) looks like this:
 `replace` compiles UnrealScript against the function's existing parameters and locals. `asm` takes a bytecode
 listing (see disasm.py).
 
+A patch can also add a whole new class, from a source file next to the patch or inline:
+
+    class PartyCmdWnd from PartyCmdWnd.uc
+
+    class PartyCmdWnd
+    {
+    class PartyCmdWnd extends UICommonAPI;
+    ...
+    }
+
 For the window layout, use `package interface.xdat` and these lines:
 
     set QuestTreeWnd.btnClose.anchor_x = 120          ; change a field (int, float or "string")
     clone QuestTreeWnd.btnClose as btnNav             ; copy a control inside its window, then set fields:
     set QuestTreeWnd.btnNav.anchor_x = 170
     remove QuestTreeWnd.txt324                        ; delete a control
+    add window PartyCmdWnd from PartyWndOption        ; a new top-level window, scripted by class PartyCmdWnd
+    copy QuestTreeWnd.btnClose to PartyCmdWnd as btnClose   ; a control from any window into another
+    shortcut GamingState Alt+L = "ShowPartyCmdWnd"    ; a hotkey; scripts get it as EV_ShortcutCommand
 
 For a .dat table (sysstring, npcname, itemname, questname, skillname, systemmsg), rows are picked by their key:
 the id, or id/level for questname and skillname.
@@ -67,12 +80,50 @@ class Edit:
         self.line = line
 
 
+class ClassAdd:
+    def __init__(self, name, source, where):
+        self.name = name  # the class the patch adds
+        self.source = source  # its full UnrealScript source
+        self.where = where  # "file:line", for messages
+
+
 class XdatOp:
-    def __init__(self, op, path, value, line):
-        self.op = op  # set / clone / remove
+    def __init__(self, op, path, value, line, extra=None):
+        self.op = op  # set / clone / remove / add_window / copy / shortcut
         self.path = path
-        self.value = value  # the value for set, the new name for clone
+        self.value = value  # the value for set, the new name for clone, add_window and copy
         self.line = line
+        self.extra = extra  # copy: the destination window; shortcut: the action text
+
+
+def _brace_delta(line):
+    """Braces opened minus closed on a source line, ignoring strings, names and // comments."""
+    line = re.sub(r'"(?:[^"\\]|\\.)*"|\'[^\'\n]*\'', "", line).split("//", 1)[0]
+    return line.count("{") - line.count("}")
+
+
+KEY_NAMES = {"alt": 18, "ctrl": 17, "shift": 16, "enter": 13, "esc": 27, "tab": 9, "space": 32, "pageup": 33,
+             "pagedown": 34, "minus": 189, "equals": 187}
+
+
+def parse_keys(text):
+    """`Alt+L` -> [76, 18, 0]: the key first, then up to two modifiers, as the shortcut table stores them."""
+    parts = [p.strip().lower() for p in text.split("+")]
+    codes = []
+    for p in parts:
+        if p in KEY_NAMES:
+            codes.append(KEY_NAMES[p])
+        elif re.fullmatch(r"f([1-9]|1[0-2])", p):
+            codes.append(111 + int(p[1:]))
+        elif re.fullmatch(r"[a-z0-9]", p):
+            codes.append(ord(p.upper()))
+        else:
+            raise ValueError("unknown key %r" % p)
+    mods = [c for c in codes if c in (16, 17, 18)]
+    keys = [c for c in codes if c not in (16, 17, 18)]
+    if len(keys) != 1 or len(mods) > 2:
+        raise ValueError("a shortcut is one key plus up to two of Alt, Ctrl and Shift")
+    return keys + mods + [0] * (2 - len(mods))
 
 
 class PatchFile:
@@ -81,6 +132,7 @@ class PatchFile:
         self.name = os.path.splitext(os.path.basename(path))[0]
         self.package = None
         self.edits = []
+        self.classes = []
         self.xdat_ops = []
         self.description = []
         self._parse(open(path, encoding="utf-8").read())
@@ -112,9 +164,42 @@ class PatchFile:
                 self.xdat_ops.append(self._parse_xdat_line(s.split(";", 1)[0].strip(), i + 1))
                 i += 1
                 continue
+            m = re.fullmatch(r"class\s+([A-Za-z_]\w*)\s+from\s+(.+)", s)
+            if m:
+                name, rel = m.group(1), m.group(2).strip().strip('"')
+                src = os.path.join(os.path.dirname(os.path.abspath(self.path)), rel)
+                if not os.path.exists(src):
+                    raise PatchError("%s:%d: no file %s" % (self.path, i + 1, src))
+                with open(src, encoding="utf-8") as f:
+                    self.classes.append(ClassAdd(name, f.read(), "%s:%d" % (self.path, i + 1)))
+                i += 1
+                continue
+            m = re.fullmatch(r"class\s+([A-Za-z_]\w*)", s)
+            if m:
+                start = i + 1
+                while start < len(lines) and not lines[start].strip():
+                    start += 1
+                if start >= len(lines) or lines[start].strip() != "{":
+                    raise PatchError("%s:%d: `class %s` must be followed by a line with just `{`, or use "
+                                     "`class %s from <file.uc>`" % (self.path, i + 1, m.group(1), m.group(1)))
+                depth = 0
+                body = []
+                j = start + 1
+                while j < len(lines):
+                    if lines[j].strip() == "}" and depth == 0:
+                        break
+                    body.append(lines[j])
+                    depth += _brace_delta(lines[j])
+                    j += 1
+                else:
+                    raise PatchError("%s:%d: missing the closing `}`" % (self.path, i + 1))
+                self.classes.append(ClassAdd(m.group(1), "\n".join(body) + "\n", "%s:%d" % (self.path, i + 1)))
+                i = j + 1
+                continue
             m = re.fullmatch(r"(replace|asm)\s+([A-Za-z_][\w.]*)", s)
             if not m:
-                raise PatchError("%s:%d: expected `package`, `replace` or `asm`, got %r" % (self.path, i + 1, s))
+                raise PatchError("%s:%d: expected `package`, `class`, `replace` or `asm`, got %r" % (
+                    self.path, i + 1, s))
             kind, target = m.groups()
             start = i + 1
             while start < len(lines) and not lines[start].strip():
@@ -174,7 +259,22 @@ class PatchFile:
         m = re.fullmatch(r"remove\s+([\w.]+)", s)
         if m:
             return XdatOp("remove", m.group(1), None, line)
-        raise PatchError("%s:%d: expected set, clone or remove, got %r" % (self.path, line, s))
+        m = re.fullmatch(r"add\s+window\s+(\w+)\s+from\s+(\w+)", s)
+        if m:
+            return XdatOp("add_window", m.group(2), m.group(1), line)
+        m = re.fullmatch(r"copy\s+([\w.]+)\s+to\s+([\w.]+)\s+as\s+(\w+)", s)
+        if m:
+            return XdatOp("copy", m.group(1), m.group(3), line, m.group(2))
+        m = re.fullmatch(r"shortcut\s+(\w+)\s+([\w+]+)\s*=\s*(\".*\")", s)
+        if m:
+            try:
+                keys = parse_keys(m.group(2))
+                action = json.loads(m.group(3))
+            except ValueError as x:
+                raise PatchError("%s:%d: %s" % (self.path, line, x))
+            return XdatOp("shortcut", m.group(1), keys, line, action)
+        raise PatchError("%s:%d: expected set, clone, remove, add window, copy or shortcut, got %r" % (
+            self.path, line, s))
 
 
 # ------------------------------------------------------------------------------------------------------ building
@@ -186,6 +286,16 @@ def _function_parts(pkg, ref):
     return data[:o["script_start"]], data[o["script_start"]:o["script_end"]], data[o["script_end"]:], o
 
 
+def _rename_window(win, old, new):
+    """A copied top-level window under a new name: every control names its owning window."""
+    win["name"] = new
+    win.raw_strings.pop("name", None)
+    for c in win.walk():
+        if c is not win and c.get("ownerWnd") == old:
+            c["ownerWnd"] = new
+            c.raw_strings.pop("ownerWnd", None)
+
+
 def build_xdat(package_name, patches):
     """Apply layout edits to the stock interface.xdat. Returns (bytes, report lines)."""
     import copy
@@ -194,13 +304,15 @@ def build_xdat(package_name, patches):
     x = xdat.Xdat.read(stock_data)
     report = []
     touched = set()
+    shortcut_states = set()
     for pf in patches:
         if pf.package.lower() != package_name.lower():
             continue
         for op in pf.xdat_ops:
             where = "%s:%d" % (pf.path, op.line)
             parts = op.path.split(".")
-            touched.add(parts[0])
+            if op.op in ("set", "clone", "remove"):
+                touched.add(parts[0])
             try:
                 if op.op == "set":
                     ent = x.find(".".join(parts[:-1]))
@@ -233,6 +345,48 @@ def build_xdat(package_name, patches):
                     child = parent.get_child(parts[-1])
                     parent["children"].remove(child)
                     report.append("%s: removed %s" % (pf.name, op.path))
+                elif op.op == "add_window":
+                    if any(w.name == op.value for w in x.windows):
+                        raise PatchError("%s: there's already a window %s" % (where, op.value))
+                    new = copy.deepcopy(x.window(op.path))
+                    _rename_window(new, op.path, op.value)
+                    new["script"] = op.value  # the class a patch adds under the same name
+                    x.windows.append(new)
+                    touched.add(op.value)
+                    report.append("%s: added window %s (from %s)" % (pf.name, op.value, op.path))
+                elif op.op == "copy":
+                    ent = x.find(op.path)
+                    dest = x.find(op.extra)
+                    if "children" not in dest:
+                        raise PatchError("%s: %s can't hold controls" % (where, dest))
+                    if any(c.name == op.value for c in dest["children"]):
+                        raise PatchError("%s: %s already has a %s" % (where, dest, op.value))
+                    new = copy.deepcopy(ent)
+                    new["name"] = op.value
+                    new.raw_strings.pop("name", None)
+                    owner = op.extra.split(".")[0]
+                    for c in new.walk():
+                        c["ownerWnd"] = owner
+                        c.raw_strings.pop("ownerWnd", None)
+                    dest["children"].append(new)
+                    touched.add(owner)
+                    report.append("%s: copied %s to %s as %s" % (pf.name, op.path, op.extra, op.value))
+                elif op.op == "shortcut":
+                    sets = [sc for sc in x.shortcuts if sc["state"] == op.path]
+                    if not sets:
+                        raise PatchError("%s: no shortcut state %s (there are: %s)" % (
+                            where, op.path, ", ".join(sc["state"] for sc in x.shortcuts)))
+                    acts = sets[0]["actions"]
+                    for a in acts:
+                        if [a["key_1"], a["key_2"], a["key_3"]] == op.value:
+                            raise PatchError("%s: that key already runs %r in %s" % (where, a["action"], op.path))
+                    act = copy.deepcopy(acts[0])
+                    act["key_1"], act["key_2"], act["key_3"] = op.value
+                    act["action"] = op.extra
+                    act.raw_strings.pop("action", None)
+                    acts.append(act)
+                    shortcut_states.add(op.path)
+                    report.append("%s: shortcut %s %s -> %r" % (pf.name, op.path, op.value, op.extra))
             except KeyError as k:
                 raise PatchError("%s: no window or control %s" % (where, k))
     out = x.to_bytes()
@@ -250,6 +404,18 @@ def build_xdat(package_name, patches):
         xdat._write_control(b, y.window(w.name))
         if a != b:
             raise PatchError("verification failed: untouched window %s changed" % w.name)
+    for sc in orig.shortcuts:  # shortcut sets we didn't add to are unchanged, and ours only grew
+        mine = [t for t in y.shortcuts if t["name"] == sc["name"]][0]
+        n = len(sc["actions"])
+        if mine["actions"][:n] != sc["actions"] or (sc["state"] not in shortcut_states and len(mine["actions"]) != n):
+            raise PatchError("verification failed: shortcuts of %s changed" % sc["state"])
+    stock_names = {o.name for o in orig.windows}
+    for w in y.windows:
+        if w.name not in stock_names:
+            for c in w.walk():
+                if c is not w and c["ownerWnd"] in stock_names:
+                    raise PatchError("verification failed: %s in new window %s belongs to %s" % (
+                        c.name, w.name, c["ownerWnd"]))
     report.append("%s: built and verified, %d windows" % (package_name, len(y.windows)))
     return out, report
 
@@ -385,7 +551,27 @@ def build(package_name, patches, table=None):
             pkg.exports[ref - 1].data = bytes(body)
             report.append("%s: %s %s, script %d -> %d bytes" % (pf.name, ed.kind, ed.target, o["script_size"], mem))
 
-    if not touched:
+    added = {}
+    for pf in patches:
+        if pf.package.lower() != package_name.lower():
+            continue
+        for ca in pf.classes:
+            if ca.name.lower() in added:
+                raise PatchError("%s: class %s is already added by %s" % (ca.where, ca.name, added[ca.name.lower()]))
+            added[ca.name.lower()] = pf.name
+            from .compiler.classgen import ClassGenError, add_class
+            from .compiler.decl import ParseError
+            source = ca.source.replace("\r\n", "\n").replace("\n", "\r\n")  # stock ScriptText is CRLF
+            try:
+                gen = add_class(table, pkg, source, package_name.rsplit(".", 1)[0])
+            except (ClassGenError, CompileError, ParseError) as x:
+                raise PatchError("%s (class %s): %s" % (ca.where, ca.name, x))
+            if gen.decl.name.lower() != ca.name.lower():
+                raise PatchError("%s: the source declares class %s, not %s" % (ca.where, gen.decl.name, ca.name))
+            report.append("%s: added class %s (%d objects, %d functions)" % (
+                pf.name, gen.decl.name, len(gen.objs), sum(1 for _ in gen.functions())))
+
+    if not touched and not added:
         raise PatchError("no patch applies to %s" % package_name)
     out = pkg.to_bytes()
     _verify(stock_pkg, out, touched)
@@ -393,18 +579,24 @@ def build(package_name, patches, table=None):
 
 
 def _verify(stock_pkg, out, touched):
+    """The package reads back; stock objects are unchanged except the patched functions; stock names and imports
+    are unchanged (new ones only appended); every patched or added object parses to its exact size."""
     new = Package(out)
-    if len(new.exports) != len(stock_pkg.exports) or new.names[:len(stock_pkg.names)] != stock_pkg.names:
+    n = len(stock_pkg.exports)
+    if (len(new.exports) < n or new.names[:len(stock_pkg.names)] != stock_pkg.names
+            or [i.serialize() for i in new.imports[:len(stock_pkg.imports)]]
+            != [i.serialize() for i in stock_pkg.imports]):
         raise PatchError("verification failed: tables changed shape")
     none = new.names.index("None")
     for i, e in enumerate(new.exports):
         ref = i + 1
-        old = stock_pkg.exports[i]
-        if ref in touched:
+        old = stock_pkg.exports[i] if i < n else None
+        if old is None or ref in touched:
             o = load.objects.parse(new, ref, lambda d, p, s: bytecode.decode(d, p, s, none)[1])
             if o["_end"] != e.size:
                 raise PatchError("verification failed: patched %s does not parse cleanly" % new.path(ref))
-        elif e.data != old.data or e.offset != old.offset:
+        elif (e.data, e.offset, e.name, e.outer, e.class_ref, e.super_ref) != (
+                old.data, old.offset, old.name, old.outer, old.class_ref, old.super_ref):
             raise PatchError("verification failed: %s changed" % new.path(ref))
 
 

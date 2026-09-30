@@ -18,7 +18,7 @@ from .upk.compact import Reader, write_ci, write_fstring
 # Field kinds: s = string, i = int, f = float, b = bool (int), e = enum (int), c = colour (int)
 DEFAULT_PROPERTY = "DEFAULT"  # custom layout, see _read_default
 SCHEMA = {
-    "Window": [("s", "unk100"), ("s", "unk101"), ("s", "unk102"), ("s", "unk103")]
+    "Window": [("s", "unk100"), ("s", "backTex"), ("s", "script"), ("s", "state")]
     + [("i", "unk%d" % n) for n in range(104, 120)] + [("f", "unk120"), ("f", "unk121")]
     + [("i", "unk%d" % n) for n in range(122, 129)] + [("s", "unk129")]
     + [("i", "unk%d" % n) for n in range(130, 136)] + [("s", "unk136"), ("i", "unk137"), ("i", "unk138"),
@@ -80,7 +80,7 @@ ELEMENTS = {
     "TabElement": [("i", "buttonName"), ("s", "target"), ("i", "width"), ("i", "height"), ("s", "normalTex"),
                    ("s", "pushedTex"), ("b", "movable"), ("i", "gap"), ("i", "tooltip"), ("i", "noHighlight")],
     "Action": [("e", "key_1"), ("e", "key_2"), ("e", "key_3"), ("s", "action")],
-    "Shortcut": [("s", "unk0"), ("s", "unk1"), ("list:Action", "actions")],
+    "Shortcut": [("s", "name"), ("s", "state"), ("list:Action", "actions")],
     "WndDefPos": [("s", "wnd"), ("e", "alignment"), ("i", "x"), ("i", "y"), ("b", "moveParent"), ("i", "width"),
                   ("i", "height")],
 }
@@ -179,7 +179,7 @@ def _read_default(r, ent):
         ent[f] = _read_string(r, ent, f)
     ent["unk2"] = r.i32()
     ent["unk3"] = r.i32()
-    for f in ("unk4", "unk5", "unk6"):
+    for f in ("ownerWnd", "unk5", "unk6"):
         ent[f] = _read_string(r, ent, f)
     ent["unk7"] = r.i32()
     ent["size"] = r.i32()
@@ -210,7 +210,7 @@ def _write_default(out, ent):
     for f in ("name", "superName"):
         _write_string(out, ent, f)
     out += struct.pack("<ii", ent["unk2"], ent["unk3"])
-    for f in ("unk4", "unk5", "unk6"):
+    for f in ("ownerWnd", "unk5", "unk6"):
         _write_string(out, ent, f)
     out += struct.pack("<ii", ent["unk7"], ent["size"])
     if ent["size"]:
