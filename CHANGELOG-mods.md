@@ -39,6 +39,26 @@ Every entry is committed to this folder's git repo (see [docs/operations.md](doc
 **Apply:** restart the server. For the friend, send the updated module folder, have them drop it in `game\modules\`,
 and restart.
 
+## 2026-09-30 — l2mod: a brand-new UI class works in the client (stage 6.0)
+
+### Added
+- **The stage 6.0 spike passed in game.** A class that doesn't exist in stock `interface.u` (`PartyCmdWnd`) was
+  added, and it:
+  - got a window cloned from the party options box;
+  - opens and closes on **Alt+L** through a new shortcut action;
+  - sends `_bbs_party open` / `_bbs_party ping` bypasses, which the server received.
+
+  This settles that a native Party Command window is possible without touching the client binaries. What the new
+  class and window needed (flags, child chains, the xdat script field `unk102`, controls' `unk4`, how shortcut
+  actions reach scripts) is written down in `tools/l2mod/NOTES.md`.
+
+**Files:**
+- `tools/l2mod/NOTES.md`
+
+**Apply:** nothing to apply. The spike build is installed in the client for now. `python tools/l2mod restore`
+returns `interface.u` and `interface.xdat` to their state before the test. The real window will come as a module
+patch.
+
 ## 2026-09-30 — l2mod: a script-object writer (stage 6 begins)
 
 ### Added

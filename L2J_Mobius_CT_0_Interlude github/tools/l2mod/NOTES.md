@@ -198,3 +198,28 @@ Each stock function was compiled from its own embedded source and compared byte 
   Patches check that untouched rows are unchanged.
 - **Not yet confirmed in game:** that the client loads a table we re-compressed. Test it with
   `patches/examples/rename-adena.l2patch`.
+
+## New classes and windows (stage 6.0 spike, 2026-09-30)
+Confirmed in game: the client loads a class that isn't in stock `interface.u`, runs it as a window's script, and
+its bypasses reach the server.
+- **What was added.** One Class export extending `NWindow.UIScript`, its `ScriptText`, four Functions and their
+  parameter and local properties, all appended after the stock exports. The objects were written with
+  `upk/emit.py`, and the bytecode came from hand-written listings through `asm`.
+- **What the class needs:**
+  - A function that overrides an event (`OnLoad`, `OnEvent`, `OnClickButton`) has export super and Field super
+    set to the `NWindow.UIScript.<event>` import. Other functions have 0.
+  - FunctionFlags are `0x20002`, and every object's flags are `0x70004`.
+  - The Class export is `0xF0004` and the TextBuffer is `0x340000`.
+  - The Class's Children chain starts at the **last** declared function and follows `next` backwards. A
+    function's chain runs forwards through its parameters and then its locals.
+  - Parameter flags: `CPF_Parm` `0x80`, plus `0x400000` for a string. A string local is `0x400000`.
+  - The dependency list was cut down to `(self, 1, 0)` and `(UIScript, 1, <stock CRC>)`, and the client didn't
+    object.
+- **The xdat window.** `unk102` is the window's **script class**, so a window with no script has
+  `'undefined'`. `unk103` is the UI state the window lives in (`GamingState`), and every control's `unk4` is its
+  owning window's name. So cloning a top-level window has to rename `unk4` in all its controls.
+- **Hotkeys.** A shortcut action the client doesn't handle natively is sent to every script that registered
+  `EV_ShortcutCommand` (90), with `a_Param` = `Command=<action text>`. The new action `ShowPartyCmdWnd` on
+  **Alt+L** (key 76, modifier 18) toggles the window. Modifier 18 is Alt and 17 is Ctrl. Free Alt keys in
+  GamingState include A, D, E, L, Q, S and Z.
+- **ClassContext skip** for `Virtual(#F, Str("x"))` is `len(x) + 8`.
